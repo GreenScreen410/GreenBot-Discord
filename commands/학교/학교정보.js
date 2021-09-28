@@ -1,8 +1,7 @@
+const request = require("request");
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
 const { MessageEmbed } = require("discord.js");
-
-var cheerio = require("cheerio");
-var request = require("request");
-const { PLEASE_TYPE_ARGUMENTS } = require("../ERROR.js");
 
 module.exports = {
     name: "학교정보",

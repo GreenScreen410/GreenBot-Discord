@@ -1,6 +1,4 @@
 const request = require("request");
-const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {

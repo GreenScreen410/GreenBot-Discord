@@ -19,10 +19,9 @@ module.exports = {
         // 파싱할 URL 정의
         var baseUrl = "https://search.naver.com/search.naver?query=" + encodeURIComponent(args) + "%EC%8B%9C%EC%B2%AD%EB%A5%A0";
         request(baseUrl, function(error, response, html) {
-
             try {
                 const dom = new JSDOM(`${html}`);
-
+                
                 const embed = new MessageEmbed()
                 .setColor("RANDOM")
                 .setTitle(args + " 시청률")

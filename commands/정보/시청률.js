@@ -28,7 +28,6 @@ module.exports = {
                 .setTitle(args + " 시청률")
                 .setDescription("최신 30회차 기준 정보입니다.")
                 .addFields(
-                    
                     // F12 개발자 도구에 있는 selctor 복사 기능을 이용해 값 추출
                     { name: "최신 시청률", value: dom.window.document.querySelector("div.rating_bx.tag_newest > span > span.rating_ep").textContent + " - " + dom.window.document.querySelector("div.rating_bx.tag_newest > div > strong > span.percent_num").textContent + "%", inline: false },
                     { name: "최고 시청률", value: dom.window.document.querySelector("div.rating_bx.tag_highest > span > span.rating_ep").textContent + " - " + dom.window.document.querySelector("div.rating_bx.tag_highest > div > strong > span.percent_num").textContent + "%", inline: false }

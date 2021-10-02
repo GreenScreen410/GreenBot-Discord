@@ -67,12 +67,25 @@ module.exports = {
                         .setEmoji("2️⃣")
                 );
                 const confusingEnglishWordCollector = interaction.channel.createMessageComponentCollector({ filter, max: 1 });
-        
                 confusingEnglishWordCollector.on("collect", async i => {
-                    if(i.customId == `${rightAnswer}`) return interaction.channel.send("정답입니다!")
-                    if(i.customId !== `${rightAnswer}`) return interaction.channel.send("오답입니다!")
+                    const confusingEnglishWordCorrectEmbed = new MessageEmbed()
+                        .setColor("#81C147")
+                        .setTitle("✔️ 정답입니다!")
+                        .setDescription(`${explanation}`)
+                        .setTimestamp()
+                        .setFooter(`Requested by ${interaction.user.tag}`, interaction.user.displayAvatarURL())
+                    if(i.customId == `${rightAnswer}`) return interaction.channel.send({ embeds: [confusingEnglishWordCorrectEmbed], ephemeral: true })
+
+                    const confusingEnglishWordIncorrectEmbed = new MessageEmbed()
+                        .setColor("#E71837")
+                        .setTitle("❌ 오답입니다!")
+                        .setDescription(`${explanation}`)
+                        .setTimestamp()
+                        .setFooter(`Requested by ${interaction.user.tag}`, interaction.user.displayAvatarURL())
+                    if(i.customId !== `${rightAnswer}`) return interaction.channel.send({ embeds: [confusingEnglishWordIncorrectEmbed], ephemeral: true})
                 });
-                return interaction.channel.send({ embeds: [confusingEnglishWordEmbed], components: [confusingEnglishWordRow] })
+
+                interaction.channel.send({ embeds: [confusingEnglishWordEmbed], components: [confusingEnglishWordRow] })
             }
             if(id === "TESTING") return interaction.channel.send("테스트용 버튼을 누르시다니!")
         });

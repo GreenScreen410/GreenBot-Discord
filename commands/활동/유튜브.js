@@ -4,46 +4,27 @@ module.exports = {
     name: "유튜브",
     description: "유튜브를 디스코드 내에서 같이 시청합니다.",
     run: async (client, interaction) => {
-        
+        var ERROR = require("../ERROR.js");
         const voiceChannel = interaction.member.voice.channel;
         
         if (!voiceChannel) {
-            const ErrorEmbed = {
-                color: 0xFF0000,
-                title: "❌ 오류!",
-                description: "먼저 음성 채널에 연결해 주세요.",
-                fields: [
-                    {
-                        name: "에러 코드",
-                        value: "PLEASE_CONNECT_VOICE_CHANNEL"
-                    },
-                ],
-                timestamp: new Date(),
-                footer: {
-                    text: `Requested by ${interaction.user.tag}`,
-                    icon_url: interaction.user.displayAvatarURL()
+            ERROR.INVAILD_ARGUMENTS(client, interaction);
+        } else {
+            fetch(`https://discord.com/api/v8/channels/${voiceChannel.id}/invites`, {
+                method: "POST",
+                body: JSON.stringify({
+                    target_application_id: "755600276941176913", // Youtube Together 아이디
+                    target_type: 2,
+                    temporary: false,
+                }),
+                headers: {
+                    "Authorization": `Bot ${client.token}`,
+                    "Content-Type": "application/json"
                 }
-            }
-            return interaction.channel.send({ embeds: [ErrorEmbed] });
-
-            } else {
-                fetch(`https://discord.com/api/v8/channels/${voiceChannel.id}/invites`, {
-            method: "POST",
-            body: JSON.stringify({
-        
-                target_application_id: "755600276941176913", // Youtube Together 아이디
-                target_type: 2,
-                temporary: false,
-         
-            }),
-            headers: {
-                "Authorization": `Bot ${client.token}`,
-                "Content-Type": "application/json"
-            }
-            
-        }).then(res => res.json())
-        .then(body => {
-            const embed = {
+                
+            }).then(res => res.json())
+                .then(body => {
+                    const embed = {
                 color: 0xFF0000,
                 title: "▶️ 준비 완료!",
                 description: `https://discord.gg/${body.code}\n위 링크를 클릭해면 Youtube Together를 시작합니다.`,

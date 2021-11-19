@@ -53,7 +53,6 @@ module.exports = {
                     icon_url: interaction.user.displayAvatarURL()
                 }
             }
-
             return interaction.channel.send({ embeds: [embed] });
             })
         }

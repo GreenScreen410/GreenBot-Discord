@@ -27,8 +27,8 @@ module.exports = {
             .filter((cmd) => cmd.directory === dir)
             .map(cmd => {
                 return {
-                    name: cmd.name || "이름이 없습니다.",
-                    description: cmd.description || "설명이 없습니다.",
+                    name: cmd.name || "(이름이 없습니다.)",
+                    description: cmd.description || "(설명이 없습니다.)",
                 };
             });
             return {

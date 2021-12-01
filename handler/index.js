@@ -5,12 +5,7 @@ const { Client } = require("discord.js");
 
 const globPromise = promisify(glob);
 
-/**
- * @param {Client} client
- */
-
 module.exports = async (client) => {
-
     // Commands
     const commandFiles = await globPromise(`${process.cwd()}/commands/*/*.js`);
     commandFiles.map((value) => {
@@ -25,7 +20,7 @@ module.exports = async (client) => {
     });
 
     // Slash Commands
-    const slashCommands = await globPromise(`${process.cwd()}/commands/*/*.js`);
+    const slashCommands = await globPromise(`${process.cwd()}/SlashCommands/*/*.js`);
     const arrayOfSlashCommands = [];
     slashCommands.map((value) => {
         const file = require(value);
@@ -41,7 +36,7 @@ module.exports = async (client) => {
     eventFiles.map((value) => require(value));
 
     // Error
-    const errorEmbed = await globPromise(`${process.cwd()}/commands/ERROR.js`);
+    const errorEmbed = await globPromise(`${process.cwd()}/SlashCommands/ERROR.js`);
     const arrayOfErrorEmbed = [];
     errorEmbed.map((value) => {
         const file = require(value);

@@ -3,7 +3,7 @@ const { MessageEmbed } = require("discord.js");
 
 module.exports = {
     name: "한강",
-    description: "현재 한강의 수온과 짧은 명언을 알려줍니다.",
+    description: "현재 한강의 수온을 알려줍니다.",
 
     run: async (client, interaction, args) => {
 

@@ -9,7 +9,7 @@ client.on("messageCreate", async (message) => {
         return;
 
     const [cmd, ...args] = message.content
-        .slice(client.config.prefix.length)
+        .slice(process.env.token.length)
         .trim()
         .split(/ +/g);
 

@@ -8,7 +8,8 @@ module.exports = {
         const queue = player.getQueue(interaction.guildId);
 
         if (!queue?.playing) {
-            interaction.followUp({ content: "재생중인 노래가 없습니다." })
+            interaction.followUp({ content: "재생중인 노래가 없습니다." });
+            return;
         }
 
         const currentTrack = queue.current;

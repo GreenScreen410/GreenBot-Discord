@@ -17,6 +17,7 @@ module.exports = {
         // 음성 채널 접속 여부 확인
         if(!interaction.member.voice.channel) {
             ERROR.PLEASE_JOIN_VOICE_CHANNEL(client, interaction);
+            return;
         }
 
         const searchResult = await player.search(songTitle, {

@@ -1,7 +1,7 @@
 # 그린Bot
 2022.02.01 ~
 # 파일 설명
-SlashCommands - 빗금 명령어(Slash Command) 명령어가 들어있습니다.
+ * SlashCommands - 빗금 명령어(Slash Command) 명령어가 들어있습니다.
 
 commands - 텍스트 명령어가 들어있습니다. 접두사는 G이며, 잘 사용되지 않습니다.
 

@@ -4,7 +4,7 @@ client.on("messageCreate", async (message) => {
     if (
         message.author.bot ||
         !message.guild ||
-        !message.content.startsWith(client.config.prefix)
+        !message.content.startsWith(process.env.token)
     )
         return;
 

@@ -15,7 +15,7 @@
     "license": "ISC",
     "dependencies": {
         "@discordjs/node-pre-gyp": "^0.4.2",
-        "discord-player": "^5.2.1",
+        "discord-player": "^5.2.2",
         "discord.js": "^13.6.0",
         "ffmpeg-static": "^4.4.1",
         "glob": "^7.1.7",

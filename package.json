@@ -20,6 +20,7 @@
         "ffmpeg-static": "^4.4.1",
         "glob": "^7.1.7",
         "mongoose": "^6.0.2",
-        "opusscript": "^0.0.8"
+        "opusscript": "^0.0.8",
+        "ytdl-core": "^4.10.1"
     }
 }

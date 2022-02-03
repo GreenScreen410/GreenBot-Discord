@@ -25,7 +25,7 @@ module.exports = {
                             value: progress,
                         },
                     ],
-                    color: client.config.clientColor,
+                    color: RANDOM,
                     footer: {
                         text: `신청자 : ${queue.current.requestedBy.tag}`,
                     },

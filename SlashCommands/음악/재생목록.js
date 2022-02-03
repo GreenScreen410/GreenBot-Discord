@@ -1,3 +1,4 @@
+const { MessageEmbed } = require("discord.js");
 const player = require("../../events/player");
 
 module.exports = {

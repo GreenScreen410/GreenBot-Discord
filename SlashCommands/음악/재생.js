@@ -1,3 +1,4 @@
+const { MessageEmbed } = require("discord.js");
 const { QueryType } = require("discord-player");
 const player = require("../../events/player");
 const ERROR = require("../ERROR");

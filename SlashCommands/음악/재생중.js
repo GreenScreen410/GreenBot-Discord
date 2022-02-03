@@ -14,23 +14,16 @@ module.exports = {
         const progress = queue.createProgressBar();
         const perc = queue.getPlayerTimestamp();
 
-        return interaction.followUp({
-            embeds: [
-                {
-                    title: "재생중인 노래",
-                    description: `🎶 | **${queue.current.title}**! (\`${perc.progress}%\`)`,
-                    fields: [
-                        {
-                            name: "\u200b",
-                            value: progress,
-                        },
-                    ],
-                    color: "FF0000",
-                    footer: {
-                        text: `신청자 : ${queue.current.requestedBy.tag}`,
-                    },
-                },
-            ],
-        });
+        const embed = new MessageEmbed()
+            .setColor("RANDOM")
+            .setTitle("재생중인 노래")
+            .setDescription(`🎶 | **${queue.current.title}**! (\`${perc.progress}%\`)`)
+            .addFields(
+                { name: "\u200b", value: progress }
+            )
+            .setTimestamp()
+            .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
+
+        return interaction.followUp({ embeds: [embed] });
     },
 };

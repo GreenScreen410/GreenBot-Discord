@@ -4,12 +4,12 @@ client.on("messageCreate", async (message) => {
     if (
         message.author.bot ||
         !message.guild ||
-        !message.content.startsWith(process.env.token)
+        !message.content.startsWith(process.env.prefix)
     )
         return;
 
     const [cmd, ...args] = message.content
-        .slice(process.env.token.length)
+        .slice(process.env.prefix.length)
         .trim()
         .split(/ +/g);
 

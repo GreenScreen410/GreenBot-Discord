@@ -1,5 +1,5 @@
 # 그린Bot
-![GitHub](https://img.shields.io/github/license/GreenScreen410/GreenBot-Discord)
+![GitHub](https://img.shields.io/github/license/GreenScreen410/GreenBot-Discord) ![GitHub package.json version](https://img.shields.io/github/package-json/v/GreenScreen410/GreenBot-Discord)
 </br>2022.02.01 ~
 # 파일 설명
 * **SlashCommands** - 빗금 명령어(Slash Command)가 들어있습니다.

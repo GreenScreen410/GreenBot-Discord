@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 const player = require("../../events/player");
 
 module.exports = {
@@ -25,6 +25,17 @@ module.exports = {
             .setTimestamp()
             .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
 
-        interaction.followUp({ embeds: [embed] });
+        const button = new MessageActionRow().addComponents(
+            new MessageButton()
+                .setCustomId("queue")
+                .setLabel("재생목록")
+                .setStyle("PRIMARY"),
+            new MessageButton()
+                .setCustomId("skip")
+                .setLabel("넘기기")
+                .setStyle("PRIMARY")
+        )
+
+        interaction.followUp({ embeds: [embed], components: [button] });
     },
 };

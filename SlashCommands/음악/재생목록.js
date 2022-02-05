@@ -1,4 +1,4 @@
-const { MessageEmbed, ButtonInteraction } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const player = require("../../events/player");
 const ERROR = require("../ERROR");
 
@@ -36,6 +36,6 @@ module.exports = {
             .setTimestamp()
             .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
 
-        return interaction.reply({ embeds: [embed] });
+        interaction.followUp({ embeds: [embed] });
     }
 }

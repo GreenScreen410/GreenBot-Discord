@@ -40,6 +40,6 @@ module.exports = {
                 .setStyle("PRIMARY"),
         )
 
-        interaction.followUp({ content: [embed], components: [button] });
+        interaction.followUp({ embeds: [embed], components: [button] });
     },
 };

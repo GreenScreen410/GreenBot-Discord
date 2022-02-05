@@ -1,5 +1,6 @@
-const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
+const { MessageEmbed, MessageActionRow, MessageButton, ButtonInteraction } = require("discord.js");
 const player = require("../../events/player");
+const ERROR = require("../ERROR");
 
 module.exports = {
     name: "재생중",
@@ -7,8 +8,9 @@ module.exports = {
 
     run: async (client, interaction) => {
         const queue = player.getQueue(interaction.guildId);
+
         if (!queue?.playing) {
-            interaction.followUp({ content: "재생중인 노래가 없습니다." });
+            ERROR.MUSIC_QUEUE_IS_EMPTY(client, interaction);
             return;
         }
 
@@ -24,18 +26,20 @@ module.exports = {
             )
             .setTimestamp()
             .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
-
-        const button = new MessageActionRow().addComponents(
+        
+            const button = new MessageActionRow().addComponents(
             new MessageButton()
-                .setCustomId("queue")
+                .setCustomId("musicQueue")
+                .setEmoji("📄")
                 .setLabel("재생목록")
                 .setStyle("PRIMARY"),
             new MessageButton()
-                .setCustomId("skip")
+                .setCustomId("musicSkip")
+                .setEmoji("⏭")
                 .setLabel("넘기기")
-                .setStyle("PRIMARY")
+                .setStyle("PRIMARY"),
         )
 
-        interaction.followUp({ embeds: [embed], components: [button] });
+        interaction.followUp({ content: [embed], components: [button] });
     },
 };

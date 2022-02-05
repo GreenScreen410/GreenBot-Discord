@@ -12,14 +12,14 @@ module.exports = {
 
     run: async (client, interaction) => {
         try {
-            // 인자(Argument)로 받아온 제목을 songTitle이라는 변수에 저장
-            const songTitle = interaction.options.getString("노래");
-
             // 음성 채널 접속 여부 확인
             if (!interaction.member.voice.channel) {
                 ERROR.PLEASE_JOIN_VOICE_CHANNEL(client, interaction);
                 return;
             }
+
+            // 인자(Argument)로 받아온 제목을 songTitle이라는 변수에 저장
+            const songTitle = interaction.options.getString("노래");
 
             // songTitle 변수를 이용해 searchResult라는 검색 결과 변수 생성
             const searchResult = await player.search(songTitle, {
@@ -47,12 +47,13 @@ module.exports = {
             if (!queue.playing) {
                 await queue.play();
             }
+
         } catch (error) {
             const embed = new MessageEmbed()
                 .setColor("#FF0000")
                 .setTitle("❌ 오류!")
                 .setDescription(`${error}`)
-                .addFields({ name: "에러 코드", value: "UNDEFINED_ERROR" })
+                .addFields({ name: "에러 코드", value: "UNKNOWN_ERROR" })
                 .setTimestamp()
                 .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
             interaction.followUp({ embeds: [embed] });

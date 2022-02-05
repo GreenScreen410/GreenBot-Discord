@@ -22,4 +22,15 @@ module.exports = {
         .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
         interaction.followUp({ embeds: [embed] });
     },
+
+    MUSIC_QUEUE_IS_EMPTY: function(client, interaction, args) {
+        const embed = new MessageEmbed()
+        .setColor("#FF0000")
+        .setTitle("❌ 오류!")
+        .setDescription("재생중인 노래가 없습니다.")
+        .addFields({ name: "에러 코드", value: "MUSIC_QUEUE_IS_EMPTY" })
+        .setTimestamp()
+        .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
+        interaction.followUp({ embeds: [embed] });
+    },
 }

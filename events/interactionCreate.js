@@ -1,7 +1,7 @@
 const client = require("../index");
 
 client.on("interactionCreate", async (interaction) => {
-    
+
     // Slash Command Handling
     if (interaction.isCommand()) {
         await interaction.deferReply({ ephemeral: false }).catch(() => { });
@@ -30,5 +30,21 @@ client.on("interactionCreate", async (interaction) => {
         await interaction.deferReply({ ephemeral: false });
         const command = client.slashCommands.get(interaction.commandName);
         if (command) command.run(client, interaction);
+    }
+
+
+    // Button Handling
+    if (interaction.isButton()) {
+        await interaction.deferReply({ ephemeral: false });
+
+        if (interaction.customId === "musicQueue") {
+            let musicQueueFile = require("../SlashCommands/음악/재생목록.js");
+            musicQueueFile.musicQueue(client, interaction);
+        }
+
+        if (interaction.customId === "musicSkip") {
+            let musicSkipFile = require("../SlashCommands/음악/넘기기.js");
+            musicSkipFile.musicSkip(client, interaction);
+        }
     }
 });

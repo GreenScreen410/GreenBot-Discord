@@ -77,6 +77,7 @@ module.exports = {
 
             const categoryEmbed = new MessageEmbed()
                 .setTitle(`${directory}`)
+                .setColor("RANDOM")
                 .setDescription("해당 카테고리에 있는 명령어들입니다.")
                 .addFields(category.commands.map((cmd) => {
                     return {

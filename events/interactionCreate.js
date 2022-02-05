@@ -1,4 +1,5 @@
 const client = require("../index");
+const ERROR = require("../SlashCommands/ERROR");
 
 client.on("interactionCreate", async (interaction) => {
 
@@ -7,8 +8,10 @@ client.on("interactionCreate", async (interaction) => {
         await interaction.deferReply({ ephemeral: false }).catch(() => { });
 
         const cmd = client.slashCommands.get(interaction.commandName);
-        if (!cmd)
-            return interaction.followUp({ content: "An error has occured " });
+        if (!cmd) {
+            ERROR.INVAILD_INTERACTION(client, interaction);
+            return;
+        }
 
         const args = [];
 

@@ -1,6 +1,17 @@
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
+    INVAILD_INTERACTION: function(client, interaction, args) {
+        const embed = new MessageEmbed()
+        .setColor("#FF0000")
+        .setTitle("❌ 오류!")
+        .setDescription("올바르지 않은 명령어입니다.")
+        .addFields({ name: "에러 코드", value: "INVAILD_INTERACTION" })
+        .setTimestamp()
+        .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
+        interaction.followUp({ embeds: [embed] });
+    },
+
     PLEASE_TYPE_ARGUMENTS: function(client, interaction, args) {
         const embed = new MessageEmbed()
         .setColor("#FF0000")

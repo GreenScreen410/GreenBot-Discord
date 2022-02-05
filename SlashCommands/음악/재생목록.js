@@ -1,17 +1,14 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, ButtonInteraction } = require("discord.js");
 const player = require("../../events/player");
+const ERROR = require("../ERROR");
 
 module.exports = {
-    name: "재생목록",
-    description: "노래 재생목록을 확인합니다.",
-
-    run: async (client, interaction) => {
+    musicQueue: function (client, interaction) {
         const queue = player.getQueue(interaction.guildId);
-
 
         // 재생목록이 비어 있을 경우, 재생중인 노래가 없다고 출력
         if (!queue?.playing) {
-            interaction.followUp({ content: "재생중인 노래가 없습니다." });
+            ERROR.MUSIC_QUEUE_IS_EMPTY(client, interaction);
             return;
         }
 
@@ -39,6 +36,6 @@ module.exports = {
             .setTimestamp()
             .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
 
-        return interaction.followUp({ embeds: [embed] });
+        return interaction.reply({ embeds: [embed] });
     }
 }

@@ -6,63 +6,69 @@ const { Client } = require("discord.js");
 const globPromise = promisify(glob);
 
 module.exports = async (client) => {
-    // Commands
-    const commandFiles = await globPromise(`${process.cwd()}/commands/*/*.js`);
-    commandFiles.map((value) => {
-        const file = require(value);
-        const splitted = value.split("/");
-        const directory = splitted[splitted.length - 2];
+  // Commands
+  const commandFiles = await globPromise(`${process.cwd()}/commands/*/*.js`);
+  commandFiles.map((value) => {
+    const file = require(value);
+    const splitted = value.split("/");
+    const directory = splitted[splitted.length - 2];
 
-        if (file.name) {
-            const properties = { directory, ...file };
-            client.commands.set(file.name, properties);
-        }
-    });
+    if (file.name) {
+      const properties = { directory, ...file };
+      client.commands.set(file.name, properties);
+    }
+  });
 
-    // Slash Commands
-    const slashCommands = await globPromise(`${process.cwd()}/SlashCommands/*/*.js`);
-    const arrayOfSlashCommands = [];
-    slashCommands.map((value) => {
-        const file = require(value);
-        const splitted = value.split("/");
-        const directory = splitted[splitted.length - 2];
+  // Slash Commands
+  const slashCommands = await globPromise(
+    `${process.cwd()}/SlashCommands/*/*.js`
+  );
+  const arrayOfSlashCommands = [];
+  slashCommands.map((value) => {
+    const file = require(value);
+    const splitted = value.split("/");
+    const directory = splitted[splitted.length - 2];
 
-        if (!file?.name) return;
-        
-        const properties = { directory, ...file };
-        client.slashCommands.set(file.name, properties);
+    if (!file?.name) return;
 
-        if (["MESSAGE", "USER"].includes(file.type)) delete file.description;
-        arrayOfSlashCommands.push(file);
-    });
+    const properties = { directory, ...file };
+    client.slashCommands.set(file.name, properties);
 
-    // Events
-    const eventFiles = await globPromise(`${process.cwd()}/events/*.js`);
-    eventFiles.map((value) => require(value));
+    if (["MESSAGE", "USER"].includes(file.type)) delete file.description;
+    arrayOfSlashCommands.push(file);
+  });
 
-    // Error
-    const errorEmbed = await globPromise(`${process.cwd()}/SlashCommands/ERROR.js`);
-    const arrayOfErrorEmbed = [];
-    errorEmbed.map((value) => {
-        const file = require(value);
-        if (!file?.name) return;
-        client.errorEmbed.set(file.name, file);
+  // Events
+  const eventFiles = await globPromise(`${process.cwd()}/events/*.js`);
+  eventFiles.map((value) => require(value));
 
-        if (["MESSAGE", "USER"].includes(file.type)) delete file.description;
-        arrayOfErrorEmbed.push(file);
-    });
+  // Error
+  const errorEmbed = await globPromise(
+    `${process.cwd()}/SlashCommands/ERROR.js`
+  );
+  const arrayOfErrorEmbed = [];
+  errorEmbed.map((value) => {
+    const file = require(value);
+    if (!file?.name) return;
+    client.errorEmbed.set(file.name, file);
 
-    client.on("ready", async () => {
-        // Register for a single guild
-        await client.guilds.cache.get("825741743235268639").commands.set(arrayOfSlashCommands);
+    if (["MESSAGE", "USER"].includes(file.type)) delete file.description;
+    arrayOfErrorEmbed.push(file);
+  });
 
-        // Register for all the guilds the bot is in
-        // await client.application.commands.set(arrayOfSlashCommands);
-    });
+  client.on("ready", async () => {
+    // Register for a single guild
+    await client.guilds.cache
+      .get("825741743235268639")
+      .commands.set(arrayOfSlashCommands);
 
-    // mongoose
-    // const { mongooseConnectionString } = require('../config.json')
-    // if (!mongooseConnectionString) return;
+    // Register for all the guilds the bot is in
+    // await client.application.commands.set(arrayOfSlashCommands);
+  });
 
-    // mongoose.connect(mongooseConnectionString).then(() => console.log('Connected to mongodb'));
+  // mongoose
+  // const { mongooseConnectionString } = require('../config.json')
+  // if (!mongooseConnectionString) return;
+
+  // mongoose.connect(mongooseConnectionString).then(() => console.log('Connected to mongodb'));
 };

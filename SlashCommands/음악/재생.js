@@ -1,4 +1,4 @@
-const { MessageEmbed, VoiceState } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const { QueryType } = require("discord-player");
 const player = require("../../events/player");
 const ERROR = require("../ERROR");
@@ -37,8 +37,11 @@ module.exports = {
         metadata: interaction.channel,
       });
 
-      // 음성 채널 접속
-      await queue.connect(interaction.member.voice.channel);
+      // 만약 음성 채널에 접속해있지 않는 상황이라면, 음성 채널에 접속
+      if (!queue.connection) {
+        await queue.connect(interaction.member.voice.channel);
+      }
+
       interaction.followUp({
         content: `${searchResult.tracks[0].url} 재생 중`,
       });
@@ -47,8 +50,10 @@ module.exports = {
         ? queue.addTrack(searchResult.tracks)
         : queue.addTrack(searchResult.tracks[0]);
 
-      // 음악 재생
-      await queue.play();
+      // 음악을 재생하고 있지 않는 상황이라면, 음악 재생
+      if (!queue.playing) {
+        await queue.play();
+      }
     } catch (error) {
       const embed = new MessageEmbed()
         .setColor("#FF0000")

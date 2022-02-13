@@ -6,8 +6,8 @@ module.exports = {
   musicQueue: function (client, interaction) {
     const queue = player.getQueue(interaction.guildId);
 
-    // 재생목록이 비어 있을 경우, 재생중인 노래가 없다고 출력
-    if (!queue?.playing) {
+    // 재생중인 노래가 없을 때
+    if (!queue || !queue.playing) {
       ERROR.MUSIC_QUEUE_IS_EMPTY(client, interaction);
       return;
     }
@@ -22,14 +22,12 @@ module.exports = {
       .setColor("RANDOM")
       .setTitle("노래 재생목록")
       .setDescription(
-        `${tracks.join("\n")}${
-          queue.tracks.length > tracks.length
-            ? `\n...${
-                queue.tracks.length - tracks.length === 1
-                  ? `${queue.tracks.length - tracks.length} more track`
-                  : `${queue.tracks.length - tracks.length} more tracks`
-              }`
-            : ""
+        `${tracks.join("\n")}${queue.tracks.length > tracks.length
+          ? `\n...${queue.tracks.length - tracks.length === 1
+            ? `${queue.tracks.length - tracks.length} more track`
+            : `${queue.tracks.length - tracks.length} more tracks`
+          }`
+          : ""
         }`
       )
       .addFields({

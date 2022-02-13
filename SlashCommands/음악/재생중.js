@@ -14,7 +14,7 @@ module.exports = {
   run: async (client, interaction) => {
     const queue = player.getQueue(interaction.guildId);
 
-    if (!queue?.playing) {
+    if (!queue || !queue.playing) {
       ERROR.MUSIC_QUEUE_IS_EMPTY(client, interaction);
       return;
     }

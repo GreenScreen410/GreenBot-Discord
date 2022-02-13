@@ -16,56 +16,74 @@ module.exports = {
   ],
 
   run: async (client, interaction) => {
+    const songTitle = interaction.options.getString("노래");
+
+    // 음성 채널에 접속해 있지 않을 때
+    if (!interaction.member.voice.channel) {
+      ERROR.PLEASE_JOIN_VOICE_CHANNEL(client, interaction);
+      return;
+    }
+
+    // 같은 음성 채널에 접속하고 있지 않을 때
+    if (
+      interaction.guild.me.voice.channelId &&
+      interaction.member.voice.channelId !==
+      interaction.guild.me.voice.channelId
+    ) {
+      ERROR.PLEASE_JOIN_SAME_VOICE_CHANNEL(client, interaction);
+      return;
+    }
+
+    const queue = await player.createQueue(interaction.guild, {
+      metadata: interaction.channel,
+    });
+
     try {
-      // 음성 채널 접속 여부 확인
-      if (!interaction.member.voice.channel) {
-        ERROR.PLEASE_JOIN_VOICE_CHANNEL(client, interaction);
-        return;
-      }
-
-      // 인자(Argument)로 받아온 제목을 songTitle이라는 변수에 저장
-      const songTitle = interaction.options.getString("노래");
-
-      // songTitle 변수를 이용해 searchResult라는 검색 결과 변수 생성
-      const searchResult = await player.search(songTitle, {
-        requestedBy: interaction.user,
-        searchEngine: QueryType.AUTO,
-      });
-
-      // queue라는 이름의 재생목록 변수 생성
-      const queue = await player.createQueue(interaction.guild, {
-        metadata: interaction.channel,
-      });
-
-      // 만약 음성 채널에 접속해있지 않는 상황이라면, 음성 채널에 접속
       if (!queue.connection) {
         await queue.connect(interaction.member.voice.channel);
       }
-
-      interaction.followUp({
-        content: `${searchResult.tracks[0].url} 재생 중`,
-      });
-
-      searchResult.playlist
-        ? queue.addTrack(searchResult.tracks)
-        : queue.addTrack(searchResult.tracks[0]);
-
-      // 음악을 재생하고 있지 않는 상황이라면, 음악 재생
-      if (!queue.playing) {
-        await queue.play();
-      }
     } catch (error) {
-      const embed = new MessageEmbed()
-        .setColor("#FF0000")
-        .setTitle("❌ 오류!")
-        .setDescription(`${error}`)
-        .addFields({ name: "에러 코드", value: "UNKNOWN_ERROR" })
-        .setTimestamp()
-        .setFooter({
-          text: `Requested by ${interaction.user.tag}`,
-          iconURL: `${interaction.user.displayAvatarURL()}`,
-        });
-      interaction.followUp({ embeds: [embed] });
+      queue.destroy();
+      ERROR.CAN_NOT_JOIN_VOICE_CHANNEL(client, interaction);
+      return;
+    }
+
+    const track = await player.search(songTitle, {
+      requestedBy: interaction.user,
+      searchEngine: QueryType.AUTO,
+    });
+
+    if (!track || !track.tracks.length) {
+      ERROR.CAN_NOT_FIND_MUSIC(client, interaction);
+      return;
+    }
+
+    const embed = new MessageEmbed()
+      .setColor("RANDOM")
+      .setTitle(
+        `🎶 ${track.playlist ? "playlist" : "재생목록에 추가되었습니다."}`)
+      .setTimestamp()
+      .setFooter({
+        text: `Requested by ${interaction.user.tag}`,
+        iconURL: `${interaction.user.displayAvatarURL()}`,
+      })
+
+    if (!track.playlist) {
+      const tr = track.tracks[0];
+      embed.setThumbnail(tr.thumbnail);
+      embed.setDescription(`${tr.title}`);
+    }
+
+    if (!queue.playing) {
+      track.playlist
+        ? queue.addTracks(track.playlist)
+        : queue.play(track.tracks[0]);
+      return await interaction.followUp({ embeds: [embed] });
+    } else if (queue.playing) {
+      track.playlist
+        ? queue.addTracks(track.playlist)
+        : queue.addTrack(track.tracks[0]);
+      return await interaction.followUp({ embeds: [embed] });
     }
   },
 };

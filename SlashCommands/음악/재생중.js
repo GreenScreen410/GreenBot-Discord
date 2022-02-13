@@ -41,6 +41,13 @@ module.exports = {
         .setEmoji("📄")
         .setLabel("재생목록")
         .setStyle("PRIMARY"),
+
+      new MessageButton()
+        .setCustomId("musicQueueClear")
+        .setEmoji("💥")
+        .setLabel("재생목록 비우기")
+        .setStyle("DANGER"),
+
       new MessageButton()
         .setCustomId("musicSkip")
         .setEmoji("⏭")

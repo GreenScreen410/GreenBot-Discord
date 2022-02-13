@@ -29,7 +29,7 @@ module.exports = {
     interaction.followUp({ embeds: [embed] });
   },
 
-  PLEASE_JOIN_VOICE_CHANNEL: function (client, interaction, args) {
+  PLEASE_JOIN_VOICE_CHANNEL: function (client, interaction) {
     const embed = new MessageEmbed()
       .setColor("#FF0000")
       .setTitle("❌ 오류!")
@@ -43,12 +43,54 @@ module.exports = {
     interaction.followUp({ embeds: [embed] });
   },
 
-  MUSIC_QUEUE_IS_EMPTY: function (client, interaction, args) {
+  PLEASE_JOIN_SAME_VOICE_CHANNEL: function (client, interaction) {
+    const embed = new MessageEmbed()
+      .setColor("#FF0000")
+      .setTitle("❌ 오류!")
+      .setDescription("같은 음성 채널에 접속해 주세요.")
+      .addFields({ name: "에러 코드", value: "PLEASE_JOIN_SAME_VOICE_CHANNEL" })
+      .setTimestamp()
+      .setFooter({
+        text: `Requested by ${interaction.user.tag}`,
+        iconURL: `${interaction.user.displayAvatarURL()}`,
+      });
+    interaction.followUp({ embeds: [embed] });
+  },
+
+  CAN_NOT_JOIN_VOICE_CHANNEL: function (client, interaction) {
+    const embed = new MessageEmbed()
+      .setColor("#FF0000")
+      .setTitle("❌ 오류!")
+      .setDescription("음성 채널에 접속할 수 없습니다.")
+      .addFields({ name: "에러 코드", value: "CAN_NOT_JOIN_VOICE_CHANNEL" })
+      .setTimestamp()
+      .setFooter({
+        text: `Requested by ${interaction.user.tag}`,
+        iconURL: `${interaction.user.displayAvatarURL()}`,
+      });
+    interaction.followUp({ embeds: [embed] });
+  },
+
+  MUSIC_QUEUE_IS_EMPTY: function (client, interaction) {
     const embed = new MessageEmbed()
       .setColor("#FF0000")
       .setTitle("❌ 오류!")
       .setDescription("재생중인 노래가 없습니다.")
       .addFields({ name: "에러 코드", value: "MUSIC_QUEUE_IS_EMPTY" })
+      .setTimestamp()
+      .setFooter({
+        text: `Requested by ${interaction.user.tag}`,
+        iconURL: `${interaction.user.displayAvatarURL()}`,
+      });
+    interaction.followUp({ embeds: [embed] });
+  },
+
+  CAN_NOT_FIND_MUSIC: function (client, interaction, args) {
+    const embed = new MessageEmbed()
+      .setColor("#FF0000")
+      .setTitle("❌ 오류!")
+      .setDescription("노래를 찾을 수 없습니다.")
+      .addFields({ name: "에러 코드", value: "CAN_NOT_FIND_MUSIC" })
       .setTimestamp()
       .setFooter({
         text: `Requested by ${interaction.user.tag}`,

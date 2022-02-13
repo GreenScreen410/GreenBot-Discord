@@ -1,5 +1,5 @@
 # 그린Bot
-![GitHub](https://img.shields.io/github/license/GreenScreen410/GreenBot-Discord?style=flat-square) ![GitHub package.json version](https://img.shields.io/github/package-json/v/GreenScreen410/GreenBot-Discord?style=flat-square) ![node-current](https://img.shields.io/node/v/discord.js?style=flat-square) ![GitHub last commit](https://img.shields.io/github/last-commit/GreenScreen410/GreenBot-Discord?style=flat-square)
+![GitHub](https://img.shields.io/github/license/GreenScreen410/GreenBot-Discord?style=flat-square) ![GitHub package.json version](https://img.shields.io/github/package-json/v/GreenScreen410/GreenBot-Discord?style=flat-square) ![node-current](https://img.shields.io/node/v/discord.js?style=flat-square) ![GitHub last commit](https://img.shields.io/github/last-commit/GreenScreen410/GreenBot-Discord?style=flat-square) [![CodeFactor](https://www.codefactor.io/repository/github/greenscreen410/greenbot-discord/badge)](https://www.codefactor.io/repository/github/greenscreen410/greenbot-discord)
 </br>2022.02.01 ~
 ## 파일 설명
 * **SlashCommands** - 빗금 명령어(Slash Command)가 들어있습니다.

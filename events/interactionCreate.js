@@ -49,5 +49,10 @@ client.on("interactionCreate", async (interaction) => {
       let musicSkipFile = require("../SlashCommands/음악/넘기기.js");
       musicSkipFile.musicSkip(client, interaction);
     }
+
+    if (interaction.customId === "musicQueueClear") {
+      let musicQueueClear = require("../SlashCommands/음악/재생목록비우기.js");
+      musicQueueClear.musicQueueClear(client, interaction);
+    }
   }
 });

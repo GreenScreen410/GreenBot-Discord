@@ -1,9 +1,4 @@
-const {
-  MessageEmbed,
-  MessageActionRow,
-  MessageButton,
-  ButtonInteraction,
-} = require("discord.js");
+const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 const player = require("../../events/player");
 const ERROR = require("../ERROR");
 
@@ -14,12 +9,19 @@ module.exports = {
   run: async (client, interaction) => {
     const queue = player.getQueue(interaction.guildId);
 
+    // 재생목록이 없을 때 또는(||) 재생중인 노래가 없을 때
     if (!queue || !queue.playing) {
+      // ERROR 파일의 MUSIC_QUEUE_IS_EMPTY 함수 실행
       ERROR.MUSIC_QUEUE_IS_EMPTY(client, interaction);
+
+      // 코드가 더 이상 실행되지 않도록 방지
       return;
     }
 
+    // progress라는 노래 진행도를 알려주는 변수 생성
     const progress = queue.createProgressBar();
+
+    // perc라는 노래 시간을 알려주는 변수 생성
     const perc = queue.getPlayerTimestamp();
 
     const embed = new MessageEmbed()

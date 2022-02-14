@@ -1,7 +1,7 @@
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-  INVAILD_INTERACTION: function (client, interaction, args) {
+  INVAILD_INTERACTION: function (client, interaction) {
     const embed = new MessageEmbed()
       .setColor("#FF0000")
       .setTitle("❌ 오류!")
@@ -15,7 +15,7 @@ module.exports = {
     interaction.followUp({ embeds: [embed] });
   },
 
-  PLEASE_TYPE_ARGUMENTS: function (client, interaction, args) {
+  PLEASE_TYPE_ARGUMENTS: function (client, interaction) {
     const embed = new MessageEmbed()
       .setColor("#FF0000")
       .setTitle("❌ 오류!")
@@ -85,7 +85,7 @@ module.exports = {
     interaction.followUp({ embeds: [embed] });
   },
 
-  CAN_NOT_FIND_MUSIC: function (client, interaction, args) {
+  CAN_NOT_FIND_MUSIC: function (client, interaction) {
     const embed = new MessageEmbed()
       .setColor("#FF0000")
       .setTitle("❌ 오류!")

@@ -43,7 +43,7 @@ module.exports = {
 
     // queue라는 이름의 재생목록 변수 생성
     const queue = await player.createQueue(interaction.guild, {
-      metadata: interaction.channel,
+      metadata: interaction,
     });
 
     // 음성 채널 연결 시도

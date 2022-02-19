@@ -3,7 +3,10 @@ const player = require("../../events/player");
 const ERROR = require("../ERROR");
 
 module.exports = {
-  musicQueueClear: function (client, interaction) {
+  name: "재생목록비우기",
+  description: "노래 재생목록을 초기화합니다.",
+
+  run: function (client, interaction) {
     const queue = player.getQueue(interaction.guildId);
 
     // 재생목록이 없을 때 또는(||) 재생중인 노래가 없을 때
@@ -20,7 +23,8 @@ module.exports = {
 
     const embed = new MessageEmbed()
       .setColor("RANDOM")
-      .setTitle("💥 재생목록이 초기화되었습니다!")
+      .setTitle("💥 펑!")
+      .setDescription("재생목록이 초기화되었습니다!")
       .setTimestamp()
       .setFooter({
         text: `Requested by ${interaction.user.tag}`,

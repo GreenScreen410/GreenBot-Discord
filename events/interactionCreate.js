@@ -42,17 +42,17 @@ client.on("interactionCreate", async (interaction) => {
 
     if (interaction.customId === "musicQueue") {
       let musicQueueFile = require("../SlashCommands/음악/재생목록.js");
-      musicQueueFile.musicQueue(client, interaction);
+      musicQueueFile.run(client, interaction);
     }
 
     if (interaction.customId === "musicSkip") {
       let musicSkipFile = require("../SlashCommands/음악/넘기기.js");
-      musicSkipFile.musicSkip(client, interaction);
+      musicSkipFile.run(client, interaction);
     }
 
     if (interaction.customId === "musicQueueClear") {
       let musicQueueClear = require("../SlashCommands/음악/재생목록비우기.js");
-      musicQueueClear.musicQueueClear(client, interaction);
+      musicQueueClear.run(client, interaction);
     }
   }
 });

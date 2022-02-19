@@ -48,7 +48,7 @@ module.exports = {
         .setCustomId("musicQueueClear")
         .setEmoji("💥")
         .setLabel("재생목록 비우기")
-        .setStyle("DANGER"),
+        .setStyle("PRIMARY"),
 
       new MessageButton()
         .setCustomId("musicSkip")

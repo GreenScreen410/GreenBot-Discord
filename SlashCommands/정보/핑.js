@@ -1,11 +1,12 @@
 const { MessageEmbed } = require("discord.js");
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-  name: "핑",
-  description: "반응 속도를 반환합니다.",
-  type: "CHAT_INPUT",
+  ...new SlashCommandBuilder()
+    .setName("핑")
+    .setDescription("반응 속도를 반환합니다."),
 
-  run: async (client, interaction, args) => {
+  run: async (client, interaction) => {
     const embed = new MessageEmbed()
       .setColor("#FF0000")
       .setTitle("🏓 퐁!")

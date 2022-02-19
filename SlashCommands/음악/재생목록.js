@@ -3,7 +3,10 @@ const player = require("../../events/player");
 const ERROR = require("../ERROR");
 
 module.exports = {
-  musicQueue: function (client, interaction) {
+  name: "재생목록",
+  description: "노래 재생목록을 확인합니다.",
+
+  run: function (client, interaction, args) {
     const queue = player.getQueue(interaction.guildId);
 
     // 재생목록이 없을 때 또는(||) 재생중인 노래가 없을 때
@@ -25,12 +28,14 @@ module.exports = {
       .setColor("RANDOM")
       .setTitle("노래 재생목록")
       .setDescription(
-        `${tracks.join("\n")}${queue.tracks.length > tracks.length
-          ? `\n...${queue.tracks.length - tracks.length === 1
-            ? `${queue.tracks.length - tracks.length} more track`
-            : `${queue.tracks.length - tracks.length} more tracks`
-          }`
-          : ""
+        `${tracks.join("\n")}${
+          queue.tracks.length > tracks.length
+            ? `\n...${
+                queue.tracks.length - tracks.length === 1
+                  ? `${queue.tracks.length - tracks.length} more track`
+                  : `${queue.tracks.length - tracks.length} more tracks`
+              }`
+            : ""
         }`
       )
       .addFields({

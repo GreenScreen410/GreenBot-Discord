@@ -2,7 +2,10 @@ const player = require("../../events/player");
 const ERROR = require("../ERROR");
 
 module.exports = {
-  musicSkip: function (client, interaction) {
+  name: "넘기기",
+  description: "재생중인 노래를 넘깁니다.",
+
+  run: async (client, interaction) => {
     const queue = player.getQueue(interaction.guildId);
 
     // 재생목록이 없을 때 또는(||) 재생중인 노래가 없을 때

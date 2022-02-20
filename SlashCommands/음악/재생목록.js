@@ -8,17 +8,11 @@ module.exports = {
 
   run: function (client, interaction, args) {
     const queue = player.getQueue(interaction.guildId);
-
-    // 재생목록이 없을 때 또는(||) 재생중인 노래가 없을 때
     if (!queue || !queue.playing) {
-      // ERROR 파일의 MUSIC_QUEUE_IS_EMPTY 함수 실행
       ERROR.MUSIC_QUEUE_IS_EMPTY(client, interaction);
-
-      // 코드가 더 이상 실행되지 않도록 방지
       return;
     }
 
-    // 현재 재생목록을 currentTrack이라는 변수에 저장
     const currentTrack = queue.current;
     const tracks = queue.tracks.slice(0, 10).map((m, i) => {
       return `${i + 1}. [**${m.title}**](${m.url}) - ${m.requestedBy.tag}`;

@@ -30,12 +30,9 @@ module.exports = {
         { name: "주인", value: `<@${interaction.guild.ownerId}>`, inline: true },
         { name: "서버 생성일", value: `${interaction.guild.createdAt}`, inline: true },
         { name: "유저 수", value: `${interaction.guild.memberCount}명`, inline: true },
-        { name: '\u200B', value: '\u200B' },
+        // { name: '\u200B', value: '\u200B' },
         { name: "역할 개수", value: `${roles.length}개`, inline: true },
-        { name: "역할 목록", value: `${roles.join("\n")}`, inline: true },
-        { name: '\u200B', value: '\u200B' },
         { name: "채널 개수(카테고리 포함)", value: `${channels.length}개`, inline: true },
-        { name: "채널 목록", value: `${channels.join("\n")}`, inline: true },
       )
       .setTimestamp()
       .setFooter({

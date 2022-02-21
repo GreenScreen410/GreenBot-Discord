@@ -22,7 +22,7 @@ module.exports = {
       
     const embed = new MessageEmbed()
       .setColor("RANDOM")
-      .setTitle(`${interaction.guild.icon}`)
+      .setThumbnail(`${interaction.guild.iconURL()}`)
       .setTitle(`'${interaction.guild.name}' 정보`)
       .addFields(
         { name: "이름", value: `${interaction.guild.name}`, inline: true },

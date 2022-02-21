@@ -1,5 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const moment = require("moment");
 const ERROR = require("../ERROR");
 
 module.exports = {
@@ -28,7 +29,7 @@ module.exports = {
         { name: "이름", value: `${interaction.guild.name}`, inline: true },
         { name: "ID", value: `${interaction.guild.id}`, inline: true },
         { name: "주인", value: `<@${interaction.guild.ownerId}>`, inline: true },
-        { name: "서버 생성일", value: `${interaction.guild.createdAt}`, inline: true },
+        { name: "서버 생성일", value: `${moment(interaction.guild.createdAt).locale("ko").format("YYYY년 MMMM Do h:mm:ss")}`, inline: true },
         { name: "유저 수", value: `${interaction.guild.memberCount}명`, inline: true },
         // { name: '\u200B', value: '\u200B' },
         { name: "역할 개수", value: `${roles.length}개`, inline: true },
@@ -39,6 +40,7 @@ module.exports = {
         text: `Requested by ${interaction.user.tag}`,
         iconURL: `${interaction.user.displayAvatarURL()}`,
       });
+
     interaction.followUp({ embeds: [embed] });
   },
 };

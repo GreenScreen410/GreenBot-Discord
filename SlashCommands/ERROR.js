@@ -98,4 +98,18 @@ module.exports = {
       });
     interaction.followUp({ embeds: [embed] });
   },
+
+  CAN_NOT_USE_IN_DM: function (client, interaction) {
+    const embed = new MessageEmbed()
+      .setColor("#FF0000")
+      .setTitle("❌ 오류!")
+      .setDescription("DM에서는 사용하실 수 없는 명령어입니다.")
+      .addFields({ name: "에러 코드", value: "CAN_NOT_USE_IN_DM" })
+      .setTimestamp()
+      .setFooter({
+        text: `Requested by ${interaction.user.tag}`,
+        iconURL: `${interaction.user.displayAvatarURL()}`,
+      });
+    interaction.followUp({ embeds: [embed] });
+  },
 };

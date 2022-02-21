@@ -29,7 +29,7 @@ module.exports = {
         { name: "이름", value: `${user.username}`, inline: true },
         { name: "ID", value: `${user.id}`, inline: true },
         { name: "계정 생성일", value: `${moment(user.createdAt).locale("ko").format("YYYY년 MMMM Do h:mm:ss")}`, inline: true },
-        { name: "서버 참여일", value: `${moment(interaction.guild.joinedAt).locale("ko").format("YYYY년 MMMM Do h:mm:ss")}`, inline: true }
+        { name: "서버 참여일", value: `${moment(interaction.member.joinedAt).locale("ko").format("YYYY년 MMMM Do h:mm:ss")}`, inline: true }
       )
       .setTimestamp()
       .setFooter({

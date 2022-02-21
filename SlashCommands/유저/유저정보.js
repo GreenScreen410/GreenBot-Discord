@@ -1,0 +1,42 @@
+const { MessageEmbed } = require("discord.js");
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const moment = require("moment");
+const ERROR = require("../ERROR");
+
+module.exports = {
+  ...new SlashCommandBuilder()
+    .setName("유저정보")
+    .setDescription("해당 유저의 정보를 보여줍니다.")
+    .addUserOption((option) =>
+      option
+        .setName("유저")
+        .setDescription("유저를 선택해주세요.")
+        .setRequired(true)
+    ),
+
+  run: async (client, interaction) => {
+    const user = interaction.options.getUser("유저");
+    if (!user) {
+      ERROR.PLEASE_TYPE_ARGUMENTS(client, interaction);
+      return;
+    }
+
+    const embed = new MessageEmbed()
+      .setColor("RANDOM")
+      .setTitle(`${user.tag}의 정보`)
+      .setThumbnail(user.displayAvatarURL())
+      .addFields(
+        { name: "이름", value: `${user.username}`, inline: true },
+        { name: "ID", value: `${user.id}`, inline: true },
+        { name: "계정 생성일", value: `${moment(user.createdAt).locale("ko").format("YYYY년 MMMM Do h:mm:ss")}`, inline: true },
+        { name: "서버 참여일", value: `${moment(interaction.guild.joinedAt).format("YYYY년 MMMM Do h:mm:ss")}`, inline: true }
+      )
+      .setTimestamp()
+      .setFooter({
+        text: `Requested by ${interaction.user.tag}`,
+        iconURL: `${interaction.user.displayAvatarURL()}`,
+      });
+
+    interaction.followUp({ embeds: [embed] });
+  },
+};

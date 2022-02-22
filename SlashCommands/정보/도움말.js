@@ -50,10 +50,7 @@ module.exports = {
       .setDescription("아래 메뉴에서 카테고리를 골라주세요.")
       .setColor("RANDOM")
       .setTimestamp()
-      .setFooter({
-        text: `Requested by ${interaction.user.tag}`,
-        iconURL: `${interaction.user.displayAvatarURL()}`,
-      });
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
 
     const components = (state) => [
       new MessageActionRow().addComponents(

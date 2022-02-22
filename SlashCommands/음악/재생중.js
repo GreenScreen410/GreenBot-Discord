@@ -9,8 +9,7 @@ module.exports = {
   run: async (client, interaction) => {
     const queue = player.getQueue(interaction.guildId);
     if (!queue || !queue.playing) {
-      ERROR.MUSIC_QUEUE_IS_EMPTY(client, interaction);
-      return;
+      return ERROR.MUSIC_QUEUE_IS_EMPTY(client, interaction);
     }
 
     const progress = queue.createProgressBar();
@@ -19,34 +18,15 @@ module.exports = {
     const embed = new MessageEmbed()
       .setColor("RANDOM")
       .setTitle("재생중인 노래")
-      .setDescription(
-        `🎶 | **${queue.current.title}**! (\`${perc.progress}%\`)`
-      )
+      .setDescription(`🎶 | **${queue.current.title}**! (\`${perc.progress}%\`)`)
       .addFields({ name: "\u200b", value: progress })
       .setTimestamp()
-      .setFooter({
-        text: `Requested by ${interaction.user.tag}`,
-        iconURL: `${interaction.user.displayAvatarURL()}`,
-      });
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
 
     const button = new MessageActionRow().addComponents(
-      new MessageButton()
-        .setCustomId("musicQueue")
-        .setEmoji("📄")
-        .setLabel("재생목록")
-        .setStyle("PRIMARY"),
-
-      new MessageButton()
-        .setCustomId("musicQueueClear")
-        .setEmoji("💥")
-        .setLabel("재생목록 비우기")
-        .setStyle("PRIMARY"),
-
-      new MessageButton()
-        .setCustomId("musicSkip")
-        .setEmoji("⏭")
-        .setLabel("넘기기")
-        .setStyle("PRIMARY")
+      new MessageButton().setCustomId("musicQueue").setEmoji("📄").setLabel("재생목록").setStyle("PRIMARY"),
+      new MessageButton().setCustomId("musicQueueClear").setEmoji("💥").setLabel("재생목록 비우기").setStyle("PRIMARY"),
+      new MessageButton().setCustomId("musicSkip").setEmoji("⏭").setLabel("넘기기").setStyle("PRIMARY")
     );
 
     interaction.followUp({ embeds: [embed], components: [button] });

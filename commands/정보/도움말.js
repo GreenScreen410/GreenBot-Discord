@@ -1,11 +1,4 @@
-const {
-  Client,
-  CommandInteraction,
-  MessageEmbed,
-  MessageActionRow,
-  MessageSelectMenu,
-  CategoryChannel,
-} = require("discord.js");
+const { MessageEmbed, MessageActionRow, MessageSelectMenu } = require("discord.js");
 
 module.exports = {
   name: "도움말",
@@ -21,11 +14,8 @@ module.exports = {
       음악: "음악 재생, 가사 등 음악 관련 명령어가 있습니다.",
     };
 
-    const directories = [
-      ...new Set(client.commands.map((cmd) => cmd.directory)),
-    ];
-    const formatString = (str) =>
-      `${str[0].toUpperCase()}${str.slice(1).toLowerCase()}`;
+    const directories = [...new Set(client.commands.map((cmd) => cmd.directory))];
+    const formatString = (str) => `${str[0].toUpperCase()}${str.slice(1).toLowerCase()}`;
     const categories = directories.map((dir) => {
       const getCommands = client.commands
         .filter((cmd) => cmd.directory === dir)
@@ -45,10 +35,7 @@ module.exports = {
       .setDescription("아래 메뉴에서 카테고리를 골라주세요.")
       .setColor("RANDOM")
       .setTimestamp()
-      .setFooter({
-        text: `Requested by ${message.author.tag}`,
-        iconURL: `${message.author.displayAvatarURL()}`,
-      });
+      .setFooter({ text: `Requested by ${message.author.tag}`, iconURL: `${message.author.displayAvatarURL()}` });
 
     const components = (state) => [
       new MessageActionRow().addComponents(
@@ -84,9 +71,7 @@ module.exports = {
 
     collector.on("collect", (interaction, cmd) => {
       const [directory] = interaction.values;
-      const category = categories.find(
-        (x) => x.directory.toLowerCase() === directory
-      );
+      const category = categories.find((x) => x.directory.toLowerCase() === directory);
 
       const categoryEmbed = new MessageEmbed()
         .setTitle(`${directory}`)

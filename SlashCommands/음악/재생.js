@@ -19,17 +19,10 @@ module.exports = {
     const songTitle = interaction.options.getString("노래");
 
     if (!interaction.member.voice.channel) {
-      ERROR.PLEASE_JOIN_VOICE_CHANNEL(client, interaction);
-      return;
+      return ERROR.PLEASE_JOIN_VOICE_CHANNEL(client, interaction);
     }
-
-    if (
-      interaction.guild.me.voice.channelId &&
-      interaction.member.voice.channelId !==
-        interaction.guild.me.voice.channelId
-    ) {
-      ERROR.PLEASE_JOIN_SAME_VOICE_CHANNEL(client, interaction);
-      return;
+    if (interaction.guild.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.me.voice.channelId) {
+      return ERROR.PLEASE_JOIN_SAME_VOICE_CHANNEL(client, interaction);
     }
 
     const queue = await player.createQueue(interaction.guild, {
@@ -37,13 +30,10 @@ module.exports = {
     });
 
     try {
-      if (!queue.connection) {
-        await queue.connect(interaction.member.voice.channel);
-      }
+      if (!queue.connection) await queue.connect(interaction.member.voice.channel);
     } catch (error) {
       queue.destroy();
-      ERROR.CAN_NOT_JOIN_VOICE_CHANNEL(client, interaction);
-      return;
+      return ERROR.CAN_NOT_JOIN_VOICE_CHANNEL(client, interaction);
     }
 
     const track = await player.search(songTitle, {
@@ -52,20 +42,14 @@ module.exports = {
     });
 
     if (!track || !track.tracks.length) {
-      ERROR.CAN_NOT_FIND_MUSIC(client, interaction);
-      return;
+      return ERROR.CAN_NOT_FIND_MUSIC(client, interaction);
     }
 
     const embed = new MessageEmbed()
       .setColor("RANDOM")
-      .setTitle(
-        `🎶 ${track.playlist ? "playlist" : "재생목록에 추가되었습니다."}`
-      )
+      .setTitle(`🎶 ${track.playlist ? "playlist" : "재생목록에 추가되었습니다."}`)
       .setTimestamp()
-      .setFooter({
-        text: `Requested by ${interaction.user.tag}`,
-        iconURL: `${interaction.user.displayAvatarURL()}`,
-      });
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
 
     if (!track.playlist) {
       const tr = track.tracks[0];
@@ -74,14 +58,10 @@ module.exports = {
     }
 
     if (!queue.playing) {
-      track.playlist
-        ? queue.addTracks(track.playlist)
-        : queue.play(track.tracks[0]);
+      track.playlist ? queue.addTracks(track.playlist) : queue.play(track.tracks[0]);
       return await interaction.followUp({ embeds: [embed] });
     } else if (queue.playing) {
-      track.playlist
-        ? queue.addTracks(track.playlist)
-        : queue.addTrack(track.tracks[0]);
+      track.playlist ? queue.addTracks(track.playlist) : queue.addTrack(track.tracks[0]);
       return await interaction.followUp({ embeds: [embed] });
     }
   },

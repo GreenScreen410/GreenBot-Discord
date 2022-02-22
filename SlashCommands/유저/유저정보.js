@@ -7,18 +7,12 @@ module.exports = {
   ...new SlashCommandBuilder()
     .setName("유저정보")
     .setDescription("해당 유저의 정보를 보여줍니다.")
-    .addUserOption((option) =>
-      option
-        .setName("유저")
-        .setDescription("유저를 선택해주세요.")
-        .setRequired(true)
-    ),
+    .addUserOption((option) => option.setName("유저").setDescription("유저를 선택해주세요.").setRequired(true)),
 
   run: async (client, interaction) => {
     const user = interaction.options.getUser("유저");
     if (!user) {
-      ERROR.PLEASE_TYPE_ARGUMENTS(client, interaction);
-      return;
+      return ERROR.PLEASE_TYPE_ARGUMENTS(client, interaction);
     }
 
     const embed = new MessageEmbed()
@@ -32,10 +26,7 @@ module.exports = {
         { name: "서버 참여일", value: `${moment(interaction.member.joinedAt).locale("ko").format("YYYY년 MMMM Do h:mm:ss")}`, inline: true }
       )
       .setTimestamp()
-      .setFooter({
-        text: `Requested by ${interaction.user.tag}`,
-        iconURL: `${interaction.user.displayAvatarURL()}`,
-      });
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
 
     interaction.followUp({ embeds: [embed] });
   },

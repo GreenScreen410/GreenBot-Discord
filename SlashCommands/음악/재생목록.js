@@ -6,11 +6,10 @@ module.exports = {
   name: "재생목록",
   description: "노래 재생목록을 확인합니다.",
 
-  run: function (client, interaction, args) {
+  run: function (client, interaction) {
     const queue = player.getQueue(interaction.guildId);
     if (!queue || !queue.playing) {
-      ERROR.MUSIC_QUEUE_IS_EMPTY(client, interaction);
-      return;
+      return ERROR.MUSIC_QUEUE_IS_EMPTY(client, interaction);
     }
 
     const currentTrack = queue.current;
@@ -37,10 +36,7 @@ module.exports = {
         value: `🎶 | [**${currentTrack.title}**](${currentTrack.url}) - ${currentTrack.requestedBy.tag}`,
       })
       .setTimestamp()
-      .setFooter({
-        text: `Requested by ${interaction.user.tag}`,
-        iconURL: `${interaction.user.displayAvatarURL()}`,
-      });
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
 
     interaction.followUp({ embeds: [embed] });
   },

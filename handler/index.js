@@ -20,9 +20,7 @@ module.exports = async (client) => {
   });
 
   // Slash Commands
-  const slashCommands = await globPromise(
-    `${process.cwd()}/SlashCommands/*/*.js`
-  );
+  const slashCommands = await globPromise(`${process.cwd()}/SlashCommands/*/*.js`);
   const arrayOfSlashCommands = [];
   slashCommands.map((value) => {
     const file = require(value);
@@ -43,9 +41,7 @@ module.exports = async (client) => {
   eventFiles.map((value) => require(value));
 
   // Error
-  const errorEmbed = await globPromise(
-    `${process.cwd()}/SlashCommands/ERROR.js`
-  );
+  const errorEmbed = await globPromise(`${process.cwd()}/SlashCommands/ERROR.js`);
   const arrayOfErrorEmbed = [];
   errorEmbed.map((value) => {
     const file = require(value);
@@ -58,9 +54,7 @@ module.exports = async (client) => {
 
   client.on("ready", async () => {
     // Register for a single guild
-    await client.guilds.cache
-      .get("710454112810172427")
-      .commands.set(arrayOfSlashCommands);
+    await client.guilds.cache.get("710454112810172427").commands.set(arrayOfSlashCommands);
 
     // Register for all the guilds the bot is in
     // await client.application.commands.set(arrayOfSlashCommands);

@@ -8,10 +8,7 @@ module.exports = {
       .setDescription("올바르지 않은 명령어입니다.")
       .addFields({ name: "에러 코드", value: "INVAILD_INTERACTION" })
       .setTimestamp()
-      .setFooter({
-        text: `Requested by ${interaction.user.tag}`,
-        iconURL: `${interaction.user.displayAvatarURL()}`,
-      });
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
     interaction.followUp({ embeds: [embed] });
   },
 
@@ -22,10 +19,7 @@ module.exports = {
       .setDescription("인자가 주어지지 않았습니다.")
       .addFields({ name: "에러 코드", value: "PLEASE_TYPE_ARGUMENTS" })
       .setTimestamp()
-      .setFooter({
-        text: `Requested by ${interaction.user.tag}`,
-        iconURL: `${interaction.user.displayAvatarURL()}`,
-      });
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
     interaction.followUp({ embeds: [embed] });
   },
 
@@ -36,10 +30,7 @@ module.exports = {
       .setDescription("먼저 음성 채널에 접속해 주세요.")
       .addFields({ name: "에러 코드", value: "PLEASE_JOIN_VOICE_CHANNEL" })
       .setTimestamp()
-      .setFooter({
-        text: `Requested by ${interaction.user.tag}`,
-        iconURL: `${interaction.user.displayAvatarURL()}`,
-      });
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
     interaction.followUp({ embeds: [embed] });
   },
 
@@ -50,10 +41,7 @@ module.exports = {
       .setDescription("같은 음성 채널에 접속해 주세요.")
       .addFields({ name: "에러 코드", value: "PLEASE_JOIN_SAME_VOICE_CHANNEL" })
       .setTimestamp()
-      .setFooter({
-        text: `Requested by ${interaction.user.tag}`,
-        iconURL: `${interaction.user.displayAvatarURL()}`,
-      });
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
     interaction.followUp({ embeds: [embed] });
   },
 
@@ -64,10 +52,7 @@ module.exports = {
       .setDescription("음성 채널에 접속할 수 없습니다.")
       .addFields({ name: "에러 코드", value: "CAN_NOT_JOIN_VOICE_CHANNEL" })
       .setTimestamp()
-      .setFooter({
-        text: `Requested by ${interaction.user.tag}`,
-        iconURL: `${interaction.user.displayAvatarURL()}`,
-      });
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
     interaction.followUp({ embeds: [embed] });
   },
 
@@ -78,10 +63,7 @@ module.exports = {
       .setDescription("재생중인 노래가 없습니다.")
       .addFields({ name: "에러 코드", value: "MUSIC_QUEUE_IS_EMPTY" })
       .setTimestamp()
-      .setFooter({
-        text: `Requested by ${interaction.user.tag}`,
-        iconURL: `${interaction.user.displayAvatarURL()}`,
-      });
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
     interaction.followUp({ embeds: [embed] });
   },
 
@@ -92,10 +74,7 @@ module.exports = {
       .setDescription("노래를 찾을 수 없습니다.")
       .addFields({ name: "에러 코드", value: "CAN_NOT_FIND_MUSIC" })
       .setTimestamp()
-      .setFooter({
-        text: `Requested by ${interaction.user.tag}`,
-        iconURL: `${interaction.user.displayAvatarURL()}`,
-      });
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
     interaction.followUp({ embeds: [embed] });
   },
 
@@ -106,10 +85,7 @@ module.exports = {
       .setDescription("DM에서는 사용하실 수 없는 명령어입니다.")
       .addFields({ name: "에러 코드", value: "CAN_NOT_USE_IN_DM" })
       .setTimestamp()
-      .setFooter({
-        text: `Requested by ${interaction.user.tag}`,
-        iconURL: `${interaction.user.displayAvatarURL()}`,
-      });
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
     interaction.followUp({ embeds: [embed] });
   },
 };

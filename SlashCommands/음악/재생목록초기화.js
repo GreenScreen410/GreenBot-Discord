@@ -9,8 +9,7 @@ module.exports = {
   run: function (client, interaction) {
     const queue = player.getQueue(interaction.guildId);
     if (!queue || !queue.playing) {
-      ERROR.MUSIC_QUEUE_IS_EMPTY(client, interaction);
-      return;
+      return ERROR.MUSIC_QUEUE_IS_EMPTY(client, interaction);
     }
 
     queue.clear();
@@ -20,10 +19,7 @@ module.exports = {
       .setTitle("💥 펑!")
       .setDescription("재생목록이 초기화되었습니다!")
       .setTimestamp()
-      .setFooter({
-        text: `Requested by ${interaction.user.tag}`,
-        iconURL: `${interaction.user.displayAvatarURL()}`,
-      });
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
     interaction.followUp({ embeds: [embed] });
   },
 };

@@ -124,7 +124,7 @@ module.exports = {
       /**
        * @description Generating a leaderbord
        */
-      async generateLeaderboard(options, interaction) {
+      async generateLeaderboard(options) {
         let { guild, title, color, top, thumbnail } = options;
         const data = await this.sortUsers(guild);
         let i = 1;

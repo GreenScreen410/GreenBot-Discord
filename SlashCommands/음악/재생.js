@@ -1,19 +1,14 @@
 const { MessageEmbed } = require("discord.js");
+const { SlashCommandBuilder } = require("@discordjs/builders");
 const { QueryType } = require("discord-player");
 const player = require("../../events/player");
 const ERROR = require("../ERROR");
 
 module.exports = {
-  name: "재생",
-  description: "노래를 재생합니다.",
-  options: [
-    {
-      name: "노래",
-      description: "노래 제목을 입력해 주세요.",
-      type: "STRING",
-      required: true,
-    },
-  ],
+  ...new SlashCommandBuilder()
+    .setName("재생")
+    .setDescription("노래를 재생합니다.")
+    .addStringOption((option) => option.setName("노래").setDescription("노래 제목을 입력해 주세요.").setRequired(true)),
 
   run: async (client, interaction) => {
     const songTitle = interaction.options.getString("노래");

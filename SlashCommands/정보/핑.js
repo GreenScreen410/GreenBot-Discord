@@ -2,7 +2,9 @@ const { MessageEmbed } = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 
 module.exports = {
-  ...new SlashCommandBuilder().setName("핑").setDescription("반응 속도를 반환합니다."),
+  ...new SlashCommandBuilder()
+    .setName("핑")
+    .setDescription("반응 속도를 반환합니다."),
 
   run: async (client, interaction) => {
     const embed = new MessageEmbed()

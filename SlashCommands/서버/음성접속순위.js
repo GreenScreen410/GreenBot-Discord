@@ -60,8 +60,8 @@ module.exports = {
             User: userID,
             Guild: guildID,
           }))) {
-          if (this.options.debug)
-            console.log(`${newState.member.user.tag} has joined a voice channel`);
+          // if (this.options.debug)
+            // console.log(`${newState.member.user.tag} has joined a voice channel`);
           new this.schemas.timer({
             User: userID,
             Start: Date.now(),
@@ -69,17 +69,16 @@ module.exports = {
           }).save();
         }
         if (oldState.channel?.id && !newState.channel?.id) {
-          if (this.options.debug)
-            console.log(`${newState.member.user.tag} has left a voice channel`);
+          // if (this.options.debug)
+            // console.log(`${newState.member.user.tag} has left a voice channel`);
           this.schemas.timer.findOne({ User: userID, Guild: guildID }, async (err, timerData) => {
             if (!timerData)
               return;
             this.schemas.user.findOne({ User: userID, Guild: guildID }, async (err, userData) => {
               const Time = Date.now() - timerData.Start;
               timerData.delete();
-              if (this.options.debug)
-                console.log(ms_1.default(Time, { long: true }) +
-                  ` for ${newState.member.user.tag}`);
+              // if (this.options.debug)
+                // console.log(ms_1.default(Time, { long: true }) + ` for ${newState.member.user.tag}`);
               if (!userData) {
                 new this.schemas.user({
                   User: userID,

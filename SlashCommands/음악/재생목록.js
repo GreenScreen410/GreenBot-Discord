@@ -1,10 +1,12 @@
 const { MessageEmbed } = require("discord.js");
+const { SlashCommandBuilder } = require("@discordjs/builders");
 const player = require("../../events/player");
 const ERROR = require("../ERROR");
 
 module.exports = {
-  name: "재생목록",
-  description: "노래 재생목록을 확인합니다.",
+  ...new SlashCommandBuilder()
+    .setName("재생목록")
+    .setDescription("노래 재생목록을 확인합니다."),
 
   run: function (client, interaction) {
     const queue = player.getQueue(interaction.guildId);
@@ -20,17 +22,7 @@ module.exports = {
     const embed = new MessageEmbed()
       .setColor("RANDOM")
       .setTitle("노래 재생목록")
-      .setDescription(
-        `${tracks.join("\n")}${
-          queue.tracks.length > tracks.length
-            ? `\n...${
-                queue.tracks.length - tracks.length === 1
-                  ? `${queue.tracks.length - tracks.length} more track`
-                  : `${queue.tracks.length - tracks.length} more tracks`
-              }`
-            : ""
-        }`
-      )
+      .setDescription(`${tracks.join("\n")}${queue.tracks.length > tracks.length ? `\n...${queue.tracks.length - tracks.length === 1 ? `${queue.tracks.length - tracks.length} more track` : `${queue.tracks.length - tracks.length} more tracks`}` : ""}`)
       .addFields({
         name: "재생중인 노래",
         value: `🎶 | [**${currentTrack.title}**](${currentTrack.url}) - ${currentTrack.requestedBy.tag}`,

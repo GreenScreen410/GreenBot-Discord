@@ -20,10 +20,7 @@ module.exports = {
         .setTitle(`<:${parsedEmoji.name}:${parsedEmoji.id}>`)
         .setDescription(`해당 이모지가 서버에 성공적으로 추가되었습니다.`)
         .setTimestamp()
-        .setFooter({
-          text: `Requested by ${interaction.user.tag}\nThanks for Debugging TastyRamen#0117 and 한별#8165`,
-          iconURL: `${interaction.user.displayAvatarURL()}`,
-        });
+        .setFooter({ text: `Requested by ${interaction.user.tag}\nThanks for Debugging TastyRamen#0117 and 한별#8165`, iconURL: `${interaction.user.displayAvatarURL()}` });
 
       interaction.guild.emojis.create(url, parsedEmoji.name).then((emoji) => interaction.followUp({ embeds: [embed] }));
     }

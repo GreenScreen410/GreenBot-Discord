@@ -4,7 +4,9 @@ const moment = require("moment");
 const ERROR = require("../ERROR");
 
 module.exports = {
-  ...new SlashCommandBuilder().setName("서버정보").setDescription("현재 서버의 정보를 보여줍니다."),
+  ...new SlashCommandBuilder()
+    .setName("서버정보")
+    .setDescription("현재 서버의 정보를 보여줍니다."),
 
   run: async (client, interaction) => {
     if (interaction.channel.type === "DM") {
@@ -12,7 +14,6 @@ module.exports = {
     }
 
     const roles = interaction.guild.roles.cache.sort((a, b) => b.position - a.position).map((role) => role.toString());
-
     const channels = interaction.guild.channels.cache.map((channel) => channel.toString());
 
     const embed = new MessageEmbed()

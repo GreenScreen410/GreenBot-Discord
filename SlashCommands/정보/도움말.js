@@ -1,11 +1,4 @@
-const {
-  Client,
-  CommandInteraction,
-  MessageEmbed,
-  MessageActionRow,
-  MessageSelectMenu,
-  CategoryChannel,
-} = require("discord.js");
+const { MessageEmbed, MessageActionRow, MessageSelectMenu } = require("discord.js");
 
 module.exports = {
   name: "도움말",

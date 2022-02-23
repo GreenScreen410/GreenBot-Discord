@@ -1,10 +1,11 @@
 const { MessageEmbed } = require("discord.js");
-const player = require("../../events/player");
+const { SlashCommandBuilder } = require("@discordjs/builders");
 const ERROR = require("../ERROR");
 
 module.exports = {
-  name: "재생목록초기화",
-  description: "노래 재생목록을 초기화합니다.",
+  ...new SlashCommandBuilder()
+  .setName("재생목록초기화")
+  .setDescription("노래 재생목록을 초기화합니다."),
 
   run: function (client, interaction) {
     const queue = player.getQueue(interaction.guildId);

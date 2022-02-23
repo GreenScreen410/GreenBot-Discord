@@ -10,4 +10,6 @@ client.on("messageCreate", async (message) => {
 
   if (!command) return;
   await command.run(client, message, args);
+
+  console.log(`${command.name} was ran by ${message.author.tag}(${message.author.id})`);
 });

@@ -4,7 +4,7 @@ const ERROR = require("../SlashCommands/ERROR");
 client.on("interactionCreate", async (interaction) => {
   // Slash Command Handling
   if (interaction.isCommand()) {
-    await interaction.deferReply({ ephemeral: false }).catch(() => {});
+    await interaction.deferReply({ ephemeral: false }).catch(() => { });
 
     const cmd = client.slashCommands.get(interaction.commandName);
     if (!cmd) {
@@ -53,4 +53,6 @@ client.on("interactionCreate", async (interaction) => {
       musicQueueClear.run(client, interaction);
     }
   }
+
+  console.log(`${interaction.commandName} was ran by ${interaction.user.tag}(${interaction.user.id})`);
 });

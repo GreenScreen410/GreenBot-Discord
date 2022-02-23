@@ -1,7 +1,6 @@
 require("dotenv").config();
 const { glob } = require("glob");
 const { promisify } = require("util");
-const { Client } = require("discord.js");
 const mongoose = require("mongoose");
 
 const globPromise = promisify(glob);

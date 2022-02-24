@@ -11,14 +11,14 @@ module.exports = {
     .addStringOption((option) => option.setName("노래").setDescription("노래 제목을 입력해 주세요.").setRequired(true)),
 
   run: async (client, interaction) => {
+    const songTitle = interaction.options.getString("노래");
     if (!interaction.member.voice.channel) {
       return ERROR.PLEASE_JOIN_VOICE_CHANNEL(client, interaction);
     }
     if (interaction.guild.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.me.voice.channelId) {
       return ERROR.PLEASE_JOIN_SAME_VOICE_CHANNEL(client, interaction);
     }
-
-    const songTitle = interaction.options.getString("노래");
+    
     const queue = await player.createQueue(interaction.guild, {
       metadata: interaction,
     });

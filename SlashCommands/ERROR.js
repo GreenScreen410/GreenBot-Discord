@@ -23,6 +23,17 @@ module.exports = {
     interaction.followUp({ embeds: [embed] });
   },
 
+  INVAILD_ARGUMENT: function (client, interaction) {
+    const embed = new MessageEmbed()
+      .setColor("#FF0000")
+      .setTitle("❌ 오류!")
+      .setDescription("잘못된 인자입니다.")
+      .addFields({ name: "에러 코드", value: "INVAILD_ARGUMENT" })
+      .setTimestamp()
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
+    interaction.followUp({ embeds: [embed] });
+  },
+
   PLEASE_JOIN_VOICE_CHANNEL: function (client, interaction) {
     const embed = new MessageEmbed()
       .setColor("#FF0000")

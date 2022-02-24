@@ -16,14 +16,18 @@
   "dependencies": {
     "@discordjs/builders": "^0.12.0",
     "@discordjs/node-pre-gyp": "^0.4.2",
+    "bufferutil": "^4.0.6",
     "discord-player": "^5.2.2",
     "discord.js": "^13.6.0",
     "dotenv": "^16.0.0",
     "ffmpeg-static": "^4.4.1",
     "glob": "^7.2.0",
+    "install": "^0.13.0",
     "moment": "^2.29.1",
     "mongoose": "^6.2.3",
+    "npm": "^8.5.1",
     "opusscript": "^0.0.8",
+    "utf-8-validate": "^5.0.8",
     "ytdl-core": "^4.10.1"
   }
 }

@@ -1,3 +1,4 @@
+const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { QueueRepeatMode } = require("discord-player");
 const player = require("../../events/player");
@@ -24,6 +25,6 @@ module.exports = {
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
 
-    interaction.followUp({ embed: [embed] });
+    interaction.followUp({ embeds: [embed] });
   },
 };

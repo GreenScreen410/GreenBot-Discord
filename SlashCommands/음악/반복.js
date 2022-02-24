@@ -18,7 +18,7 @@ module.exports = {
       return ERROR.MUSIC_QUEUE_IS_EMPTY(client, interaction);
     }
 
-    if (interaction.options.getString("옵션") === "queue") {
+    if (interaction.options.getString("옵션") === "QUEUE") {
       queue.setRepeatMode(QueueRepeatMode.QUEUE);
       const embed = new MessageEmbed()
         .setColor("RANDOM")
@@ -29,7 +29,7 @@ module.exports = {
       return interaction.followUp({ embeds: [embed] });
     }
 
-    if (interaction.options.getString("옵션") === "off") {
+    if (interaction.options.getString("옵션") === "OFF") {
       queue.setRepeatMode(QueueRepeatMode.OFF);
       const embed = new MessageEmbed()
         .setColor("RANDOM")

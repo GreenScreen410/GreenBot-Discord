@@ -9,7 +9,7 @@ module.exports = {
     .setName("반복")
     .setDescription("재생중인 노래를 반복합니다.")
     .addStringOption((option) =>
-      option.setName("옵션").setDescription("옵션을 지정해 주세요.").setRequired(true).addChoice("노래", "queue").addChoice("끄기", "off")
+      option.setName("옵션").setDescription("옵션을 지정해 주세요.").setRequired(true).addChoice("노래", "QUEUE").addChoice("끄기", "OFF")
     ),
 
   run: function (client, interaction) {

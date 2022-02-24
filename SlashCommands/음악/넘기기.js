@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { QueueRepeatMode } = require("discord-player");
 const player = require("../../events/player");
 const ERROR = require("../ERROR");
 
@@ -13,6 +14,7 @@ module.exports = {
       return ERROR.MUSIC_QUEUE_IS_EMPTY(client, interaction);
     }
 
+    queue.setRepeatMode(QueueRepeatMode.OFF);
     queue.skip();
 
     interaction.followUp({ content: "재생중인 노래를 넘겼습니다!" });

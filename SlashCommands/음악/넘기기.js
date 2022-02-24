@@ -17,6 +17,13 @@ module.exports = {
     queue.setRepeatMode(QueueRepeatMode.OFF);
     queue.skip();
 
-    interaction.followUp({ content: "재생중인 노래를 넘겼습니다!" });
+    const embed = new MessageEmbed()
+      .setColor("RANDOM")
+      .setTitle("⏩ 재생중인 노래를 넘겼습니다!")
+      .setDescription(`${queue.current.title}`)
+      .setTimestamp()
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
+
+    interaction.followUp({ embed: [embed] });
   },
 };

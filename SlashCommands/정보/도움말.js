@@ -19,11 +19,8 @@ module.exports = {
       유저: "유저(사용자) 관련 명령어가 있습니다.",
     };
 
-    const directories = [
-      ...new Set(client.slashCommands.map((cmd) => cmd.directory)),
-    ];
-    const formatString = (str) =>
-      `${str[0].toUpperCase()}${str.slice(1).toLowerCase()}`;
+    const directories = [...new Set(client.slashCommands.map((cmd) => cmd.directory))];
+    const formatString = (str) => `${str[0].toUpperCase()}${str.slice(1).toLowerCase()}`;
     const categories = directories.map((dir) => {
       const getCommands = client.slashCommands
         .filter((cmd) => cmd.directory === dir)
@@ -79,9 +76,7 @@ module.exports = {
 
     collector.on("collect", (interaction, cmd) => {
       const [directory] = interaction.values;
-      const category = categories.find(
-        (x) => x.directory.toLowerCase() === directory
-      );
+      const category = categories.find((x) => x.directory.toLowerCase() === directory);
 
       const categoryEmbed = new MessageEmbed()
         .setTitle(`${directory}`)

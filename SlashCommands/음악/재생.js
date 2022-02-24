@@ -11,8 +11,6 @@ module.exports = {
     .addStringOption((option) => option.setName("노래").setDescription("노래 제목을 입력해 주세요.").setRequired(true)),
 
   run: async (client, interaction) => {
-    const songTitle = interaction.options.getString("노래");
-
     if (!interaction.member.voice.channel) {
       return ERROR.PLEASE_JOIN_VOICE_CHANNEL(client, interaction);
     }
@@ -20,6 +18,7 @@ module.exports = {
       return ERROR.PLEASE_JOIN_SAME_VOICE_CHANNEL(client, interaction);
     }
 
+    const songTitle = interaction.options.getString("노래");
     const queue = await player.createQueue(interaction.guild, {
       metadata: interaction,
     });
@@ -35,7 +34,6 @@ module.exports = {
       requestedBy: interaction.user,
       searchEngine: QueryType.AUTO,
     });
-
     if (!track || !track.tracks.length) {
       return ERROR.CAN_NOT_FIND_MUSIC(client, interaction);
     }
@@ -43,6 +41,7 @@ module.exports = {
     const embed = new MessageEmbed()
       .setColor("RANDOM")
       .setTitle(`🎶 ${track.playlist ? "playlist" : "재생목록에 추가되었습니다."}`)
+      .setURL(`${track.tracks[0].url}`)
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
 

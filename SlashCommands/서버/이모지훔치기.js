@@ -1,5 +1,6 @@
 const { Util, MessageEmbed } = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const ERROR = require("../ERROR");
 
 module.exports = {
   ...new SlashCommandBuilder()
@@ -23,6 +24,8 @@ module.exports = {
         .setFooter({ text: `Requested by ${interaction.user.tag}\nThanks for Debugging TastyRamen#0117 and 한별#8165`, iconURL: `${interaction.user.displayAvatarURL()}` });
 
       interaction.guild.emojis.create(url, parsedEmoji.name).then((emoji) => interaction.followUp({ embeds: [embed] }));
+    } else {
+      return ERROR.INVAILD_ARGUMENT(client, interaction);
     }
   },
 };

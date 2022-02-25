@@ -49,7 +49,7 @@ client.on("interactionCreate", async (interaction) => {
     }
 
     if (interaction.customId === "musicQueueClear") {
-      let musicQueueClear = require("../SlashCommands/음악/재생목록비우기.js");
+      let musicQueueClear = require("../SlashCommands/음악/재생목록초기화.js");
       musicQueueClear.run(client, interaction);
     }
   }

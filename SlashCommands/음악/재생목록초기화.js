@@ -13,6 +13,9 @@ module.exports = {
     if (!queue || !queue.playing) {
       return ERROR.MUSIC_QUEUE_IS_EMPTY(client, interaction);
     }
+    if (interaction.guild.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.me.voice.channelId) {
+      return ERROR.PLEASE_JOIN_SAME_VOICE_CHANNEL(client, interaction);
+    }
 
     queue.clear();
 

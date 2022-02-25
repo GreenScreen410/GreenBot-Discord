@@ -10,7 +10,7 @@ module.exports = {
     .setDescription("노래를 재생합니다.")
     .addStringOption((option) => option.setName("노래").setDescription("노래 제목을 입력해 주세요.").setRequired(true)),
 
-  run: async (client, interaction) => {
+  run: async (client, interaction) => {    
     const songTitle = interaction.options.getString("노래");
     if (!interaction.member.voice.channel) {
       return ERROR.PLEASE_JOIN_VOICE_CHANNEL(client, interaction);

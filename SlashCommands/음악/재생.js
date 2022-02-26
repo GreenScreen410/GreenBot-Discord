@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { QueryType } = require("discord-player");
 const player = require("../../events/player");
@@ -23,18 +23,19 @@ module.exports = {
       metadata: interaction,
     });
 
-    client.on('voiceStateUpdate', (oldState, newState) => {
+        client.on('voiceStateUpdate', (oldState, newState) => {
+      if (!queue || !queue.playing) return;
+      if (oldState.channelId === null || typeof oldState.channelId == 'undefined') return;
+      if (newState.id !== client.user.id) return;
+
       const disconnectedEmbed = new MessageEmbed()
         .setColor("RANDOM")
         .setTitle("⚠️ 음성 채널 퇴장 감지")
         .setDescription("재생목록이 초기화되었습니다.")
         .setTimestamp()
         .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
-
-      if (oldState.channelId === null || typeof oldState.channelId == 'undefined') return;
-      if (newState.id !== client.user.id) return;
-      queue.destroy(1);
-      return interaction.followUp({ embeds: [disconnectedEmbed] });
+      queue.clear(); queue.destroy();
+      return interaction.channel.send({ embeds: [disconnectedEmbed] });
     });
 
     try {
@@ -52,6 +53,18 @@ module.exports = {
       return ERROR.CAN_NOT_FIND_MUSIC(client, interaction);
     }
 
+    // const row = new MessageActionRow().addComponents(
+    //   new MessageButton()
+    //     .setCustomId("remove")
+    //     .setLabel("이거 아니에요!")
+    //     .setStyle("DANGER")
+    // )
+
+    // client.on("interactionCreate", interaction => {
+    //   if (!interaction.isButton()) return;
+    //   queue.remove(track.tracks[0]); return;
+    // })
+
     const embed = new MessageEmbed()
       .setColor("RANDOM")
       .setTitle(`🎶 ${track.playlist ? "playlist" : "재생목록에 추가되었습니다."}`)
@@ -60,9 +73,8 @@ module.exports = {
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
 
     if (!track.playlist) {
-      const tr = track.tracks[0];
-      embed.setThumbnail(tr.thumbnail);
-      embed.setDescription(`${tr.title}`);
+      embed.setThumbnail(track.tracks[0].thumbnail);
+      embed.setDescription(`${track.tracks[0].title}`);
     }
 
     if (!queue.playing) {

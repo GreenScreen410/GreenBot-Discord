@@ -8,4 +8,8 @@ const player = new Player(client, {
   },
 });
 
+player.on("error", (queue, error) => {
+  console.log(error);
+})
+
 module.exports = player;

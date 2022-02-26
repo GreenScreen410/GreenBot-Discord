@@ -10,10 +10,7 @@ module.exports = {
       .setTitle("🏓 퐁!")
       .setDescription(`반응 속도 : ${client.ws.ping}ms`)
       .setTimestamp()
-      .setFooter({
-        text: `Requested by ${message.author.tag}`,
-        iconURL: `${message.author.displayAvatarURL()}`,
-      });
+      .setFooter({ text: `Requested by ${message.author.tag}`, iconURL: `${message.author.displayAvatarURL()}`});
     message.channel.send({ embeds: [embed] });
   },
 };

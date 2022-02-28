@@ -59,7 +59,7 @@ module.exports = {
     //     .setLabel("이거 아니에요!")
     //     .setStyle("DANGER")
     // )
-
+    //
     // client.on("interactionCreate", interaction => {
     //   if (!interaction.isButton()) return;
     //   queue.remove(track.tracks[0]); return;

@@ -1,5 +1,5 @@
 const client = require("../index");
-const ERROR = require("../SlashCommands/ERROR");
+const ERROR = require("../commands/ERROR");
 
 client.on("interactionCreate", async (interaction) => {
   // Slash Command Handling

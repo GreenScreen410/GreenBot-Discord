@@ -6,21 +6,9 @@ const mongoose = require("mongoose");
 const globPromise = promisify(glob);
 
 module.exports = async (client) => {
-  // Commands
-  const commandFiles = await globPromise(`${process.cwd()}/commands/*/*.js`);
-  commandFiles.map((value) => {
-    const file = require(value);
-    const splitted = value.split("/");
-    const directory = splitted[splitted.length - 2];
-
-    if (file.name) {
-      const properties = { directory, ...file };
-      client.commands.set(file.name, properties);
-    }
-  });
 
   // Slash Commands
-  const slashCommands = await globPromise(`${process.cwd()}/SlashCommands/*/*.js`);
+  const slashCommands = await globPromise(`${process.cwd()}/commands/*/*.js`);
   const arrayOfSlashCommands = [];
   slashCommands.map((value) => {
     const file = require(value);
@@ -41,7 +29,7 @@ module.exports = async (client) => {
   eventFiles.map((value) => require(value));
 
   // Error
-  const errorEmbed = await globPromise(`${process.cwd()}/SlashCommands/ERROR.js`);
+  const errorEmbed = await globPromise(`${process.cwd()}/commands/ERROR.js`);
   const arrayOfErrorEmbed = [];
   errorEmbed.map((value) => {
     const file = require(value);
@@ -54,7 +42,7 @@ module.exports = async (client) => {
 
   client.on("ready", async () => {
     // Register for a single guild
-    await client.guilds.cache.get("710454112810172427").commands.set(arrayOfSlashCommands);
+    await client.guilds.cache.get("825741743235268639").commands.set(arrayOfSlashCommands);
 
     // Register for all the guilds the bot is in
     // await client.application.commands.set(arrayOfSlashCommands);

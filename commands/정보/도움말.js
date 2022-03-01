@@ -2,22 +2,27 @@ const { MessageEmbed, MessageActionRow, MessageSelectMenu } = require("discord.j
 
 module.exports = {
   name: "도움말",
+  description: "사용 가능한 모든 명령어를 확인하세요.",
 
-  run: async (client, message) => {
+  run: async (client, interaction) => {
     const emojis = {
       정보: "ℹ️",
+      서버: "🌐",
       음악: "🎵",
+      유저: "👤",
     };
 
     const descriptions = {
       정보: "여러 잡다한 정보들을 얻을 수 있습니다.",
+      서버: "현재 접속해 있는 서버 관련 명령어가 있습니다.",
       음악: "음악 재생, 가사 등 음악 관련 명령어가 있습니다.",
+      유저: "유저(사용자) 관련 명령어가 있습니다.",
     };
 
-    const directories = [...new Set(client.commands.map((cmd) => cmd.directory))];
+    const directories = [...new Set(client.slashCommands.map((cmd) => cmd.directory))];
     const formatString = (str) => `${str[0].toUpperCase()}${str.slice(1).toLowerCase()}`;
     const categories = directories.map((dir) => {
-      const getCommands = client.commands
+      const getCommands = client.slashCommands
         .filter((cmd) => cmd.directory === dir)
         .map((cmd) => {
           return {
@@ -35,7 +40,7 @@ module.exports = {
       .setDescription("아래 메뉴에서 카테고리를 골라주세요.")
       .setColor("RANDOM")
       .setTimestamp()
-      .setFooter({ text: `Requested by ${message.author.tag}`, iconURL: `${message.author.displayAvatarURL()}` });
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
 
     const components = (state) => [
       new MessageActionRow().addComponents(
@@ -57,13 +62,13 @@ module.exports = {
       ),
     ];
 
-    const initialMessage = await message.channel.send({
+    const initialMessage = await interaction.channel.send({
       embeds: [embed],
       components: components(false),
     });
 
-    const filter = (message) => message.user.id;
-    const collector = message.channel.createMessageComponentCollector({
+    const filter = (interaction) => interaction.user.id;
+    const collector = interaction.channel.createMessageComponentCollector({
       filter,
       componentType: "SELECT_MENU",
       // time: 5000,
@@ -75,6 +80,7 @@ module.exports = {
 
       const categoryEmbed = new MessageEmbed()
         .setTitle(`${directory}`)
+        .setColor("RANDOM")
         .setDescription("해당 카테고리에 있는 명령어들입니다.")
         .addFields(
           category.commands.map((cmd) => {

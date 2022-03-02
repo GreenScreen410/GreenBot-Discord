@@ -4,7 +4,7 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 module.exports = {
   ...new SlashCommandBuilder()
     .setName("핑")
-    .setDescription("반응 속도를 반환합니다."),
+    .setDescription("메시지 반응 속도를 확인합니다."),
 
   run: async (client, interaction) => {
     const embed = new MessageEmbed()

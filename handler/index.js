@@ -2,11 +2,9 @@ require("dotenv").config();
 const { glob } = require("glob");
 const { promisify } = require("util");
 const mongoose = require("mongoose");
-
 const globPromise = promisify(glob);
 
 module.exports = async (client) => {
-
   // Slash Commands
   const slashCommands = await globPromise(`${process.cwd()}/commands/*/*.js`);
   const arrayOfSlashCommands = [];
@@ -40,6 +38,7 @@ module.exports = async (client) => {
     arrayOfErrorEmbed.push(file);
   });
 
+  // Slash Commands Register
   client.on("ready", async () => {
     // Register for a single guild
     await client.guilds.cache.get("825741743235268639").commands.set(arrayOfSlashCommands);

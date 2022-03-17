@@ -25,7 +25,7 @@ module.exports = {
 
       interaction.guild.emojis.create(url, parsedEmoji.name).then((emoji) => interaction.followUp({ embeds: [embed] }));
     } else {
-      return ERROR.INVAILD_ARGUMENT(client, interaction);
+      return ERROR.INVALID_ARGUMENT(client, interaction);
     }
   },
 };

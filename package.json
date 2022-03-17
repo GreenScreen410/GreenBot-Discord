@@ -1,6 +1,6 @@
 {
   "name": "greenbot-discord",
-  "version": "1.0.16",
+  "version": "1.0.19",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -23,6 +23,7 @@
     "glob": "^7.2.0",
     "moment": "^2.29.1",
     "mongoose": "^6.2.3",
-    "opusscript": "^0.0.8"
+    "opusscript": "^0.0.8",
+    "ytdl-core": "^4.11.0"
   }
 }

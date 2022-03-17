@@ -8,7 +8,7 @@ client.on("interactionCreate", async (interaction) => {
 
     const cmd = client.slashCommands.get(interaction.commandName);
     if (!cmd) {
-      ERROR.INVAILD_INTERACTION(client, interaction);
+      ERROR.INVALID_INTERACTION(client, interaction);
       return;
     }
 

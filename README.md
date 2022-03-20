@@ -2,9 +2,9 @@
 ![GitHub](https://img.shields.io/github/license/GreenScreen410/GreenBot-Discord?style=flat-square) ![GitHub package.json version](https://img.shields.io/github/package-json/v/GreenScreen410/GreenBot-Discord?style=flat-square) ![node-current](https://img.shields.io/node/v/discord.js?style=flat-square) ![GitHub last commit](https://img.shields.io/github/last-commit/GreenScreen410/GreenBot-Discord?style=flat-square) [![CodeFactor](https://www.codefactor.io/repository/github/greenscreen410/greenbot-discord/badge)](https://www.codefactor.io/repository/github/greenscreen410/greenbot-discord)
 </br>2022.02.01 ~
 ## 파일 설명
-* **SlashCommands** - 빗금 명령어(Slash Command)가 들어있습니다.
+* **commands** - 빗금 명령어(Slash Command)가 들어있습니다. 텍스트 형태의 명령어는 모두 삭제하였습니다.
 
-* **commands** - 텍스트 명령어가 들어있습니다. 접두사는 G이며, 잘 사용되지 않습니다.
+* ~~**commands** - 텍스트 명령어가 들어있습니다. 접두사는 G이며, 잘 사용되지 않습니다.~~
 
 * **events** - 빗금, 텍스트 명령어, 음악 명령어 반응 파일이 들어있습니다.
 

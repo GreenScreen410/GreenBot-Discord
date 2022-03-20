@@ -39,17 +39,17 @@ client.on("interactionCreate", async (interaction) => {
     await interaction.deferReply({ ephemeral: false });
 
     if (interaction.customId === "musicQueue") {
-      let musicQueueFile = require("../SlashCommands/음악/재생목록.js");
+      let musicQueueFile = require("../commands/음악/재생목록.js");
       musicQueueFile.run(client, interaction);
     }
 
     if (interaction.customId === "musicSkip") {
-      let musicSkipFile = require("../SlashCommands/음악/넘기기.js");
+      let musicSkipFile = require("../commands/음악/넘기기.js");
       musicSkipFile.run(client, interaction);
     }
 
     if (interaction.customId === "musicQueueClear") {
-      let musicQueueClear = require("../SlashCommands/음악/재생목록초기화.js");
+      let musicQueueClear = require("../commands/음악/재생목록초기화.js");
       musicQueueClear.run(client, interaction);
     }
   }

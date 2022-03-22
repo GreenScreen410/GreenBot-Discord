@@ -21,6 +21,7 @@
     "dotenv": "^16.0.0",
     "ffmpeg-static": "^4.4.1",
     "glob": "^7.2.0",
+    "koreanbots": "^3.2.1",
     "moment": "^2.29.1",
     "mongoose": "^6.2.3",
     "opusscript": "^0.0.8",

@@ -1,8 +1,10 @@
 const { MessageEmbed, MessageActionRow, MessageSelectMenu } = require("discord.js");
+const { SlashCommandBuilder } = require("@discordjs/builders");
 
 module.exports = {
-  name: "도움말",
-  description: "사용 가능한 모든 명령어를 확인하세요.",
+  ...new SlashCommandBuilder()
+  .setName("도움말")
+  .setDescription("사용 가능한 모든 명령어를 확인하세요."),
 
   run: async (client, interaction) => {
     const emojis = {

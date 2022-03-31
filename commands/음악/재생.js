@@ -23,7 +23,7 @@ module.exports = {
       metadata: interaction,
     });
 
-        client.on('voiceStateUpdate', (oldState, newState) => {
+    client.on('voiceStateUpdate', (oldState, newState) => {
       if (!queue || !queue.playing) return;
       if (oldState.channelId === null || typeof oldState.channelId == 'undefined') return;
       if (newState.id !== client.user.id) return;
@@ -52,19 +52,7 @@ module.exports = {
     if (!track || !track.tracks.length) {
       return ERROR.CAN_NOT_FIND_MUSIC(client, interaction);
     }
-
-    // const row = new MessageActionRow().addComponents(
-    //   new MessageButton()
-    //     .setCustomId("remove")
-    //     .setLabel("이거 아니에요!")
-    //     .setStyle("DANGER")
-    // )
-    //
-    // client.on("interactionCreate", interaction => {
-    //   if (!interaction.isButton()) return;
-    //   queue.remove(track.tracks[0]); return;
-    // })
-
+    
     const embed = new MessageEmbed()
       .setColor("RANDOM")
       .setTitle(`🎶 ${track.playlist ? "playlist" : "재생목록에 추가되었습니다."}`)

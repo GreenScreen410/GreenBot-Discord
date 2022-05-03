@@ -23,15 +23,4 @@ client.slashCommands = new Collection();
 // Initializing the project
 require("./handler")(client);
 
-server.all(`/`, (req, res) => {
-  res.send(`Result: [OK].`);
-});
-
-function keepAlive() {
-  server.listen(3000, () => {
-    console.log(`Server is now ready! | ` + Date.now());
-  });
-}
-
-keepAlive();
 client.login(process.env.TOKEN);

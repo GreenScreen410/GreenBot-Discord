@@ -1,6 +1,7 @@
 const { MessageEmbed } = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const axios = require("axios");
+const ERROR = require("../ERROR.js");
 
 let game = false;
 let flagData, translatedCountryName, correctAnswer;
@@ -13,6 +14,10 @@ module.exports = {
 
   run: async (client, interaction) => {
     const answer = interaction.options.getString("정답");
+
+    if (game == false && answer != null) {
+      return ERROR.GAME_IS_NOT_STARTED(client, interaction);
+    }
 
     if (game == false) {
       flagData = await axios.get("https://api.dagpi.xyz/data/flag", { headers: { "Authorization": process.env.DAGPI_TOKEN } });

@@ -99,4 +99,15 @@ module.exports = {
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
     interaction.followUp({ embeds: [embed] });
   },
+
+  GAME_IS_NOT_STARTED: function (client, interaction) {
+    const embed = new MessageEmbed()
+      .setColor("#FF0000")
+      .setTitle("❌ 오류!")
+      .setDescription("게임이 시작되지 않았습니다.")
+      .addFields({ name: "에러 코드", value: "GAME_IS_NOT_STARTED" })
+      .setTimestamp()
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
+    interaction.followUp({ embeds: [embed] });
+  },
 };

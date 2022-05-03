@@ -25,7 +25,7 @@ module.exports = {
         { name: "이름", value: `${user.username}`, inline: true },
         { name: "ID", value: `${user.id}`, inline: true },
         { name: "계정 생성일", value: `${moment(user.createdAt).locale("ko").format("YYYY년 MMMM Do h:mm:ss")}`, inline: true },
-        { name: "서버 참여일", value: `(수정 중)`, inline: true },
+        { name: "서버 참여일", value: `${moment(user.joinedTimestamp).locale("ko").format("YYYY년 MMMM Do h:mm:ss")}`, inline: true },
         { name: "OS", value: `${os.type()} ${os.version()} ${os.release()}`, inline: true },
         { name: "메모리 상태", value: `${Math.round(os.freemem()/1000000)} MB/${Math.round(os.totalmem()/1000000)} MB`, inline: true },
       )
@@ -43,7 +43,7 @@ module.exports = {
         { name: "이름", value: `${user.username}`, inline: true },
         { name: "ID", value: `${user.id}`, inline: true },
         { name: "계정 생성일", value: `${moment(user.createdAt).locale("ko").format("YYYY년 MMMM Do h:mm:ss")}`, inline: true },
-        { name: "서버 참여일", value: `${moment(interaction.guild.joinedAt).locale("ko").format("YYYY년 MMMM Do h:mm:ss")}`, inline: true }
+        { name: "서버 참여일", value: `${moment(user.joinedTimestamp).locale("ko").format("YYYY년 MMMM Do h:mm:ss")}`, inline: true }
       )
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });

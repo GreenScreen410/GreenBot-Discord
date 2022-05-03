@@ -1,6 +1,4 @@
 require("dotenv").config();
-const express = require('express');
-const server = express();
 const { Client, Collection } = require("discord.js");
 const { KoreanbotsClient } = require("koreanbots");
 

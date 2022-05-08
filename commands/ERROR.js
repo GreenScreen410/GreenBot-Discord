@@ -1,6 +1,21 @@
 const { MessageEmbed } = require("discord.js");
 
+const embed = new MessageEmbed()
+  .setColor("#FF0000")
+  .setTitle("❌ 오류!")
+
 module.exports = {
+  UNKNOWN_ERROR: function (client, interaction) {
+    const embed = new MessageEmbed()
+      .setColor("#FF0000")
+      .setTitle("❌ 오류!")
+      .setDescription("알 수 없는 오류가 발생하였습니다.")
+      .addFields({ name: "에러 코드", value: "UNKNOWN_ERROR" })
+      .setTimestamp()
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
+    interaction.followUp({ embeds: [embed] });
+  },
+
   INVALID_INTERACTION: function (client, interaction) {
     const embed = new MessageEmbed()
       .setColor("#FF0000")
@@ -13,13 +28,9 @@ module.exports = {
   },
 
   PLEASE_TYPE_ARGUMENTS: function (client, interaction) {
-    const embed = new MessageEmbed()
-      .setColor("#FF0000")
-      .setTitle("❌ 오류!")
-      .setDescription("인자가 주어지지 않았습니다.")
-      .addFields({ name: "에러 코드", value: "PLEASE_TYPE_ARGUMENTS" })
-      .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
+      embed.setDescription("인자가 주어지지 않았습니다.")
+      embed.ddFields({ name: "에러 코드", value: "PLEASE_TYPE_ARGUMENTS" })
+      embed.setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
     interaction.followUp({ embeds: [embed] });
   },
 

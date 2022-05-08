@@ -1,6 +1,7 @@
 const { MessageEmbed } = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const axios = require("axios");
+const userDataSchema = require("../../models/userData");
 const ERROR = require("../ERROR.js");
 
 let game = false;
@@ -38,10 +39,22 @@ module.exports = {
 
       flagData = JSON.parse(JSON.stringify(flagData.data));
       translatedCountryName = JSON.parse(JSON.stringify(translatedCountryName.data));
-      correctAnswer = (translatedCountryName.message.result.translatedText).replace(/\./g, "").replace("의", "");
+      correctAnswer = (translatedCountryName.message.result.translatedText).replace(/\./g, "").replace("의", "").replace(/\s/g,"")
     }
 
     game = true;
+
+    const userData = await userDataSchema.findOne({ userID: interaction.user.id });
+    if (!userData) {
+      const createdData = new userDataSchema({
+        userID: interaction.user.id,
+        userName: interaction.user.username,
+        scores: 1,
+        guessTheFlagScores: 1
+      });
+
+      return await createdData.save().catch(error => ERROR.UNKNOWN_ERROR(client, interaction));
+    }
 
     if (game == true && answer == null) {
       const mainEmbed = new MessageEmbed()
@@ -51,19 +64,19 @@ module.exports = {
         .setThumbnail(`${flagData.flag}`)
         .setTimestamp()
         .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
-
       interaction.followUp({ embeds: [mainEmbed] });
     }
 
     if (game == true && answer == correctAnswer) {
+      userData.updateOne({ userID: interaction.user.id }, { $inc: { scores: 1, guessTheFlagScores: 1 } }).catch(error => ERROR.UNKNOWN_ERROR(client, interaction));
+
       const correctEmbed = new MessageEmbed()
-        .setColor("RANDOM")
+        .setColor("#00FF00")
         .setTitle(`✅ ${interaction.user.tag}님 정답!`)
-        .setDescription(`정답은 **'${correctAnswer}'** 이였습니다.`)
+        .setDescription(`정답은 **'${correctAnswer}'** 이였습니다.\n\n현재 점수: ${userData.guessTheFlagScores}`)
         .setThumbnail(`${flagData.flag}`)
         .setTimestamp()
         .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
-
       interaction.followUp({ embeds: [correctEmbed] });
       return game = false;
     }
@@ -72,15 +85,12 @@ module.exports = {
       const wrongEmbed = new MessageEmbed()
         .setColor("#FF0000")
         .setTitle(`❌ ${interaction.user.tag}님 오답!`)
-        .setDescription(`정답은 **'${correctAnswer}'** 이였습니다.`)
+        .setDescription(`정답은 **'${correctAnswer}'** 이였습니다.\n\n현재 점수: ${userData.guessTheFlagScores}`)
         .setThumbnail(`${flagData.flag}`)
         .setTimestamp()
         .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
-
       interaction.followUp({ embeds: [wrongEmbed] });
       return game = false;
     }
-
-
   }
 };

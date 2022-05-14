@@ -40,7 +40,7 @@ module.exports = {
       };
     });
 
-    const embed = new MessageEmbed()
+    const mainEmbed = new MessageEmbed()
       .setDescription("아래 메뉴에서 카테고리를 골라주세요.")
       .setColor("RANDOM")
       .setTimestamp()
@@ -67,7 +67,7 @@ module.exports = {
     ];
 
     const initialMessage = await interaction.channel.send({
-      embeds: [embed],
+      embeds: [mainEmbed],
       components: components(false),
     });
 

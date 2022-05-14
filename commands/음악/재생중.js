@@ -36,5 +36,25 @@ module.exports = {
       );
 
     interaction.followUp({ embeds: [embed], components: [button] });
+
+    const collector = interaction.channel.createMessageComponentCollector();
+    collector.on("collect", async i => {
+      i.deferUpdate();
+
+      if (i.customId === "musicQueue") {
+        let musicQueueFile = require("./재생목록.js");
+        musicQueueFile.run(client, interaction);
+      }
+
+      if (i.customId === "musicSkip") {
+        let musicSkipFile = require("./넘기기.js");
+        musicSkipFile.run(client, interaction);
+      }
+
+      if (i.customId === "musicQueueClear") {
+        let musicQueueClear = require("./재생목록초기화.js");
+        musicQueueClear.run(client, interaction);
+      }
+    });
   },
 };

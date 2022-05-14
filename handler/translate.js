@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 module.exports = {
-  papago: async function(source, target, text) {
+  papago: async function (source, target, text) {
     let translatedText = await axios({
       method: "POST",
       url: "https://openapi.naver.com/v1/papago/n2mt",
@@ -21,5 +21,5 @@ module.exports = {
     translatedText = translatedText.message.result.translatedText
 
     return translatedText;
-  }
+  },
 };

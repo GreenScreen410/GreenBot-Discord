@@ -33,26 +33,6 @@ client.on("interactionCreate", async (interaction) => {
     const command = client.slashCommands.get(interaction.commandName);
     if (command) command.run(client, interaction);
   }
-
-  // Button Handling
-  if (interaction.isButton()) {
-    await interaction.deferReply({ ephemeral: false });
-
-    if (interaction.customId === "musicQueue") {
-      let musicQueueFile = require("../commands/음악/재생목록.js");
-      musicQueueFile.run(client, interaction);
-    }
-
-    if (interaction.customId === "musicSkip") {
-      let musicSkipFile = require("../commands/음악/넘기기.js");
-      musicSkipFile.run(client, interaction);
-    }
-
-    if (interaction.customId === "musicQueueClear") {
-      let musicQueueClear = require("../commands/음악/재생목록초기화.js");
-      musicQueueClear.run(client, interaction);
-    }
-  }
-
+  
   console.log(`${interaction.commandName} was ran by ${interaction.user.tag}(${interaction.user.id})`);
 });

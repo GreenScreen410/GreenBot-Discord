@@ -29,6 +29,7 @@ module.exports = {
     const button = new MessageActionRow().addComponents(
       new MessageButton().setCustomId("musicQueue").setEmoji("📄").setLabel("재생목록").setStyle("PRIMARY"),
     );
+
     interaction.followUp({ embeds: [embed], components: [button] });
   },
 };

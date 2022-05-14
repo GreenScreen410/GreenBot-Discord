@@ -24,20 +24,16 @@ module.exports = {
       const question = await translate.papago("en", "ko", decodeURIComponent(opentdbData.results[0].question));
 
       let correctAnswer = await translate.papago("en", "ko", decodeURIComponent(opentdbData.results[0].correct_answer));
-      correctAnswer = correctAnswer.replace(/.\s*$/, "");
       if (correctAnswer == "진실의") correctAnswer = "참";
       if (correctAnswer == "거짓의") correctAnswer = "거짓";
 
       let incorrectAnswer1 = await translate.papago("en", "ko", decodeURIComponent(opentdbData.results[0].incorrect_answers[0]));
-      incorrectAnswer1 = incorrectAnswer1.replace(/.\s*$/, "");
       if (incorrectAnswer1 == "진실의") incorrectAnswer1 = "참";
       if (incorrectAnswer1 == "거짓의") incorrectAnswer1 = "거짓";
 
       let incorrectAnswer2 = await translate.papago("en", "ko", decodeURIComponent(opentdbData.results[0].incorrect_answers[1]));
-      incorrectAnswer2 = incorrectAnswer2.replace(/.\s*$/, "");;
 
       let incorrectAnswer3 = await translate.papago("en", "ko", decodeURIComponent(opentdbData.results[0].incorrect_answers[2]));
-      incorrectAnswer3 = incorrectAnswer3.replace(/.\s*$/, "");
 
       const multipleButtons = [
         new MessageButton().setCustomId("correctAnswer").setLabel(`${correctAnswer}`).setStyle("PRIMARY"),

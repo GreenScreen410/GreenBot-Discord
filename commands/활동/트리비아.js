@@ -24,13 +24,20 @@ module.exports = {
       const question = await translate.papago("en", "ko", decodeURIComponent(opentdbData.results[0].question));
 
       let correctAnswer = await translate.papago("en", "ko", decodeURIComponent(opentdbData.results[0].correct_answer));
-      if (correctAnswer == "True") correctAnswer = "참";
+      correctAnswer = correctAnswer.replace(/.\s*$/, "");
+      if (correctAnswer == "진실의") correctAnswer = "참";
+      if (correctAnswer == "거짓의") correctAnswer = "거짓";
 
       let incorrectAnswer1 = await translate.papago("en", "ko", decodeURIComponent(opentdbData.results[0].incorrect_answers[0]));
-      if (incorrectAnswer1 == "False") incorrectAnswer1 = "거짓";
+      incorrectAnswer1 = incorrectAnswer1.replace(/.\s*$/, "");
+      if (incorrectAnswer1 == "진실의") incorrectAnswer1 = "참";
+      if (incorrectAnswer1 == "거짓의") incorrectAnswer1 = "거짓";
 
-      const incorrectAnswer2 = await translate.papago("en", "ko", decodeURIComponent(opentdbData.results[0].incorrect_answers[1]));
-      const incorrectAnswer3 = await translate.papago("en", "ko", decodeURIComponent(opentdbData.results[0].incorrect_answers[2]));
+      let incorrectAnswer2 = await translate.papago("en", "ko", decodeURIComponent(opentdbData.results[0].incorrect_answers[1]));
+      incorrectAnswer2 = incorrectAnswer2.replace(/.\s*$/, "");;
+
+      let incorrectAnswer3 = await translate.papago("en", "ko", decodeURIComponent(opentdbData.results[0].incorrect_answers[2]));
+      incorrectAnswer3 = incorrectAnswer3.replace(/.\s*$/, "");
 
       const multipleButtons = [
         new MessageButton().setCustomId("correctAnswer").setLabel(`${correctAnswer}`).setStyle("PRIMARY"),
@@ -73,20 +80,32 @@ module.exports = {
         if (i.customId === "correctAnswer") {
           const correctEmbed = new MessageEmbed()
             .setColor("#00FF00")
-            .setTitle(`✅ ${interaction.user.tag}님 정답!`)
+            .setTitle(`✅ ${i.user.tag}님 정답!`)
             .setDescription(`정답은 **'${correctAnswer}'** 이였습니다.`)
             .setTimestamp()
-            .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
+            .setFooter({ text: `Requested by ${i.user.tag}`, iconURL: `${i.user.displayAvatarURL()}` });
           return interaction.followUp({ embeds: [correctEmbed] });
 
         } else {
           const wrongEmbed = new MessageEmbed()
             .setColor("#FF0000")
-            .setTitle(`❌ ${interaction.user.tag}님 오답!`)
+            .setTitle(`❌ ${i.user.tag}님 오답!`)
+            .setDescription(`정답은 **'${correctAnswer}'** 이였습니다.`)
+            .setTimestamp()
+            .setFooter({ text: `Requested by ${i.user.tag}`, iconURL: `${i.user.displayAvatarURL()}` });
+          return interaction.followUp({ embeds: [wrongEmbed] });
+        }
+      });
+
+      collector.on("end", collected => {
+        if (collected.size === 0) {
+          const timeoutEmbed = new MessageEmbed()
+            .setColor("#FFFF00")
+            .setTitle(`⏰ ${interaction.user.tag}님 시간 초과!`)
             .setDescription(`정답은 **'${correctAnswer}'** 이였습니다.`)
             .setTimestamp()
             .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
-          return interaction.followUp({ embeds: [wrongEmbed] });
+          return interaction.followUp({ embeds: [timeoutEmbed] });
         }
       });
 

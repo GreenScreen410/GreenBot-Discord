@@ -6,11 +6,45 @@ const translate = require("../../handler/translate.js");
 module.exports = {
   ...new SlashCommandBuilder()
     .setName("트리비아")
-    .setDescription("잡다한 지식들을 얻어보세요! (문제가 번역되어 나오므로 자연스럽지 않을 수 있습니다."),
+    .setDescription("잡다한 지식들을 얻어보세요! (문제가 번역되어 나오므로 자연스럽지 않을 수 있습니다.")
+    .addStringOption(option => 
+      option.setName("카테고리")
+        .setDescription("원하시는 카테고리를 선택해 주세요.")
+        .setRequired(false)
+        .addChoice("일반 지식", "9")
+        .addChoice("엔터테인먼트: 북스", "10")
+        .addChoice("엔터테인먼트: 영화", "11")
+        .addChoice("엔터테인먼트: 음악", "12")
+        .addChoice("엔터테인먼트: 뮤지컬 & 극장", "13")
+        .addChoice("엔터테인먼트: 텔레비전", "14")
+        .addChoice("엔터테인먼트: 비디오 게임", "15")
+        .addChoice("엔터테인먼트: 보드 게임", "16")
+        .addChoice("과학 & 자연", "17")
+        .addChoice("과학: 컴퓨터", "18")
+        .addChoice("과학: 수학", "19")
+        .addChoice("신화", "20")
+        .addChoice("스포츠", "21")
+        .addChoice("지리학", "22")
+        .addChoice("역사", "23")
+        .addChoice("정치", "24")
+        .addChoice("예체능", "25")
+        .addChoice("유명인들", "26")
+        .addChoice("동물", "27")
+        .addChoice("교통 수단", "28")
+        .addChoice("엔터테인먼트: 코믹스", "29")
+        .addChoice("과학: 가젯", "30")
+        .addChoice("엔터테인먼트: 일본 애니메이션 & 만화", "31")
+        .addChoice("엔터테인먼트: 카툰 & 애니메이션", "32"),
+      ),
 
   run: async (client, interaction) => {
     try {
-      let opentdbData = await axios.get("https://opentdb.com/api.php?amount=1&encode=url3986");
+      let opentdbData = await axios.get(`https://opentdb.com/api.php?amount=1&category=${interaction.options.getString("카테고리")}&encode=url3986`);
+      
+      if (!interaction.options.getString("카테고리")) {
+        opentdbData = await axios.get(`https://opentdb.com/api.php?amount=1&encode=url3986`);
+      }
+      
       opentdbData = JSON.parse(JSON.stringify(opentdbData.data));
 
       const category = await translate.papago("en", "ko", decodeURIComponent(opentdbData.results[0].category));
@@ -64,7 +98,7 @@ module.exports = {
         interaction.followUp({ embeds: [mainEmbed], components: [booleanRow] });
       }
 
-      const collector = interaction.channel.createMessageComponentCollector({ max: 1, time: 15000 });
+      const collector = interaction.channel.createMessageComponentCollector({ max: 1, time: 30000 });
       collector.on("collect", i => {
         i.deferUpdate();
 
@@ -101,6 +135,7 @@ module.exports = {
       });
 
     } catch (error) {
+      console.log(error);
       interaction.followUp({ content: `오류가 발생했습니다.\n${error}` });
     }
   }

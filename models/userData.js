@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const userDataSchema = new mongoose.Schema({
   userID: {
@@ -17,17 +17,11 @@ const userDataSchema = new mongoose.Schema({
     default: 0
   },
 
-  guessTheFlagScore: {
+  guessTheFlagScores: {
     type: mongoose.SchemaTypes.Number,
     required: true,
     default: 0
-  },
-
-  triviaScore: {
-    type: mongoose.SchemaTypes.Number,
-    required: true,
-    default: 0
-  },
+  }
 });
 
 module.exports = mongoose.model("userData", userDataSchema);

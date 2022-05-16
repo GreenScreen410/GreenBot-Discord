@@ -14,26 +14,21 @@ module.exports = {
       opentdbData = JSON.parse(JSON.stringify(opentdbData.data));
 
       const category = await translate.papago("en", "ko", decodeURIComponent(opentdbData.results[0].category));
-
       let difficulty = decodeURIComponent(opentdbData.results[0].difficulty);
+      const type = decodeURIComponent(opentdbData.results[0].type);
+      const question = await translate.papago("en", "ko", decodeURIComponent(opentdbData.results[0].question));
+      let correctAnswer = await translate.papago("en", "ko", decodeURIComponent(opentdbData.results[0].correct_answer));
+      let incorrectAnswer1 = await translate.papago("en", "ko", decodeURIComponent(opentdbData.results[0].incorrect_answers[0]));
+      let incorrectAnswer2 = await translate.papago("en", "ko", decodeURIComponent(opentdbData.results[0].incorrect_answers[1]));
+      let incorrectAnswer3 = await translate.papago("en", "ko", decodeURIComponent(opentdbData.results[0].incorrect_answers[2]));
+
       if (difficulty == "easy") difficulty = "쉬움";
       if (difficulty == "medium") difficulty = "중간";
       if (difficulty == "hard") difficulty = "어려움";
-
-      const type = decodeURIComponent(opentdbData.results[0].type);
-      const question = await translate.papago("en", "ko", decodeURIComponent(opentdbData.results[0].question));
-
-      let correctAnswer = await translate.papago("en", "ko", decodeURIComponent(opentdbData.results[0].correct_answer));
       if (correctAnswer == "진실의") correctAnswer = "참";
       if (correctAnswer == "거짓의") correctAnswer = "거짓";
-
-      let incorrectAnswer1 = await translate.papago("en", "ko", decodeURIComponent(opentdbData.results[0].incorrect_answers[0]));
       if (incorrectAnswer1 == "진실의") incorrectAnswer1 = "참";
       if (incorrectAnswer1 == "거짓의") incorrectAnswer1 = "거짓";
-
-      let incorrectAnswer2 = await translate.papago("en", "ko", decodeURIComponent(opentdbData.results[0].incorrect_answers[1]));
-
-      let incorrectAnswer3 = await translate.papago("en", "ko", decodeURIComponent(opentdbData.results[0].incorrect_answers[2]));
 
       const multipleButtons = [
         new MessageButton().setCustomId("correctAnswer").setLabel(`${correctAnswer}`).setStyle("PRIMARY"),

@@ -8,8 +8,12 @@ module.exports = {
   ...new SlashCommandBuilder()
     .setName("반복")
     .setDescription("재생중인 노래를 반복합니다.")
-    .addStringOption((option) =>
-      option.setName("옵션").setDescription("옵션을 지정해 주세요.").setRequired(true).addChoice("노래", "QUEUE").addChoice("끄기", "OFF")
+    .addStringOption(option =>
+      option.setName("옵션")
+        .setDescription("옵션을 지정해 주세요.")
+        .setRequired(true)
+        .addChoices({ name: "노래", value: "QUEUE" })
+        .addChoices({ name: "끄기", value: "OFF" })
     ),
 
   run: function (client, interaction) {

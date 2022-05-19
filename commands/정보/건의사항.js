@@ -17,6 +17,7 @@ module.exports = {
       .setStyle("PARAGRAPH");
     const firstActionRow = new MessageActionRow().addComponents(paragraph);
     modal.addComponents(firstActionRow);
+    
     await interaction.showModal(modal);
   },
 };

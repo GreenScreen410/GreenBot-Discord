@@ -15,6 +15,7 @@ const client = new KoreanbotsClient({
 module.exports = client;
 
 client.slashCommands = new Collection();
+client.cooldowns = new Collection();
 
 require("./handler")(client);
 

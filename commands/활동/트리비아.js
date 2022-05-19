@@ -2,6 +2,9 @@ const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const axios = require("axios");
 const translate = require("../../handler/translate.js");
+const ERROR = require("../ERROR.js");
+
+let game = false;
 
 module.exports = {
   ...new SlashCommandBuilder()
@@ -38,7 +41,21 @@ module.exports = {
       ),
 
   run: async (client, interaction) => {
+    if (client.cooldowns.has(interaction.user.id)) {
+      return ERROR.COOLDOWN_ACTIVATED(client, interaction);
+    } else {
+      client.cooldowns.set(interaction.user.id, true);
+
+      setTimeout(() => {
+        client.cooldowns.delete(interaction.user.id);
+      }, 5000);
+    }
+
     try {
+      if (game == true) {
+        return ERROR.GAME_IS_ALREADY_STARTED(client, interaction);
+      }
+
       let opentdbData = await axios.get(`https://opentdb.com/api.php?amount=1&category=${interaction.options.getString("카테고리")}&encode=url3986`);
       
       if (!interaction.options.getString("카테고리")) {
@@ -98,6 +115,8 @@ module.exports = {
         interaction.followUp({ embeds: [mainEmbed], components: [booleanRow] });
       }
 
+      game = true;
+
       const collector = interaction.channel.createMessageComponentCollector({ max: 1, time: 30000 });
       collector.on("collect", i => {
         i.deferUpdate();
@@ -109,7 +128,8 @@ module.exports = {
             .setDescription(`정답은 **'${correctAnswer}'** 이였습니다.`)
             .setTimestamp()
             .setFooter({ text: `Requested by ${i.user.tag}`, iconURL: `${i.user.displayAvatarURL()}` });
-          return interaction.followUp({ embeds: [correctEmbed] });
+          interaction.followUp({ embeds: [correctEmbed] });
+          return game = false;
 
         } else {
           const wrongEmbed = new MessageEmbed()
@@ -118,7 +138,8 @@ module.exports = {
             .setDescription(`정답은 **'${correctAnswer}'** 이였습니다.`)
             .setTimestamp()
             .setFooter({ text: `Requested by ${i.user.tag}`, iconURL: `${i.user.displayAvatarURL()}` });
-          return interaction.followUp({ embeds: [wrongEmbed] });
+          interaction.followUp({ embeds: [wrongEmbed] });
+          return game = false;
         }
       });
 
@@ -130,13 +151,14 @@ module.exports = {
             .setDescription(`정답은 **'${correctAnswer}'** 이였습니다.`)
             .setTimestamp()
             .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
-          return interaction.followUp({ embeds: [timeoutEmbed] });
+          interaction.followUp({ embeds: [timeoutEmbed] });
+          return game = false;
         }
       });
 
     } catch (error) {
       console.log(error);
-      interaction.followUp({ content: `오류가 발생했습니다.\n${error}` });
+      return interaction.followUp({ content: `오류가 발생했습니다.\n${error}` });
     }
   }
 };

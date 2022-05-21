@@ -34,11 +34,12 @@ client.on("interactionCreate", async (interaction) => {
     if (command) command.run(client, interaction);
   }
 
-  if (!interaction.isModalSubmit()) return;
-  await interaction.deferReply({ ephemeral: true });
-  const paragraph = interaction.fields.getTextInputValue('suggestion');
-  interaction.editReply({ content: "소중한 의견 감사합니다! 차후 버그나 의견이 반영되면 GitHub에 크레딧이 추가됩니다.\n(이 명령어는 현재 테스트 중입니다.)" })
-  interaction.user.send({ content: `userID: ${interaction.user.id}\nuserName: ${interaction.user.tag}\n${paragraph}` });
+  if (interaction.isModalSubmit()) {
+    await interaction.deferReply({ ephemeral: true });
+    const paragraph = interaction.fields.getTextInputValue('suggestion');
+    interaction.editReply({ content: "소중한 의견 감사합니다! 차후 버그나 의견이 반영되면 GitHub에 크레딧이 추가됩니다.\n(이 명령어는 현재 테스트 중입니다.)" });
 
+    interaction.guild.members.cache.get("332840377763758082").send({ content: `userID: ${interaction.user.id}\nuserName: ${interaction.user.tag}\n${paragraph}` });
+  }
   console.log(`${interaction.commandName} was ran by ${interaction.user.tag}(${interaction.user.id})`);
 });

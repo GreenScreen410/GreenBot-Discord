@@ -3,8 +3,8 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 
 module.exports = {
   ...new SlashCommandBuilder()
-  .setName("도움말")
-  .setDescription("사용 가능한 모든 명령어를 확인하세요."),
+    .setName("도움말")
+    .setDescription("사용 가능한 모든 명령어를 확인하세요."),
 
   run: async (client, interaction) => {
     const emojis = {

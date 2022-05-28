@@ -28,40 +28,15 @@ module.exports = {
       if (oldState.channelId === null || typeof oldState.channelId == 'undefined') return;
       if (newState.id !== client.user.id) return;
 
-      queue.destroy();
-
       const disconnectedEmbed = new MessageEmbed()
         .setColor("RANDOM")
         .setTitle("⚠️ 음성 채널 퇴장 감지")
         .setDescription("재생목록이 초기화되었습니다.")
         .setTimestamp()
         .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
-      return interaction.channel.send({ embeds: [disconnectedEmbed] });
+      interaction.channel.send({ embeds: [disconnectedEmbed] });
+      return queue.destroy();
     });
-
-    player.on("error", (queue) => {
-      queue.destroy();
-
-      const disconnectedEmbed = new MessageEmbed()
-        .setColor("RANDOM")
-        .setTitle("⚠️ 음성 채널 퇴장 감지")
-        .setDescription("재생목록이 초기화되었습니다.")
-        .setTimestamp()
-        .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
-      return interaction.channel.send({ embeds: [disconnectedEmbed] });
-    })
-    
-    player.on("connectionError", (queue) => {
-      queue.destroy();
-
-      const disconnectedEmbed = new MessageEmbed()
-        .setColor("RANDOM")
-        .setTitle("⚠️ 음성 채널 퇴장 감지")
-        .setDescription("재생목록이 초기화되었습니다.")
-        .setTimestamp()
-        .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
-      return interaction.channel.send({ embeds: [disconnectedEmbed] });
-    })
 
     try {
       if (!queue.connection) await queue.connect(interaction.member.voice.channel);

@@ -23,20 +23,31 @@ module.exports = {
       metadata: interaction,
     });
 
+    const disconnectedEmbed = new MessageEmbed()
+      .setColor("RANDOM")
+      .setTitle("⚠️ 음성 채널 퇴장 감지")
+      .setDescription("재생목록이 초기화되었습니다.")
+      .setTimestamp()
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
+
     client.on('voiceStateUpdate', (oldState, newState) => {
       if (!queue || !queue.playing) return;
       if (oldState.channelId === null || typeof oldState.channelId == 'undefined') return;
       if (newState.id !== client.user.id) return;
 
-      const disconnectedEmbed = new MessageEmbed()
-        .setColor("RANDOM")
-        .setTitle("⚠️ 음성 채널 퇴장 감지")
-        .setDescription("재생목록이 초기화되었습니다.")
-        .setTimestamp()
-        .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
-      queue.clear(); queue.destroy();
+      queue.destroy();
       return interaction.channel.send({ embeds: [disconnectedEmbed] });
     });
+
+    player.on("error", (queue) => {
+      queue.destroy();
+      return interaction.channel.send({ embeds: [disconnectedEmbed] });
+    })
+
+    player.on("connectionError", (queue) => {
+      queue.destroy();
+      return interaction.channel.send({ embeds: [disconnectedEmbed] });
+    })
 
     try {
       if (!queue.connection) await queue.connect(interaction.member.voice.channel);
@@ -52,7 +63,7 @@ module.exports = {
     if (!track || !track.tracks.length) {
       return ERROR.CAN_NOT_FIND_MUSIC(client, interaction);
     }
-    
+
     const embed = new MessageEmbed()
       .setColor("RANDOM")
       .setTitle(`🎶 ${track.playlist ? "playlist" : "재생목록에 추가되었습니다."}`)

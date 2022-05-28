@@ -1,6 +1,5 @@
 const { MessageEmbed } = require("discord.js");
 
-const embed = new MessageEmbed()
 module.exports = {
   UNKNOWN_ERROR: function (client, interaction) {
     const embed = new MessageEmbed()

@@ -10,12 +10,10 @@ const player = new Player(client, {
 });
 
 player.on("error", (queue, error) => {
-  ERROR.UNKNOWN_ERROR(client, queue.metadata);
   return queue.destroy();
 });
 
 player.on("connectionError", (queue, error) => {
-  ERROR.CAN_NOT_JOIN_VOICE_CHANNEL(client, queue.metadata);
   return queue.destroy();
 });
 

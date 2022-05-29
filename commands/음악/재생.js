@@ -34,8 +34,8 @@ module.exports = {
         .setDescription("재생목록이 초기화되었습니다.")
         .setTimestamp()
         .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
-      interaction.channel.send({ embeds: [disconnectedEmbed] });
-      return queue.destroy();
+      queue.clear(); queue.destroy();
+      return interaction.channel.send({ embeds: [disconnectedEmbed] });
     });
 
     try {

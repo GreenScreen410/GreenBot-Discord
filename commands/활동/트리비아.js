@@ -68,24 +68,24 @@ module.exports = {
       let difficulty = decodeURIComponent(opentdbData.results[0].difficulty);
       const type = decodeURIComponent(opentdbData.results[0].type);
       const question = await translate.kakao("en", "kr", decodeURIComponent(opentdbData.results[0].question));
-      let correctAnswer = await translate.papago("en", "ko", decodeURIComponent(opentdbData.results[0].correct_answer));
-      let incorrectAnswer1 = await translate.papago("en", "ko", decodeURIComponent(opentdbData.results[0].incorrect_answers[0]));
-      let incorrectAnswer2 = await translate.papago("en", "ko", decodeURIComponent(opentdbData.results[0].incorrect_answers[1]));
-      let incorrectAnswer3 = await translate.papago("en", "ko", decodeURIComponent(opentdbData.results[0].incorrect_answers[2]));
+      let correctAnswer = decodeURIComponent(opentdbData.results[0].correct_answer);
+      let incorrectAnswer1 = decodeURIComponent(opentdbData.results[0].incorrect_answers[0]);
+      let incorrectAnswer2 = decodeURIComponent(opentdbData.results[0].incorrect_answers[1]);
+      let incorrectAnswer3 = decodeURIComponent(opentdbData.results[0].incorrect_answers[2]);
 
       if (difficulty == "easy") difficulty = "쉬움";
       if (difficulty == "medium") difficulty = "중간";
       if (difficulty == "hard") difficulty = "어려움";
-      if (correctAnswer == "진실의") correctAnswer = "참";
-      if (correctAnswer == "거짓의") correctAnswer = "거짓";
-      if (incorrectAnswer1 == "진실의") incorrectAnswer1 = "참";
-      if (incorrectAnswer1 == "거짓의") incorrectAnswer1 = "거짓";
+      if (correctAnswer == "True") correctAnswer = "참";
+      if (correctAnswer == "False") correctAnswer = "거짓";
+      if (incorrectAnswer1 == "True") incorrectAnswer1 = "참";
+      if (incorrectAnswer1 == "False") incorrectAnswer1 = "거짓";
 
       const multipleButtons = [
-        new MessageButton().setCustomId("correctAnswer").setLabel(`${correctAnswer}`).setStyle("PRIMARY"),
-        new MessageButton().setCustomId("incorrectAnswer1").setLabel(`${incorrectAnswer1}`).setStyle("PRIMARY"),
-        new MessageButton().setCustomId("incorrectAnswer2").setLabel(`${incorrectAnswer2}`).setStyle("PRIMARY"),
-        new MessageButton().setCustomId("incorrectAnswer3").setLabel(`${incorrectAnswer3}`).setStyle("PRIMARY"),
+        new MessageButton().setCustomId("correctAnswer").setLabel(`${correctAnswer + " (" + await translate.kakao("en", "kr", correctAnswer) + ")"}`).setStyle("PRIMARY"),
+        new MessageButton().setCustomId("incorrectAnswer1").setLabel(`${incorrectAnswer1 + " (" + await translate.kakao("en", "kr", incorrectAnswer1) + ")"}`).setStyle("PRIMARY"),
+        new MessageButton().setCustomId("incorrectAnswer2").setLabel(`${incorrectAnswer2 + " (" + await translate.kakao("en", "kr", incorrectAnswer2) + ")"}`).setStyle("PRIMARY"),
+        new MessageButton().setCustomId("incorrectAnswer3").setLabel(`${incorrectAnswer3 + " (" + await translate.kakao("en", "kr", incorrectAnswer3) + ")"}`).setStyle("PRIMARY"),
       ]
       multipleButtons.sort(() => Math.random() - 0.5);
       const multipleRow = new MessageActionRow().addComponents(...multipleButtons)
@@ -97,7 +97,8 @@ module.exports = {
       booleanButtons.sort(() => Math.random() - 0.5);
       const booleanRow = new MessageActionRow().addComponents(...booleanButtons)
 
-      const mainEmbed = new MessageEmbed()
+      if (type === "multiple") {
+        const multipleEmbed = new MessageEmbed()
         .setColor("RANDOM")
         .setTitle("🧠 트리비아")
         .setDescription(`${question}`)
@@ -109,10 +110,22 @@ module.exports = {
         .setTimestamp()
         .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
 
-      if (type === "multiple") {
-        interaction.followUp({ embeds: [mainEmbed], components: [multipleRow] });
+        interaction.followUp({ embeds: [multipleEmbed], components: [multipleRow] });
+
       } else {
-        interaction.followUp({ embeds: [mainEmbed], components: [booleanRow] });
+        const booleanEmbed = new MessageEmbed()
+        .setColor("RANDOM")
+        .setTitle("🧠 트리비아")
+        .setDescription(`${question}`)
+        .addFields(
+          { name: "원문", value: `${decodeURIComponent(opentdbData.results[0].question)}`, inline: false },
+          { name: "📋 카테고리", value: `${category}`, inline: true },
+          { name: "🤔 난이도", value: `${difficulty}`, inline: true },
+        )
+        .setTimestamp()
+        .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
+
+        interaction.followUp({ embeds: [booleanEmbed], components: [booleanRow] });
       }
 
       game = true;

@@ -12,7 +12,6 @@ module.exports = {
   run: async (client, interaction) => {
     const schoolName = interaction.options.getString("학교명");
     let schoolData = await axios.get(`https://schoolmenukr.ml/code/api?q=${encodeURIComponent(schoolName)}`);
-    console.log(schoolData);
     schoolData = JSON.parse(JSON.stringify(schoolData.data));
 
     try {

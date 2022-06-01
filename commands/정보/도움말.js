@@ -20,7 +20,7 @@ module.exports = {
       서버: "현재 접속해 있는 서버 관련 정보를 얻을 수 있습니다.",
       음악: "음악 재생, 가사 등의 기능을 제공합니다.",
       유저: "유저(사용자) 관련 정보를 얻을 수 있습니다.",
-      활동: "채팅으로 즐길 수 있는 게임들이 있습니다.",
+      활동: "채팅으로 즐길 수 있는 것들이 있습니다.",
     };
 
     const directories = [...new Set(client.slashCommands.map((cmd) => cmd.directory))];
@@ -49,7 +49,7 @@ module.exports = {
     const components = (state) => [
       new MessageActionRow().addComponents(
         new MessageSelectMenu()
-          .setCustomId("help-menu")
+          .setCustomId("help")
           .setPlaceholder("카테고리를 골라주세요.")
           .setDisabled(state)
           .addOptions(
@@ -58,7 +58,6 @@ module.exports = {
                 label: cmd.directory,
                 value: cmd.directory.toLowerCase(),
                 description: descriptions[cmd.directory.toLowerCase()] || null,
-                // description: `${cmd.directory} 카테고리에 있는 명령어들입니다.` || null,
                 emoji: emojis[cmd.directory.toLowerCase()] || null,
               };
             })
@@ -66,7 +65,7 @@ module.exports = {
       ),
     ];
 
-    const initialMessage = await interaction.channel.send({
+    const initialMessage = await interaction.followUp({
       embeds: [mainEmbed],
       components: components(false),
     });
@@ -96,7 +95,15 @@ module.exports = {
           })
         );
 
-      interaction.reply({ embeds: [categoryEmbed], ephemeral: true });
+      interaction.update({ embeds: [categoryEmbed], ephemeral: true });
     });
+
+    /*
+    If `time: number` triggered, This event will execute.
+
+    collector.on("end", () => {
+      initialMessage.edit({ components: components(true) });
+    });
+    */
   },
 };

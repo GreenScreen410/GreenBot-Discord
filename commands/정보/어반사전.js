@@ -5,7 +5,7 @@ const axios = require("axios");
 module.exports = {
   ...new SlashCommandBuilder()
     .setName("어반사전")
-    .setDescription("어반사전을 확인합니다.")
+    .setDescription("인터넷 영어 오픈사전인 어반사전에서 단어를 검색합니다.")
     .addStringOption((option) => option.setName("단어").setDescription("원하시는 단어를 입력해 주세요.").setRequired(true)),
 
   run: async (client, interaction) => {

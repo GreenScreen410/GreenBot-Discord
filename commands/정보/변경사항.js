@@ -24,7 +24,8 @@ module.exports = {
     try {
       const embed = new MessageEmbed()
         .setColor("RANDOM")
-        .setTitle("GitHub")
+        .setTitle("GitHub로 이동하기")
+        .setURL("https://github.com/GreenScreen410/GreenBot-Discord")
         .addFields(
           { name: "최근 커밋", value: latestCommit, inline: false },
           { name: "최근 릴리즈", value: latestRelease, inline: false }

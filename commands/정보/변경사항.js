@@ -24,8 +24,11 @@ module.exports = {
     try {
       const embed = new MessageEmbed()
         .setColor("RANDOM")
-        .setTitle(`최근 변경사항: ${latestCommit}`)
-        .setDescription(`${latestRelease}`)
+        .setTitle("GitHub")
+        .addFields(
+          { name: "최근 커밋", value: latestCommit, inline: false },
+          { name: "최근 릴리즈", value: latestRelease, inline: false }
+        )
         .setTimestamp()
         .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
 

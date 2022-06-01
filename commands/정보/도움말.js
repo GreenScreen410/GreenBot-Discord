@@ -96,11 +96,7 @@ module.exports = {
           })
         );
 
-      interaction.update({ embeds: [categoryEmbed] });
-    });
-
-    collector.on("end", () => {
-      initialMessage.description({ components: components(true) });
+      interaction.reply({ embeds: [categoryEmbed], ephemeral: true });
     });
   },
 };

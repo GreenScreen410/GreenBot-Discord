@@ -1,5 +1,6 @@
 const { MessageEmbed, MessageActionRow, MessageSelectMenu } = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const package = require("../../package.json");
 
 module.exports = {
   ...new SlashCommandBuilder()
@@ -41,6 +42,7 @@ module.exports = {
     });
 
     const mainEmbed = new MessageEmbed()
+      .setTitle(`그린Bot v${package.version}`)
       .setDescription("아래 메뉴에서 카테고리를 골라주세요.")
       .setColor("RANDOM")
       .setTimestamp()

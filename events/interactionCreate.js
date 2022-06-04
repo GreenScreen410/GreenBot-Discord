@@ -37,6 +37,5 @@ client.on("interactionCreate", async (interaction) => {
   let date = new Date();
   date = date.getFullYear() + "" + ((date.getMonth() + 1) > 9 ? (date.getMonth() + 1).toString() : "0" + (date.getMonth() + 1)) + "" + (date.getDate() > 9 ? date.getDate().toString() : "0" + date.getDate().toString());
 
-
-  console.log(`${date + " " + interaction.commandName} was ran by ${interaction.user.tag}(${interaction.user.id})`);
+  console.log(`${date + " " + interaction.commandName} was ran by ${interaction.guild.name} - ${interaction.user.tag}(${interaction.user.id})`);
 });

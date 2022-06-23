@@ -1,6 +1,5 @@
 const axios = require("axios");
 
-
 module.exports = {
   papago: async function (source, target, text) {
     let translatedText = await axios({

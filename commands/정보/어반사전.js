@@ -1,5 +1,4 @@
-const { MessageEmbed } = require("discord.js");
-const { SlashCommandBuilder } = require("@discordjs/builders");
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 const axios = require("axios");
 
 module.exports = {
@@ -13,8 +12,8 @@ module.exports = {
     let urbanDictionaryData = await axios.get(`https://api.urbandictionary.com/v0/define?term=${encodeURIComponent(word)}`);
     urbanDictionaryData = JSON.parse(JSON.stringify(urbanDictionaryData.data));
 
-    const embed = new MessageEmbed()
-      .setColor("RANDOM")
+    const embed = new EmbedBuilder()
+      .setColor("Random")
       .setTitle(`${urbanDictionaryData.list[0].word}`)
       .setURL(`${urbanDictionaryData.list[0].permalink}`)
       .setDescription(`${urbanDictionaryData.list[0].definition}`)

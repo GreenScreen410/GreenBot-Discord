@@ -1,5 +1,4 @@
-const { MessageEmbed } = require("discord.js");
-const { SlashCommandBuilder } = require("@discordjs/builders");
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 const axios = require("axios");
 const ERROR = require("../ERROR");
 
@@ -15,8 +14,8 @@ module.exports = {
     schoolData = JSON.parse(JSON.stringify(schoolData.data));
 
     try {
-      const embed = new MessageEmbed()
-        .setColor("RANDOM")
+      const embed = new EmbedBuilder()
+        .setColor("Random")
         .setTitle(`${schoolData.school_infos[0].name} 정보`)
         .setDescription(`${schoolData.school_infos[0].website}`)
         .addFields(

@@ -1,5 +1,4 @@
-const { MessageEmbed } = require("discord.js");
-const { SlashCommandBuilder } = require("@discordjs/builders");
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 const axios = require("axios");
 const cheerio = require("cheerio");
 const ERROR = require("../ERROR");
@@ -22,8 +21,8 @@ module.exports = {
     const latestCommit = githubCommitData("#repo-content-pjax-container > div > div.commit.full-commit.mt-0.px-2.pt-2 > div.commit-title.markdown-title").text().trim();
 
     try {
-      const embed = new MessageEmbed()
-        .setColor("RANDOM")
+      const embed = new EmbedBuilder()
+        .setColor("Random")
         .setTitle("GitHub로 이동하기")
         .setURL("https://github.com/GreenScreen410/GreenBot-Discord")
         .addFields(

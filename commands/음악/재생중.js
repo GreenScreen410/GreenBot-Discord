@@ -1,4 +1,4 @@
-const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder } = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const player = require("../../events/player");
 const ERROR = require("../ERROR");
@@ -13,26 +13,26 @@ module.exports = {
     if (!queue || !queue.playing) {
       return ERROR.MUSIC_QUEUE_IS_EMPTY(client, interaction);
     }
-    if (interaction.guild.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.me.voice.channelId) {
+    if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
       return ERROR.PLEASE_JOIN_SAME_VOICE_CHANNEL(client, interaction);
     }
 
     const progress = queue.createProgressBar();
     const perc = queue.getPlayerTimestamp();
 
-    const embed = new MessageEmbed()
-      .setColor("RANDOM")
+    const embed = new EmbedBuilder()
+      .setColor("Random")
       .setTitle("재생중인 노래")
       .setDescription(`🎶 | **${queue.current.title}**! (\`${perc.progress}%\`)`)
       .addFields({ name: "\u200b", value: progress })
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
 
-    const button = new MessageActionRow()
+    const button = new ActionRowBuilder()
       .addComponents(
-        new MessageButton().setCustomId("musicQueue").setEmoji("📄").setLabel("재생목록").setStyle("PRIMARY"),
-        new MessageButton().setCustomId("musicQueueClear").setEmoji("💥").setLabel("재생목록 비우기").setStyle("PRIMARY"),
-        new MessageButton().setCustomId("musicSkip").setEmoji("⏭").setLabel("넘기기").setStyle("PRIMARY")
+        new ButtonBuilder().setCustomId("musicQueue").setEmoji("📄").setLabel("재생목록").setStyle(1),
+        new ButtonBuilder().setCustomId("musicQueueClear").setEmoji("💥").setLabel("재생목록 비우기").setStyle(1),
+        new ButtonBuilder().setCustomId("musicSkip").setEmoji("⏭").setLabel("넘기기").setStyle(1)
       );
 
     interaction.followUp({ embeds: [embed], components: [button] });

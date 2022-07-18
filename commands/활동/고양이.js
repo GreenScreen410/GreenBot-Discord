@@ -1,5 +1,4 @@
-const { MessageEmbed } = require("discord.js");
-const { SlashCommandBuilder } = require("@discordjs/builders");
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 const axios = require("axios");
 
 module.exports = {
@@ -18,8 +17,8 @@ module.exports = {
 
     theCatAPIData = JSON.parse(JSON.stringify(theCatAPIData.data));
 
-    const embed = new MessageEmbed()
-      .setColor("RANDOM")
+    const embed = new EmbedBuilder()
+      .setColor("Random")
       .setImage(`${theCatAPIData[0].url}`)
       .setTitle("🐱")
       .setTimestamp()

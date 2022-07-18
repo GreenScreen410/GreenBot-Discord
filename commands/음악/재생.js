@@ -1,5 +1,4 @@
-const { MessageEmbed } = require("discord.js");
-const { SlashCommandBuilder } = require("@discordjs/builders");
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 const { QueryType } = require("discord-player");
 const player = require("../../events/player");
 const ERROR = require("../ERROR");
@@ -15,7 +14,7 @@ module.exports = {
     if (!interaction.member.voice.channel) {
       return ERROR.PLEASE_JOIN_VOICE_CHANNEL(client, interaction);
     }
-    if (interaction.guild.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.me.voice.channelId) {
+    if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
       return ERROR.PLEASE_JOIN_SAME_VOICE_CHANNEL(client, interaction);
     }
 
@@ -28,8 +27,8 @@ module.exports = {
       if (oldState.channelId === null || typeof oldState.channelId == 'undefined') return;
       if (newState.id !== client.user.id) return;
 
-      const disconnectedEmbed = new MessageEmbed()
-        .setColor("RANDOM")
+      const disconnectedEmbed = new EmbedBuilder()
+        .setColor("Random")
         .setTitle("⚠️ 음성 채널 퇴장 감지")
         .setDescription("재생목록이 초기화되었습니다.")
         .setTimestamp()
@@ -53,8 +52,8 @@ module.exports = {
       return ERROR.CAN_NOT_FIND_MUSIC(client, interaction);
     }
     
-    const embed = new MessageEmbed()
-      .setColor("RANDOM")
+    const embed = new EmbedBuilder()
+      .setColor("Random")
       .setTitle(`🎶 ${track.playlist ? "playlist" : "재생목록에 추가되었습니다."}`)
       .setURL(`${track.tracks[0].url}`)
       .setTimestamp()

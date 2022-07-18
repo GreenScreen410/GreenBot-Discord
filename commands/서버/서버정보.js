@@ -1,5 +1,4 @@
-const { MessageEmbed } = require("discord.js");
-const { SlashCommandBuilder } = require("@discordjs/builders");
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 const moment = require("moment");
 const ERROR = require("../ERROR");
 
@@ -9,15 +8,11 @@ module.exports = {
     .setDescription("현재 서버의 정보를 보여줍니다."),
 
   run: async (client, interaction) => {
-    if (interaction.channel.type === "DM") {
-      return ERROR.CAN_NOT_USE_IN_DM(client, interaction);
-    }
-
     const roles = interaction.guild.roles.cache.sort((a, b) => b.position - a.position).map((role) => role.toString());
     const channels = interaction.guild.channels.cache.map((channel) => channel.toString());
 
-    const embed = new MessageEmbed()
-      .setColor("RANDOM")
+    const embed = new EmbedBuilder()
+      .setColor("Random")
       .setThumbnail(`${interaction.guild.iconURL()}`)
       .setTitle(`'${interaction.guild.name}' 정보`)
       .addFields(

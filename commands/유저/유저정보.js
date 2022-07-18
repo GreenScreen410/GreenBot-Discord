@@ -1,5 +1,4 @@
-const { MessageEmbed } = require("discord.js");
-const { SlashCommandBuilder } = require("@discordjs/builders");
+const { EmbedBuilder, SlashCommandBuilder} = require("discord.js");
 const moment = require("moment");
 const os = require("os");
 const ERROR = require("../ERROR");
@@ -17,8 +16,8 @@ module.exports = {
     }
 
     if (user.id == "767371161083314236") {
-      const embed = new MessageEmbed()
-      .setColor("RANDOM")
+      const embed = new EmbedBuilder()
+      .setColor("Random")
       .setTitle(`${user.tag}의 정보`)
       .setThumbnail(user.displayAvatarURL())
       .addFields(
@@ -35,8 +34,8 @@ module.exports = {
     interaction.followUp({ embeds: [embed] });
 
     } else {
-      const embed = new MessageEmbed()
-      .setColor("RANDOM")
+      const embed = new EmbedBuilder()
+      .setColor("Random")
       .setTitle(`${user.tag}의 정보`)
       .setThumbnail(user.displayAvatarURL())
       .addFields(

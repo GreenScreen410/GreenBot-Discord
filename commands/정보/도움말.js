@@ -1,5 +1,4 @@
-const { MessageEmbed, MessageActionRow, MessageSelectMenu } = require("discord.js");
-const { SlashCommandBuilder } = require("@discordjs/builders");
+const { EmbedBuilder, ActionRowBuilder, SelectMenuBuilder, SlashCommandBuilder } = require("discord.js");
 const package = require("../../package.json");
 
 module.exports = {
@@ -41,16 +40,16 @@ module.exports = {
       };
     });
 
-    const mainEmbed = new MessageEmbed()
+    const mainEmbed = new EmbedBuilder()
       .setTitle(`그린Bot v${package.version}`)
       .setDescription("아래 메뉴에서 카테고리를 골라주세요.")
-      .setColor("RANDOM")
+      .setColor("Random")
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
 
     const components = (state) => [
-      new MessageActionRow().addComponents(
-        new MessageSelectMenu()
+      new ActionRowBuilder().addComponents(
+        new SelectMenuBuilder()
           .setCustomId("help")
           .setPlaceholder("카테고리를 골라주세요.")
           .setDisabled(state)
@@ -83,9 +82,9 @@ module.exports = {
       const [directory] = interaction.values;
       const category = categories.find((x) => x.directory.toLowerCase() === directory);
 
-      const categoryEmbed = new MessageEmbed()
+      const categoryEmbed = new EmbedBuilder()
         .setTitle(`${directory}`)
-        .setColor("RANDOM")
+        .setColor("Random")
         .setDescription("해당 카테고리에 있는 명령어들입니다.")
         .addFields(
           category.commands.map((cmd) => {

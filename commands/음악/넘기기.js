@@ -1,5 +1,4 @@
-const { MessageEmbed } = require('discord.js');
-const { SlashCommandBuilder } = require("@discordjs/builders");
+const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
 const { QueueRepeatMode } = require("discord-player");
 const player = require("../../events/player");
 const ERROR = require("../ERROR");
@@ -14,15 +13,15 @@ module.exports = {
     if (!queue || !queue.playing) {
       return ERROR.MUSIC_QUEUE_IS_EMPTY(client, interaction);
     }
-    if (interaction.guild.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.me.voice.channelId) {
+    if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
       return ERROR.PLEASE_JOIN_SAME_VOICE_CHANNEL(client, interaction);
     }
 
     queue.setRepeatMode(QueueRepeatMode.OFF);
     queue.skip();
 
-    const embed = new MessageEmbed()
-      .setColor("RANDOM")
+    const embed = new EmbedBuilder()
+      .setColor("Random")
       .setTitle("⏩ 재생중인 노래를 넘겼습니다!")
       .setDescription(`${queue.current.title}`)
       .setTimestamp()

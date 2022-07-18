@@ -1,5 +1,4 @@
-const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
-const { SlashCommandBuilder } = require("@discordjs/builders");
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, SlashCommandBuilder } = require("discord.js");
 const axios = require("axios");
 const translate = require("../../handler/translate.js");
 const ERROR = require("../ERROR.js");
@@ -82,24 +81,24 @@ module.exports = {
       if (incorrectAnswer1 == "False") incorrectAnswer1 = "거짓";
 
       const multipleButtons = [
-        new MessageButton().setCustomId("correctAnswer").setLabel(`${correctAnswer + " (" + await translate.kakao("en", "kr", correctAnswer) + ")"}`).setStyle("PRIMARY"),
-        new MessageButton().setCustomId("incorrectAnswer1").setLabel(`${incorrectAnswer1 + " (" + await translate.kakao("en", "kr", incorrectAnswer1) + ")"}`).setStyle("PRIMARY"),
-        new MessageButton().setCustomId("incorrectAnswer2").setLabel(`${incorrectAnswer2 + " (" + await translate.kakao("en", "kr", incorrectAnswer2) + ")"}`).setStyle("PRIMARY"),
-        new MessageButton().setCustomId("incorrectAnswer3").setLabel(`${incorrectAnswer3 + " (" + await translate.kakao("en", "kr", incorrectAnswer3) + ")"}`).setStyle("PRIMARY"),
+        new ButtonBuilder().setCustomId("correctAnswer").setLabel(`${correctAnswer + " (" + await translate.kakao("en", "kr", correctAnswer) + ")"}`).setStyle(1),
+        new ButtonBuilder().setCustomId("incorrectAnswer1").setLabel(`${incorrectAnswer1 + " (" + await translate.kakao("en", "kr", incorrectAnswer1) + ")"}`).setStyle(1),
+        new ButtonBuilder().setCustomId("incorrectAnswer2").setLabel(`${incorrectAnswer2 + " (" + await translate.kakao("en", "kr", incorrectAnswer2) + ")"}`).setStyle(1),
+        new ButtonBuilder().setCustomId("incorrectAnswer3").setLabel(`${incorrectAnswer3 + " (" + await translate.kakao("en", "kr", incorrectAnswer3) + ")"}`).setStyle(1),
       ]
       multipleButtons.sort(() => Math.random() - 0.5);
-      const multipleRow = new MessageActionRow().addComponents(...multipleButtons)
+      const multipleRow = new ActionRowBuilder().addComponents(...multipleButtons)
 
       const booleanButtons = [
-        new MessageButton().setCustomId("correctAnswer").setLabel(`${correctAnswer}`).setStyle("PRIMARY"),
-        new MessageButton().setCustomId("incorrectAnswer1").setLabel(`${incorrectAnswer1}`).setStyle("PRIMARY"),
+        new ButtonBuilder().setCustomId("correctAnswer").setLabel(`${correctAnswer}`).setStyle(1),
+        new ButtonBuilder().setCustomId("incorrectAnswer1").setLabel(`${incorrectAnswer1}`).setStyle(1),
       ]
       booleanButtons.sort(() => Math.random() - 0.5);
-      const booleanRow = new MessageActionRow().addComponents(...booleanButtons)
+      const booleanRow = new ActionRowBuilder().addComponents(...booleanButtons)
 
       if (type === "multiple") {
-        const multipleEmbed = new MessageEmbed()
-        .setColor("RANDOM")
+        const multipleEmbed = new EmbedBuilder()
+        .setColor("Random")
         .setTitle("🧠 트리비아")
         .setDescription(`${question}`)
         .addFields(
@@ -113,8 +112,8 @@ module.exports = {
         interaction.followUp({ embeds: [multipleEmbed], components: [multipleRow] });
 
       } else {
-        const booleanEmbed = new MessageEmbed()
-        .setColor("RANDOM")
+        const booleanEmbed = new EmbedBuilder()
+        .setColor("Random")
         .setTitle("🧠 트리비아")
         .setDescription(`${question}`)
         .addFields(
@@ -135,7 +134,7 @@ module.exports = {
         i.deferUpdate();
 
         if (i.customId === "correctAnswer") {
-          const correctEmbed = new MessageEmbed()
+          const correctEmbed = new EmbedBuilder()
             .setColor("#00FF00")
             .setTitle(`✅ ${i.user.tag}님 정답!`)
             .setDescription(`정답은 **'${correctAnswer}'** 이였습니다.`)
@@ -145,7 +144,7 @@ module.exports = {
           return game = false;
 
         } else {
-          const wrongEmbed = new MessageEmbed()
+          const wrongEmbed = new EmbedBuilder()
             .setColor("#FF0000")
             .setTitle(`❌ ${i.user.tag}님 오답!`)
             .setDescription(`정답은 **'${correctAnswer}'** 이였습니다.`)
@@ -158,7 +157,7 @@ module.exports = {
 
       collector.on("end", collected => {
         if (collected.size === 0) {
-          const timeoutEmbed = new MessageEmbed()
+          const timeoutEmbed = new EmbedBuilder()
             .setColor("#FFFF00")
             .setTitle(`⏰ ${interaction.user.tag}님 시간 초과!`)
             .setDescription(`정답은 **'${correctAnswer}'** 이였습니다.`)

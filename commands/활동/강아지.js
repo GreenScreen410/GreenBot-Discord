@@ -1,5 +1,4 @@
-const { MessageEmbed } = require("discord.js");
-const { SlashCommandBuilder } = require("@discordjs/builders");
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 const axios = require("axios");
 
 module.exports = {
@@ -18,8 +17,8 @@ module.exports = {
 
     theDogAPIData = JSON.parse(JSON.stringify(theDogAPIData.data));
 
-    const embed = new MessageEmbed()
-      .setColor("RANDOM")
+    const embed = new EmbedBuilder()
+      .setColor("Random")
       .setImage(`${theDogAPIData[0].url}`)
       .setTitle("🐶")
       .setTimestamp()

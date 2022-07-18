@@ -1,5 +1,4 @@
-const { MessageEmbed } = require("discord.js");
-const { SlashCommandBuilder } = require("@discordjs/builders");
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 const player = require("../../events/player");
 const ERROR = require("../ERROR");
 
@@ -13,7 +12,7 @@ module.exports = {
     if (!queue || !queue.playing) {
       return ERROR.MUSIC_QUEUE_IS_EMPTY(client, interaction);
     }
-    if (interaction.guild.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.me.voice.channelId) {
+    if (interaction.guild.members.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
       return ERROR.PLEASE_JOIN_SAME_VOICE_CHANNEL(client, interaction);
     }
 
@@ -22,8 +21,8 @@ module.exports = {
       return `${i + 1}. [**${m.title}**](${m.url}) - ${m.requestedBy.tag}`;
     });
 
-    const embed = new MessageEmbed()
-      .setColor("RANDOM")
+    const embed = new EmbedBuilder()
+      .setColor("Random")
       .setTitle("노래 재생목록")
       .setDescription(`${tracks.join("\n")}${queue.tracks.length > tracks.length ? `\n...${queue.tracks.length - tracks.length === 1 ? `${queue.tracks.length - tracks.length} more track` : `${queue.tracks.length - tracks.length} more tracks`}` : ""}`)
       .addFields({

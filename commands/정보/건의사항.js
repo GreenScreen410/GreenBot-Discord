@@ -26,6 +26,7 @@ module.exports = {
     const descriptionInput = new TextInputBuilder()
       .setCustomId("descriptionInput")
       .setLabel("작성된 의견은 개발자 서버로 전송되며, 모두 읽고 있습니다.")
+      .setMaxLength(1000)
       .setStyle(TextInputStyle.Paragraph);
 
     /*

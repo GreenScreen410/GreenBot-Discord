@@ -1,5 +1,4 @@
 const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
-const ERROR = require("../ERROR");
 
 module.exports = {
   ...new SlashCommandBuilder()

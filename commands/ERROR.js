@@ -76,6 +76,13 @@ module.exports = {
     interaction.followUp({ embeds: [embed] });
   },
 
+  MUSIC_IS_PLAYING: function (client, interaction) {
+    embed.setDescription("재생중인 노래가 있습니다.")
+    embed.addFields({ name: "에러 코드", value: "MUSIC_IS_PLAYING" })
+    embed.setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
+    interaction.followUp({ embeds: [embed] });
+  },
+
   CAN_NOT_FIND_MUSIC: function (client, interaction) {
     embed.setDescription("노래를 찾을 수 없습니다.")
     embed.addFields({ name: "에러 코드", value: "CAN_NOT_FIND_MUSIC" })

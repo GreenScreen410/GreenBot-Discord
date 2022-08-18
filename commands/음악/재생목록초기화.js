@@ -4,8 +4,8 @@ const ERROR = require("../ERROR");
 
 module.exports = {
   ...new SlashCommandBuilder()
-  .setName("재생목록초기화")
-  .setDescription("노래 재생목록을 초기화합니다."),
+    .setName("재생목록초기화")
+    .setDescription("노래 재생목록을 초기화합니다."),
 
   run: function (client, interaction) {
     const queue = player.getQueue(interaction.guildId);

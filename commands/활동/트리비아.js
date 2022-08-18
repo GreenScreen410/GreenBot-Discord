@@ -9,35 +9,35 @@ module.exports = {
   ...new SlashCommandBuilder()
     .setName("트리비아")
     .setDescription("잡다한 지식들을 얻어보세요! (문제가 번역되어 나오므로 자연스럽지 않을 수 있습니다.")
-    .addStringOption(option => 
+    .addStringOption(option =>
       option.setName("카테고리")
         .setDescription("원하시는 카테고리를 선택해 주세요.")
         .setRequired(false)
         .addChoices({ name: "일반 지식", value: "9" })
         .addChoices({ name: "엔터테인먼트: 북스", value: "10" })
         .addChoices({ name: "엔터테인먼트: 영화", value: "11" })
-        .addChoices({ name : "엔터테인먼트: 음악", value: "12"})
-        .addChoices({ name: "엔터테인먼트: 뮤지컬 & 극장", value: "13"})
-        .addChoices({ name: "엔터테인먼트: 텔레비전", value: "14"})
-        .addChoices({ name: "엔터테인먼트: 비디오 게임", value: "15"})
-        .addChoices({ name: "엔터테인먼트: 보드 게임", value: "16"})
-        .addChoices({ name: "과학 & 자연", value: "17"})
-        .addChoices({ name: "과학: 컴퓨터", value: "18"})
-        .addChoices({ name: "과학: 수학", value: "19"})
-        .addChoices({ name: "신화", value: "20"})
-        .addChoices({ name: "스포츠", value: "21"})
-        .addChoices({ name: "지리학", value: "22"})
-        .addChoices({ name: "역사", value: "23"})
-        .addChoices({ name: "정치", value: "24"})
-        .addChoices({ name: "예체능", value: "25"})
-        .addChoices({ name: "유명인들", value: "26"})
-        .addChoices({ name: "동물", value: "27"})
-        .addChoices({ name: "교통 수단", value: "28"})
-        .addChoices({ name: "엔터테인먼트: 코믹스", value: "29"})
-        .addChoices({ name: "과학: 가젯", value: "30"})
-        .addChoices({ name: "엔터테인먼트: 일본 애니메이션 & 만화", value: "31"})
-        .addChoices({ name: "엔터테인먼트: 카툰 & 애니메이션", value: "32"}),
-      ),
+        .addChoices({ name: "엔터테인먼트: 음악", value: "12" })
+        .addChoices({ name: "엔터테인먼트: 뮤지컬 & 극장", value: "13" })
+        .addChoices({ name: "엔터테인먼트: 텔레비전", value: "14" })
+        .addChoices({ name: "엔터테인먼트: 비디오 게임", value: "15" })
+        .addChoices({ name: "엔터테인먼트: 보드 게임", value: "16" })
+        .addChoices({ name: "과학 & 자연", value: "17" })
+        .addChoices({ name: "과학: 컴퓨터", value: "18" })
+        .addChoices({ name: "과학: 수학", value: "19" })
+        .addChoices({ name: "신화", value: "20" })
+        .addChoices({ name: "스포츠", value: "21" })
+        .addChoices({ name: "지리학", value: "22" })
+        .addChoices({ name: "역사", value: "23" })
+        .addChoices({ name: "정치", value: "24" })
+        .addChoices({ name: "예체능", value: "25" })
+        .addChoices({ name: "유명인들", value: "26" })
+        .addChoices({ name: "동물", value: "27" })
+        .addChoices({ name: "교통 수단", value: "28" })
+        .addChoices({ name: "엔터테인먼트: 코믹스", value: "29" })
+        .addChoices({ name: "과학: 가젯", value: "30" })
+        .addChoices({ name: "엔터테인먼트: 일본 애니메이션 & 만화", value: "31" })
+        .addChoices({ name: "엔터테인먼트: 카툰 & 애니메이션", value: "32" }),
+    ),
 
   run: async (client, interaction) => {
     if (client.cooldowns.has(interaction.user.id)) {
@@ -56,11 +56,11 @@ module.exports = {
       }
 
       let opentdbData = await axios.get(`https://opentdb.com/api.php?amount=1&category=${interaction.options.getString("카테고리")}&encode=url3986`);
-      
+
       if (!interaction.options.getString("카테고리")) {
         opentdbData = await axios.get(`https://opentdb.com/api.php?amount=1&encode=url3986`);
       }
-      
+
       opentdbData = JSON.parse(JSON.stringify(opentdbData.data));
 
       const category = await translate.papago("en", "ko", decodeURIComponent(opentdbData.results[0].category));
@@ -98,31 +98,31 @@ module.exports = {
 
       if (type === "multiple") {
         const multipleEmbed = new EmbedBuilder()
-        .setColor("Random")
-        .setTitle("🧠 트리비아")
-        .setDescription(`${question}`)
-        .addFields(
-          { name: "원문", value: `${decodeURIComponent(opentdbData.results[0].question)}`, inline: false },
-          { name: "📋 카테고리", value: `${category}`, inline: true },
-          { name: "🤔 난이도", value: `${difficulty}`, inline: true },
-        )
-        .setTimestamp()
-        .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
+          .setColor("Random")
+          .setTitle("🧠 트리비아")
+          .setDescription(`${question}`)
+          .addFields(
+            { name: "원문", value: `${decodeURIComponent(opentdbData.results[0].question)}`, inline: false },
+            { name: "📋 카테고리", value: `${category}`, inline: true },
+            { name: "🤔 난이도", value: `${difficulty}`, inline: true },
+          )
+          .setTimestamp()
+          .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
 
         interaction.followUp({ embeds: [multipleEmbed], components: [multipleRow] });
 
       } else {
         const booleanEmbed = new EmbedBuilder()
-        .setColor("Random")
-        .setTitle("🧠 트리비아")
-        .setDescription(`${question}`)
-        .addFields(
-          { name: "원문", value: `${decodeURIComponent(opentdbData.results[0].question)}`, inline: false },
-          { name: "📋 카테고리", value: `${category}`, inline: true },
-          { name: "🤔 난이도", value: `${difficulty}`, inline: true },
-        )
-        .setTimestamp()
-        .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
+          .setColor("Random")
+          .setTitle("🧠 트리비아")
+          .setDescription(`${question}`)
+          .addFields(
+            { name: "원문", value: `${decodeURIComponent(opentdbData.results[0].question)}`, inline: false },
+            { name: "📋 카테고리", value: `${category}`, inline: true },
+            { name: "🤔 난이도", value: `${difficulty}`, inline: true },
+          )
+          .setTimestamp()
+          .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
 
         interaction.followUp({ embeds: [booleanEmbed], components: [booleanRow] });
       }
@@ -170,7 +170,7 @@ module.exports = {
 
     } catch (error) {
       console.log(error);
-      return interaction.followUp({ content: `오류가 발생했습니다.\n${error}` });
+      return ERROR.UNKNOWN_ERROR(client, interaction);
     }
   }
 };

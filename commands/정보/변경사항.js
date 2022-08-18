@@ -16,7 +16,7 @@ module.exports = {
 
     githubReleasesData = cheerio.load(githubReleasesData);
     const latestRelease = githubReleasesData("div:nth-child(2) > div:nth-child(1) > div.col-md-9 > div > div.Box-body > div.markdown-body.my-3").text().trim();
-    
+
     githubCommitData = cheerio.load(githubCommitData);
     const latestCommit = githubCommitData("#repo-content-pjax-container > div > div.commit.full-commit.mt-0.px-2.pt-2 > div.commit-title.markdown-title").text().trim();
 

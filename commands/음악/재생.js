@@ -51,7 +51,7 @@ module.exports = {
     if (!track || !track.tracks.length) {
       return ERROR.CAN_NOT_FIND_MUSIC(client, interaction);
     }
-    
+
     const embed = new EmbedBuilder()
       .setColor("Random")
       .setTitle(`🎶 ${track.playlist ? "playlist" : "재생목록에 추가되었습니다."}`)

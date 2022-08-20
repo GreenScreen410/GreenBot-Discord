@@ -1,6 +1,5 @@
 const { Player } = require("discord-player");
 const client = require("../index.js");
-const ERROR = require("../commands/ERROR.js");
 
 const player = new Player(client, {
   ytdlOptions: {
@@ -10,11 +9,17 @@ const player = new Player(client, {
 });
 
 player.on("error", (queue, error) => {
-  return queue.destroy();
+  console.log(error);
+  return queue.destroy(1);
 });
 
 player.on("connectionError", (queue, error) => {
-  return queue.destroy();
+  console.log(error);
+  return queue.destroy(1);
+});
+
+player.on("botDisconnected", () => {
+  return queue.destroy(1);
 });
 
 module.exports = player;

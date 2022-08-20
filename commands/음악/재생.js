@@ -22,21 +22,6 @@ module.exports = {
       metadata: interaction,
     });
 
-    client.on('voiceStateUpdate', (oldState, newState) => {
-      if (!queue || !queue.playing) return;
-      if (oldState.channelId === null || typeof oldState.channelId == 'undefined') return;
-      if (newState.id !== client.user.id) return;
-
-      const disconnectedEmbed = new EmbedBuilder()
-        .setColor("Random")
-        .setTitle("⚠️ 음성 채널 퇴장 감지")
-        .setDescription("재생목록이 초기화되었습니다.")
-        .setTimestamp()
-        .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
-      queue.clear(); queue.destroy();
-      return interaction.channel.send({ embeds: [disconnectedEmbed] });
-    });
-
     try {
       if (!queue.connection) await queue.connect(interaction.member.voice.channel);
     } catch (error) {

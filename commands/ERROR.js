@@ -122,6 +122,17 @@ module.exports = {
     interaction.followUp({ embeds: [embed] });
   },
 
+  CAN_NOT_FIND_PREVIOUS_MUSIC: function (client, interaction) {
+    const embed = new EmbedBuilder()
+      .setColor("#FF0000")
+      .setTitle("❌ 오류!")
+      .setDescription("이전 노래를 찾을 수 없습니다.")
+      .addFields({ name: "에러 코드", value: "CAN_NOT_FIND_PREVIOUS_MUSIC" })
+      .setTimestamp()
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
+    interaction.followUp({ embeds: [embed] });
+  },
+
   CAN_NOT_USE_IN_DM: function (client, interaction) {
     const embed = new EmbedBuilder()
       .setColor("#FF0000")

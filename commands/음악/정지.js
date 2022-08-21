@@ -4,8 +4,8 @@ const ERROR = require("../ERROR");
 
 module.exports = {
   ...new SlashCommandBuilder()
-    .setName("섞기")
-    .setDescription("노래 재생목록을 랜덤하게 섞습니다."),
+    .setName("정지")
+    .setDescription("노래를 일시 정지합니다."),
 
   run: function (client, interaction) {
     const queue = player.getQueue(interaction.guildId);
@@ -16,19 +16,14 @@ module.exports = {
       return ERROR.PLEASE_JOIN_SAME_VOICE_CHANNEL(client, interaction);
     }
 
-    queue.shuffle(true);
+    queue.setPaused(true);
 
     const embed = new EmbedBuilder()
       .setColor("Random")
-      .setTitle("🔀 셔플 완료!")
-      .setDescription("재생목록이 랜덤하게 섞였습니다. 한번 확인해 보세요!")
+      .setTitle("🛑 정지!")
+      .setDescription("현재 재생중인 노래를 일시 정지하였습니다.")
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
-
-    const button = new ActionRowBuilder().addComponents(
-      new ButtonBuilder().setCustomId("musicQueue").setEmoji("📄").setStyle(2),
-    );
-
-    interaction.followUp({ embeds: [embed], components: [button] });
+    interaction.followUp({ embeds: [embed] });
   },
 };

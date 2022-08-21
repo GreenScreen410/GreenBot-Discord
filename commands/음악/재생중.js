@@ -28,18 +28,34 @@ module.exports = {
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
 
-    const button = new ActionRowBuilder()
+    const button1 = new ActionRowBuilder()
       .addComponents(
-        new ButtonBuilder().setCustomId("musicQueue").setEmoji("📄").setLabel("재생목록").setStyle(1),
-        new ButtonBuilder().setCustomId("musicQueueClear").setEmoji("💥").setLabel("재생목록 비우기").setStyle(1),
-        new ButtonBuilder().setCustomId("musicSkip").setEmoji("⏭").setLabel("넘기기").setStyle(1)
-      );
+        new ButtonBuilder().setCustomId("musicPause").setEmoji("⏯️").setStyle(2),
+        new ButtonBuilder().setCustomId("musicSkip").setEmoji("⏭").setStyle(2),
+        new ButtonBuilder().setCustomId("musicRepeat").setEmoji("🔁").setStyle(2),
+        new ButtonBuilder().setCustomId("musicShuffle").setEmoji("🔀").setStyle(2),
+      )
+    const button2 = new ActionRowBuilder()
+      .addComponents(
+        new ButtonBuilder().setCustomId("musicQueue").setEmoji("📄").setStyle(2),
+        new ButtonBuilder().setCustomId("musicQueueClear").setEmoji("💥").setStyle(2),
+      )
 
-    interaction.followUp({ embeds: [embed], components: [button] });
+    interaction.followUp({ embeds: [embed], components: [button1, button2] });
 
     const collector = interaction.channel.createMessageComponentCollector();
     collector.on("collect", async i => {
       i.deferUpdate();
+
+      if (i.customId === "musicPause") {
+        if (queue.setPaused(true)) {
+          let musicPause = require("./정지.js");
+          return musicPause.run(client, interaction);
+        } else {
+          let musicResume = require("./재개.js");
+          return musicResume.run(client, interaction);
+        }
+      }
 
       if (i.customId === "musicQueue") {
         let musicQueueFile = require("./재생목록.js");
@@ -54,6 +70,16 @@ module.exports = {
       if (i.customId === "musicQueueClear") {
         let musicQueueClear = require("./재생목록초기화.js");
         musicQueueClear.run(client, interaction);
+      }
+
+      if (i.customId === "musicRepeat") {
+        let musicRepeat = require("./반복.js");
+        musicRepeat.run(client, interaction);
+      }
+
+      if (i.customId === "musicShuffle") {
+        let musicShuffle = require("./섞기.js");
+        musicShuffle.run(client, interaction);
       }
     });
   },

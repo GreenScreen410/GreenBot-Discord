@@ -81,17 +81,17 @@ module.exports = {
       if (incorrectAnswer1 == "False") incorrectAnswer1 = "거짓";
 
       const multipleButtons = [
-        new ButtonBuilder().setCustomId("correctAnswer").setLabel(`${correctAnswer + " (" + await translate.kakao("en", "kr", correctAnswer) + ")"}`).setStyle(1),
-        new ButtonBuilder().setCustomId("incorrectAnswer1").setLabel(`${incorrectAnswer1 + " (" + await translate.kakao("en", "kr", incorrectAnswer1) + ")"}`).setStyle(1),
-        new ButtonBuilder().setCustomId("incorrectAnswer2").setLabel(`${incorrectAnswer2 + " (" + await translate.kakao("en", "kr", incorrectAnswer2) + ")"}`).setStyle(1),
-        new ButtonBuilder().setCustomId("incorrectAnswer3").setLabel(`${incorrectAnswer3 + " (" + await translate.kakao("en", "kr", incorrectAnswer3) + ")"}`).setStyle(1),
+        new ButtonBuilder().setCustomId(`correctAnswer-${client.guilds.cache.get.id}`).setLabel(`${correctAnswer + " (" + await translate.kakao("en", "kr", correctAnswer) + ")"}`).setStyle(1),
+        new ButtonBuilder().setCustomId(`incorrectAnswer1-${client.guilds.cache.get.id}`).setLabel(`${incorrectAnswer1 + " (" + await translate.kakao("en", "kr", incorrectAnswer1) + ")"}`).setStyle(1),
+        new ButtonBuilder().setCustomId(`incorrectAnswer2-${client.guilds.cache.get.id}`).setLabel(`${incorrectAnswer2 + " (" + await translate.kakao("en", "kr", incorrectAnswer2) + ")"}`).setStyle(1),
+        new ButtonBuilder().setCustomId(`incorrectAnswer3-${client.guilds.cache.get.id}`).setLabel(`${incorrectAnswer3 + " (" + await translate.kakao("en", "kr", incorrectAnswer3) + ")"}`).setStyle(1),
       ]
       multipleButtons.sort(() => Math.random() - 0.5);
       const multipleRow = new ActionRowBuilder().addComponents(...multipleButtons)
 
       const booleanButtons = [
-        new ButtonBuilder().setCustomId("correctAnswer").setLabel(`${correctAnswer}`).setStyle(1),
-        new ButtonBuilder().setCustomId("incorrectAnswer1").setLabel(`${incorrectAnswer1}`).setStyle(1),
+        new ButtonBuilder().setCustomId(`correctAnswer-${client.guilds.cache.get.id}`).setLabel(`${correctAnswer}`).setStyle(1),
+        new ButtonBuilder().setCustomId(`incorrectAnswer1-${client.guilds.cache.get.id}`).setLabel(`${incorrectAnswer1}`).setStyle(1),
       ]
       booleanButtons.sort(() => Math.random() - 0.5);
       const booleanRow = new ActionRowBuilder().addComponents(...booleanButtons)
@@ -133,7 +133,7 @@ module.exports = {
       collector.on("collect", i => {
         i.deferUpdate();
 
-        if (i.customId === "correctAnswer") {
+        if (i.customId === `correctAnswer-${client.guilds.cache.get.id}`) {
           const correctEmbed = new EmbedBuilder()
             .setColor("#00FF00")
             .setTitle(`✅ ${i.user.tag}님 정답!`)

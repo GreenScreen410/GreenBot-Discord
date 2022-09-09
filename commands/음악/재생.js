@@ -36,6 +36,9 @@ module.exports = {
     if (!track || !track.tracks.length) {
       return ERROR.CAN_NOT_FIND_MUSIC(client, interaction);
     }
+    if (track.tracks[0].durationMS >= 10800000 ) {
+      return ERROR.MUSIC_IS_TOO_LONG(client, interaction);
+    }
 
     const embed = new EmbedBuilder()
       .setColor("Random")

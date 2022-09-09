@@ -6,7 +6,7 @@ module.exports = {
     .setDescription("봇 초대 링크를 발급합니다."),
 
   run: async (client, interaction) => {
-    const link = `https://discord.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=2150631424&scope=bot%20applications.commands`
+    const link = `https://discord.com/oauth2/authorize?client_id=${client.user.id}&permissions=277028653056&scope=bot%20applications.commands`
 
     const embed = new EmbedBuilder()
       .setColor("Random")

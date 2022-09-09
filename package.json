@@ -1,6 +1,6 @@
 {
   "name": "greenbot-discord",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -16,17 +16,17 @@
   "dependencies": {
     "axios": "^0.27.2",
     "cheerio": "^1.0.0-rc.12",
-    "discord-api-types": "^0.37.3",
+    "discord-api-types": "^0.37.8",
     "discord-player": "^5.3.1",
-    "discord.js": "^14.2.0",
-    "dotenv": "^16.0.1",
-    "ffmpeg-static": "^5.0.2",
+    "discord.js": "^14.3.0",
+    "dotenv": "^16.0.2",
+    "ffmpeg-static": "^5.1.0",
     "glob": "^7.2.0",
     "koreanbots": "^3.2.1",
     "moment": "^2.29.4",
-    "mongoose": "^6.5.2",
+    "mongoose": "^6.6.0",
     "nodemon": "^2.0.19",
     "opusscript": "^0.0.8",
-    "ytdl-core": "^4.11.1"
+    "ytdl-core": "^4.11.2"
   }
 }

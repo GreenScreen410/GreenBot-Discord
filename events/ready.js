@@ -2,6 +2,7 @@ const client = require("../index");
 
 client.on("ready", () => {
   console.log(`${client.user.tag} is up and ready to go!`);
+  console.log(`${client.guilds.cache.size} servers, ${client.users.cache.size} members`);
   
   const activities = [
     `${client.guilds.cache.size}개의 서버에서 활동`,

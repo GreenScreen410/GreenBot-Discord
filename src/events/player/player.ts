@@ -10,16 +10,12 @@ const player = new Player(client, {
 
 player.on("error", (queue, error) => {
   console.log(error);
-  return queue.destroy(true);
+  return queue.destroy();
 });
 
 player.on("connectionError", (queue, error) => {
   console.log(error);
-  return queue.destroy(true);
-});
-
-player.on("botDisconnect", (queue) => {
-  return queue.destroy(true);
+  return queue.destroy();
 });
 
 export default player;

@@ -23,6 +23,7 @@
     "discord.js": "^14.6.0",
     "dotenv": "^16.0.3",
     "ffmpeg-static": "^5.1.0",
+    "koreanbots": "^3.2.1",
     "moment": "^2.29.4",
     "opusscript": "^0.0.8",
     "tsc-watch": "^5.0.3",

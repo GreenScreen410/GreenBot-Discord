@@ -13,7 +13,7 @@ export default {
     await interaction.deferReply();
 
     if (!command) {
-      return ERROR.INVALID_INTERACTION(client, interaction);
+      return ERROR.INVALID_INTERACTION(interaction);
     } else {
       command.run(client, interaction);
       console.log(chalk.white(`[COMMAND] ${interaction.guild.name}(${interaction.guild.id}) - ${interaction.user.tag}(${interaction.user.id}) executed ${interaction.commandName}`))

@@ -13,7 +13,7 @@ export default {
     if (!interaction.inCachedGuild()) return;
 
     if (!interaction.member.voice.channel) {
-      return ERROR.PLEASE_JOIN_VOICE_CHANNEL(client, interaction);
+      return ERROR.PLEASE_JOIN_VOICE_CHANNEL(interaction);
     }
 
     const player = createAudioPlayer();

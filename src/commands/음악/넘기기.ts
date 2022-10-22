@@ -12,10 +12,10 @@ export default {
   run: async (client: Client, interaction: ChatInputCommandInteraction<"cached">) => {
     const queue = player.getQueue(interaction.guildId);
     if (!queue || !queue.playing) {
-      return ERROR.MUSIC_QUEUE_IS_EMPTY(client, interaction);
+      return ERROR.MUSIC_QUEUE_IS_EMPTY(interaction);
     }
     if (interaction.guild.members.me?.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
-      return ERROR.PLEASE_JOIN_SAME_VOICE_CHANNEL(client, interaction);
+      return ERROR.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction);
     }
 
     queue.setRepeatMode(QueueRepeatMode.OFF);

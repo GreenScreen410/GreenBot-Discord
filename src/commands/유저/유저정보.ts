@@ -12,9 +12,7 @@ export default {
       .setRequired(true))
     .setDMPermission(false),
 
-  run: async (client: Client, interaction: ChatInputCommandInteraction) => {
-    if (!interaction.inCachedGuild()) return;
-
+  run: async (client: Client, interaction: ChatInputCommandInteraction<"cached">) => {
     const userInfoUser = interaction.options.getUser("유저", true);
     const userInfoMember = interaction.options.getMember("유저");
     

@@ -16,10 +16,10 @@ export default {
   run: async (client: Client, interaction: ChatInputCommandInteraction<"cached">) => {
     const songTitle = interaction.options.getString("노래", true);
     if (!interaction.member.voice.channel) {
-      return ERROR.PLEASE_JOIN_VOICE_CHANNEL(client, interaction);
+      return ERROR.PLEASE_JOIN_VOICE_CHANNEL(interaction);
     }
     if (interaction.guild.members.me?.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
-      return ERROR.PLEASE_JOIN_SAME_VOICE_CHANNEL(client, interaction);
+      return ERROR.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction);
     }
 
     const queue = player.createQueue(interaction.guild, {
@@ -30,7 +30,7 @@ export default {
       if (!queue.connection) await queue.connect(interaction.member.voice.channel);
     } catch (error) {
       queue.destroy();
-      return ERROR.CAN_NOT_JOIN_VOICE_CHANNEL(client, interaction);
+      return ERROR.CAN_NOT_JOIN_VOICE_CHANNEL(interaction);
     }
 
     const track: any = await player.search(songTitle, {
@@ -38,10 +38,10 @@ export default {
       searchEngine: QueryType.AUTO,
     });
     if (!track || !track.tracks.length) {
-      return ERROR.CAN_NOT_FIND_MUSIC(client, interaction);
+      return ERROR.CAN_NOT_FIND_MUSIC(interaction);
     }
     if (track.tracks[0].durationMS >= 10800000) {
-      return ERROR.MUSIC_IS_TOO_LONG(client, interaction);
+      return ERROR.MUSIC_IS_TOO_LONG(interaction);
     }
 
     const embed = new EmbedBuilder()

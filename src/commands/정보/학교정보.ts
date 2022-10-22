@@ -33,7 +33,7 @@ export default {
       interaction.followUp({ embeds: [embed] });
     
     } catch (error) {
-      return ERROR.INVALID_ARGUMENT(client, interaction);
+      return ERROR.INVALID_ARGUMENT(interaction);
     }
   },
 }

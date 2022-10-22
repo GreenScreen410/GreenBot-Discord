@@ -11,7 +11,7 @@ export default {
 
   run: async (client: Client, interaction: ChatInputCommandInteraction<"cached">) => {
     if (!interaction.member.voice.channel) {
-      return ERROR.PLEASE_JOIN_VOICE_CHANNEL(client, interaction);
+      return ERROR.PLEASE_JOIN_VOICE_CHANNEL(interaction);
     }
 
     const player = createAudioPlayer();

@@ -3,7 +3,7 @@ import MusicQueue from "../../commands/음악/재생목록.js";
 
 export default {
   data: new ButtonBuilder()
-    .setCustomId("MusicPlaylistButton")
+    .setCustomId("MusicQueueButton")
     .setLabel("재생목록")
     .setEmoji("📄")
     .setStyle(ButtonStyle.Primary),

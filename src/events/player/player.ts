@@ -1,4 +1,5 @@
 import { Player } from "discord-player";
+import chalk from "chalk";
 import client from "../../index.js";
 
 const player = new Player(client, {
@@ -9,12 +10,12 @@ const player = new Player(client, {
 });
 
 player.on("error", (queue, error) => {
-  console.log(error);
+  console.log(chalk.red.bold(`[PLAYER_ERROR] ${error}`));
   return queue.destroy();
 });
 
 player.on("connectionError", (queue, error) => {
-  console.log(error);
+  console.log(chalk.red.bold(`[PLAYER_CONNECTION_ERROR] ${error}`));
   return queue.destroy();
 });
 

@@ -1,7 +1,7 @@
-import { CommandInteraction, EmbedBuilder } from "discord.js";
+import { ChatInputCommandInteraction, ButtonInteraction, EmbedBuilder } from "discord.js";
 
 export default {
-  UNKNOWN_ERROR: function (interaction: CommandInteraction) {
+  UNKNOWN_ERROR: function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
     const embed = new EmbedBuilder()
       .setColor("#FF0000")
       .setTitle("❌ 오류!")
@@ -12,7 +12,7 @@ export default {
     interaction.followUp({ embeds: [embed] });
   },
 
-  INVALID_INTERACTION: function (interaction: any) {
+  INVALID_INTERACTION: function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
     const embed = new EmbedBuilder()
       .setColor("#FF0000")
       .setTitle("❌ 오류!")
@@ -23,7 +23,7 @@ export default {
     interaction.followUp({ embeds: [embed] });
   },
 
-  PLEASE_TYPE_ARGUMENTS: function (interaction: any) {
+  PLEASE_TYPE_ARGUMENTS: function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
     const embed = new EmbedBuilder()
       .setColor("#FF0000")
       .setTitle("❌ 오류!")
@@ -34,7 +34,7 @@ export default {
     interaction.followUp({ embeds: [embed] });
   },
 
-  INVALID_ARGUMENT: function (interaction: any) {
+  INVALID_ARGUMENT: function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
     const embed = new EmbedBuilder()
       .setColor("#FF0000")
       .setTitle("❌ 오류!")
@@ -45,7 +45,7 @@ export default {
     interaction.followUp({ embeds: [embed] });
   },
 
-  COOLDOWN_ACTIVATED: function (interaction: any) {
+  COOLDOWN_ACTIVATED: function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
     const embed = new EmbedBuilder()
       .setColor("#FF0000")
       .setTitle("❌ 오류!")
@@ -56,7 +56,7 @@ export default {
     return interaction.followUp({ embeds: [embed] });
   },
 
-  PLEASE_JOIN_VOICE_CHANNEL: function (interaction: any) {
+  PLEASE_JOIN_VOICE_CHANNEL: function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
     const embed = new EmbedBuilder()
       .setColor("#FF0000")
       .setTitle("❌ 오류!")
@@ -67,7 +67,7 @@ export default {
     interaction.followUp({ embeds: [embed] });
   },
 
-  PLEASE_JOIN_SAME_VOICE_CHANNEL: function (interaction: any) {
+  PLEASE_JOIN_SAME_VOICE_CHANNEL: function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
     const embed = new EmbedBuilder()
       .setColor("#FF0000")
       .setTitle("❌ 오류!")
@@ -78,7 +78,7 @@ export default {
     interaction.followUp({ embeds: [embed] });
   },
 
-  CAN_NOT_JOIN_VOICE_CHANNEL: function (interaction: any) {
+  CAN_NOT_JOIN_VOICE_CHANNEL: function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
     const embed = new EmbedBuilder()
       .setColor("#FF0000")
       .setTitle("❌ 오류!")
@@ -89,7 +89,7 @@ export default {
     interaction.followUp({ embeds: [embed] });
   },
 
-  MUSIC_QUEUE_IS_EMPTY: function (interaction: any) {
+  MUSIC_QUEUE_IS_EMPTY: function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
     const embed = new EmbedBuilder()
       .setColor("#FF0000")
       .setTitle("❌ 오류!")
@@ -100,7 +100,7 @@ export default {
     interaction.followUp({ embeds: [embed] });
   },
 
-  MUSIC_IS_PLAYING: function (interaction: any) {
+  MUSIC_IS_PLAYING: function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
     const embed = new EmbedBuilder()
       .setColor("#FF0000")
       .setTitle("❌ 오류!")
@@ -111,7 +111,7 @@ export default {
     interaction.followUp({ embeds: [embed] });
   },
 
-  CAN_NOT_FIND_MUSIC: function (interaction: any) {
+  CAN_NOT_FIND_MUSIC: function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
     const embed = new EmbedBuilder()
       .setColor("#FF0000")
       .setTitle("❌ 오류!")
@@ -122,7 +122,7 @@ export default {
     interaction.followUp({ embeds: [embed] });
   },
 
-  CAN_NOT_FIND_PREVIOUS_MUSIC: function (interaction: any) {
+  CAN_NOT_FIND_PREVIOUS_MUSIC: function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
     const embed = new EmbedBuilder()
       .setColor("#FF0000")
       .setTitle("❌ 오류!")
@@ -133,7 +133,7 @@ export default {
     interaction.followUp({ embeds: [embed] });
   },
 
-  MUSIC_IS_TOO_LONG: function (interaction: any) {
+  MUSIC_IS_TOO_LONG: function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
     const embed = new EmbedBuilder()
       .setColor("#FF0000")
       .setTitle("❌ 오류!")
@@ -144,7 +144,7 @@ export default {
     interaction.followUp({ embeds: [embed] });
   },
 
-  CAN_NOT_USE_IN_DM: function (interaction: any) {
+  CAN_NOT_USE_IN_DM: function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
     const embed = new EmbedBuilder()
       .setColor("#FF0000")
       .setTitle("❌ 오류!")
@@ -155,7 +155,7 @@ export default {
     interaction.followUp({ embeds: [embed] });
   },
 
-  GAME_IS_NOT_STARTED: function (interaction: any) {
+  GAME_IS_NOT_STARTED: function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
     const embed = new EmbedBuilder()
       .setColor("#FF0000")
       .setTitle("❌ 오류!")
@@ -166,7 +166,7 @@ export default {
     interaction.followUp({ embeds: [embed] });
   },
 
-  GAME_IS_ALREADY_STARTED: function (interaction: any) {
+  GAME_IS_ALREADY_STARTED: function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
     const embed = new EmbedBuilder()
       .setColor("#FF0000")
       .setTitle("❌ 오류!")

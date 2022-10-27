@@ -9,7 +9,9 @@ export default {
     .setDescription("매우 큰 사이렌을 재생합니다. 소리에 주의하세요.")
     .setDMPermission(false),
 
-  run: async (client: Client, interaction: ChatInputCommandInteraction<"cached">) => {
+  run: async (client: Client, interaction: ChatInputCommandInteraction) => {
+    if (!interaction.inCachedGuild()) return;
+
     if (!interaction.member.voice.channel) {
       return ERROR.PLEASE_JOIN_VOICE_CHANNEL(interaction);
     }

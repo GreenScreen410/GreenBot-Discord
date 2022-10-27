@@ -1,4 +1,3 @@
-import { Client } from "discord.js";
 import { readdirSync } from "fs";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
@@ -30,11 +29,6 @@ export default async (client: any) => {
     const eventFiles = readdirSync(`${__dirname}/../events/${category}`).filter((file) => file.endsWith(".js"));
     for (const file of eventFiles) {
       const event = (await import(`../events/${category}/${file}`)).default;
-      if (event.once) {
-        client.once(event.name, (...args: any) => event.run(...args, client));
-      } else {
-        client.on(event.name, async (...args: any) => await event.run(...args, client));
-      }
     }
   }
 

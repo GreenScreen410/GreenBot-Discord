@@ -8,7 +8,9 @@ export default {
     .setDescription("노래를 일시 정지합니다.")
     .setDMPermission(false),
 
-  run: async (client: Client, interaction: ChatInputCommandInteraction<"cached">) => {
+  run: async (client: Client, interaction: ChatInputCommandInteraction) => {
+    if (!interaction.inCachedGuild()) return;
+
     const queue = player.getQueue(interaction.guildId);
     if (!queue || !queue.playing) {
       return ERROR.MUSIC_QUEUE_IS_EMPTY(interaction);

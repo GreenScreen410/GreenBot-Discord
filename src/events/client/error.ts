@@ -1,9 +1,6 @@
 import chalk from "chalk";
+import client from "../../index.js";
 
-export default {
-  name: "error",
-
-  run: async (error: string) => {
-    console.log(chalk.red.bold(`[ERROR] ${error}`));
-  },
-}
+client.on("error", (error) => {
+  console.log(chalk.red.bold(`[ERROR] ${error}`));
+});

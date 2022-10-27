@@ -7,7 +7,9 @@ export default {
     .setDescription("현재 서버의 정보를 보여줍니다.")
     .setDMPermission(false),
 
-  run: async (client: Client, interaction: ChatInputCommandInteraction<"cached">) => {
+  run: async (client: Client, interaction: ChatInputCommandInteraction) => {
+    if (!interaction.inCachedGuild()) return;
+
     const roles = interaction.guild.roles.cache.sort((a, b) => b.position - a.position).map((role) => role.toString());
     const channels = interaction.guild.channels.cache.map((channel) => channel.toString());
 

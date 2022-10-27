@@ -1,9 +1,6 @@
 import chalk from "chalk";
+import client from "../../index.js";
 
-export default {
-  name: "warn",
-
-  run: async (info: string) => {
-    console.log(chalk.yellow.bold(`[WARN] ${info}`));
-  },
-}
+client.on("warn", (message) => {
+  console.log(chalk.yellow.bold(`[WARN] ${message}`));
+});

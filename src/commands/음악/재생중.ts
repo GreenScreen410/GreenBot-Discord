@@ -7,7 +7,9 @@ export default {
     .setName("재생중")
     .setDescription("현재 재생중인 노래 정보를 알려줍니다."),
 
-  run: async (client: Client, interaction: ChatInputCommandInteraction<"cached">) => {
+  run: async (client: Client, interaction: ChatInputCommandInteraction) => {
+    if (!interaction.inCachedGuild()) return;
+
     const queue = player.getQueue(interaction.guildId);
     if (!queue || !queue.playing) {
       return ERROR.MUSIC_QUEUE_IS_EMPTY(interaction);

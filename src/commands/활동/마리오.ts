@@ -9,7 +9,7 @@ export default {
     .setDescription("마리오 사망 효과음을 재생합니다.")
     .setDMPermission(false),
 
-  run: async (client: Client, interaction: ChatInputCommandInteraction<"cached">) => {
+  run: async (client: Client, interaction: ChatInputCommandInteraction) => {
     if (!interaction.inCachedGuild()) return;
 
     if (!interaction.member.voice.channel) {

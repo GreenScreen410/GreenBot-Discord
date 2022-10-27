@@ -13,7 +13,9 @@ export default {
       .setRequired(true))
     .setDMPermission(false),
 
-  run: async (client: Client, interaction: ChatInputCommandInteraction<"cached">) => {
+  run: async (client: Client, interaction: ChatInputCommandInteraction) => {
+    if (!interaction.inCachedGuild()) return;
+
     const songTitle = interaction.options.getString("노래", true);
     if (!interaction.member.voice.channel) {
       return ERROR.PLEASE_JOIN_VOICE_CHANNEL(interaction);

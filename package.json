@@ -1,6 +1,6 @@
 {
   "name": "greenbot-discord",
-  "version": "1.9.4",
+  "version": "1.9.5",
   "description": "",
   "exports": "./index.js",
   "type": "module",
@@ -15,7 +15,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/glob": "^8.0.0",
     "axios": "^1.1.3",
     "chalk": "^5.1.2",
     "cheerio": "^1.0.0-rc.12",
@@ -30,7 +29,7 @@
     "typescript": "^4.8.4"
   },
   "devDependencies": {
-    "@types/node": "^18.11.7",
+    "@types/node": "^18.11.9",
     "nodemon": "^2.0.20",
     "ts-node": "^10.9.1"
   }

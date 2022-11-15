@@ -10,12 +10,12 @@ const player = new Player(client, {
 });
 
 player.on("error", (queue, error) => {
-  console.log(chalk.red.bold(`[PLAYER_ERROR] ${error}`));
+  console.log(chalk.red.bold(`[PLAYER_ERROR] ${error.stack}`));
   return queue.destroy();
 });
 
 player.on("connectionError", (queue, error) => {
-  console.log(chalk.red.bold(`[PLAYER_CONNECTION_ERROR] ${error}`));
+  console.log(chalk.red.bold(`[PLAYER_CONNECTION_ERROR] ${error.stack}`));
   return queue.destroy();
 });
 

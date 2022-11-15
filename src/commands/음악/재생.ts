@@ -1,5 +1,7 @@
-import { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from "discord.js";
+import { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder } from "discord.js";
 import { QueryType } from "discord-player";
+import MusicQueueButton from "../../buttons/음악/재생목록.js";
+import MusicRemove from "../../buttons/음악/제거.js";
 import player from "../../events/player/player.js";
 import ERROR from "../../handler/ERROR.js";
 
@@ -54,13 +56,15 @@ export default {
       .setURL(`${track.tracks[0].url}`)
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
+    
+    const button = new ActionRowBuilder<ButtonBuilder>().addComponents(MusicQueueButton.data, MusicRemove.data)
 
     if (!queue.playing) {
       track.playlist ? queue.addTracks(track.playlist) : queue.play(track.tracks[0]);
-      return await interaction.followUp({ embeds: [embed] });
+      return await interaction.followUp({ embeds: [embed], components: [button] });
     } else if (queue.playing) {
       track.playlist ? queue.addTracks(track.playlist) : queue.addTrack(track.tracks[0]);
-      return await interaction.followUp({ embeds: [embed] });
+      return await interaction.followUp({ embeds: [embed], components: [button] });
     }
   },
 };

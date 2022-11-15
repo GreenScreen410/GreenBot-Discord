@@ -35,6 +35,39 @@ export default {
           .setTimestamp()
           .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
         return interaction.followUp({ embeds: [embed] });
+
+      } else {
+        const currentTrack = queue.current;
+        const tracks = queue.tracks.slice(0, 10).map((m, i) => {
+          return `${i + 1}. [**${m.title}**](${m.url}) - ${m.requestedBy.tag}`;
+        });
+
+        if (queue.tracks.length == 0) {
+          const embed = new EmbedBuilder()
+            .setColor("Random")
+            .setTitle("📄 노래 재생목록")
+            .addFields({
+              name: "재생중인 노래",
+              value: `🎶 | [**${currentTrack.title}**](${currentTrack.url}) - ${currentTrack.requestedBy.tag}`,
+            })
+            .setTimestamp()
+            .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
+          return interaction.followUp({ embeds: [embed] });
+
+        } else {
+          const embed = new EmbedBuilder()
+            .setColor("Random")
+            .setTitle("📄 노래 재생목록")
+            .setDescription(`${tracks.join("\n")}${queue.tracks.length > tracks.length ? `\n...${queue.tracks.length - tracks.length === 1 ? `${queue.tracks.length - tracks.length} more track` : `${queue.tracks.length - tracks.length} more tracks`}` : ""}`)
+            .addFields({
+              name: "재생중인 노래",
+              value: `🎶 | [**${currentTrack.title}**](${currentTrack.url}) - ${currentTrack.requestedBy.tag}`,
+            })
+            .setTimestamp()
+            .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
+
+          return interaction.followUp({ embeds: [embed] });
+        }
       }
     } catch {
       const currentTrack = queue.current;
@@ -67,7 +100,7 @@ export default {
           .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
 
         return interaction.followUp({ embeds: [embed] });
-        }
       }
-    },
-  };
+    }
+  },
+};

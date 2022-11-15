@@ -6,9 +6,9 @@ export default {
     .setCustomId("MusicQueueButton")
     .setLabel("재생목록")
     .setEmoji("📄")
-    .setStyle(ButtonStyle.Primary),
+    .setStyle(ButtonStyle.Secondary),
   
-  run: async (client: Client, interaction: ChatInputCommandInteraction<"cached">) => {
+  run: async (client: Client, interaction: ChatInputCommandInteraction) => {
     MusicQueue.run(client, interaction);
   }
 };

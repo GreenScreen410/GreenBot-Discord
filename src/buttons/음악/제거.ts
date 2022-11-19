@@ -1,14 +1,15 @@
-import { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder } from "discord.js";
-import MusicQueueButton from "../../buttons/음악/재생목록.js";
+import { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 import player from "../../events/player/player.js";
 import ERROR from "../../handler/ERROR.js";
+import MusicQueueButton from "./재생목록.js";
 
 export default {
-  data: new SlashCommandBuilder()
-    .setName("섞기")
-    .setDescription("노래 재생목록을 랜덤하게 섞습니다.")
-    .setDMPermission(false),
-
+  data: new ButtonBuilder()
+    .setCustomId("MusicRemoveButton")
+    .setLabel("이거 아니에요!")
+    .setEmoji("🗑️")
+    .setStyle(ButtonStyle.Danger),
+  
   run: async (client: Client, interaction: ChatInputCommandInteraction) => {
     if (!interaction.inCachedGuild()) return;
 
@@ -19,18 +20,22 @@ export default {
     if (interaction.guild.members.me?.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
       return ERROR.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction);
     }
-
-    queue.shuffle();
+    if(!queue.tracks[0]) {
+      return ERROR.CAN_NOT_FIND_MUSIC(interaction);
+    }
 
     const embed = new EmbedBuilder()
       .setColor("Random")
-      .setTitle("🔀 셔플 완료!")
-      .setDescription("재생목록이 랜덤하게 섞였습니다. 한번 확인해 보세요!")
+      .setThumbnail(queue.tracks[0].thumbnail)
+      .setTitle("🗑️ 재생목록에서 제거되었습니다.")
+      .setDescription(`${queue.tracks[0].title}`)
+      .setURL(`${queue.tracks[0].url}`)
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
-
+    
     const button = new ActionRowBuilder<ButtonBuilder>().addComponents(MusicQueueButton.data)
-
     interaction.followUp({ embeds: [embed], components: [button] });
-  },
+
+    queue.remove(0);
+  }
 };

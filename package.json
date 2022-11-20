@@ -24,11 +24,13 @@
     "ffmpeg-static": "^5.1.0",
     "koreanbots": "^3.2.1",
     "moment": "^2.29.4",
+    "mysql": "^2.18.1",
     "opusscript": "^0.0.8",
     "tsc-watch": "^5.0.3",
-    "typescript": "^4.8.4"
+    "typescript": "^4.9.3"
   },
   "devDependencies": {
+    "@types/mysql": "^2.15.21",
     "@types/node": "^18.11.9",
     "nodemon": "^2.0.20",
     "ts-node": "^10.9.1"

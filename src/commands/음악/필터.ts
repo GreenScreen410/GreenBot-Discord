@@ -10,8 +10,9 @@ export default {
       .setName("필터")
       .setDescription("필터를 지정해 주세요.")
       .addChoices({ name: "8D", value: "8D" })
-      .addChoices({ name: "베이스부스트", value: "bassboost" })
+      .addChoices({ name: "베이스부스트 (소리 주의)", value: "bassboost" })
       .addChoices({ name: "베이퍼웨이브", value: "vaporwave" })
+      .addChoices({ name: "나이트코어", value: "nightcore" })
       .setRequired(true)
     )
     .setDMPermission(false),
@@ -27,23 +28,38 @@ export default {
       return ERROR.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction);
     }
 
+    let djCondition = 0;
+
     const embed = new EmbedBuilder()
       .setColor("Random")
-      .setDescription(`${queue.current.title}`)
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
 
     if (interaction.options.getString("필터") == "8D") {
       queue.setFilters({ "8D": true });
       embed.setTitle("✨ 8D 필터가 **활성화** 되었습니다.")
-      console.log(player.queues);
+      embed.setDescription(`${queue.current.title}\n\n이거... 상당히 어질어질 한데요?`)
       return interaction.followUp({ embeds: [embed] });
     }
 
     if (interaction.options.getString("필터") == "bassboost") {
       queue.setFilters({ "bassboost": true });
-      embed.setTitle("✨ 베이스부스트 **활성화** 되었습니다.")
-      console.log(player.queues);
+      embed.setTitle("✨ 베이스부스트 필터가 **활성화** 되었습니다.")
+      embed.setDescription(`${queue.current.title}\n\n매우 강력한 베이스, 소리의 주의하세요!`)
+      return interaction.followUp({ embeds: [embed] });
+    }
+
+    if (interaction.options.getString("필터") == "vaporwave") {
+      queue.setFilters({ "vaporwave": true });
+      embed.setTitle("✨ 베이퍼웨이브 필터가 **활성화** 되었습니다.")
+      embed.setDescription(`${queue.current.title}\n\n때로는 낮고, 느린 분위기도 좋죠.`)
+      return interaction.followUp({ embeds: [embed] });
+    }
+
+    if (interaction.options.getString("필터") == "nightcore") {
+      queue.setFilters({ "nightcore": true });
+      embed.setTitle("✨ 나이트코어 필터가 **활성화** 되었습니다.")
+      embed.setDescription(`${queue.current.title}\n\n때로는 높고, 빠른 분위기도 좋죠.`)
       return interaction.followUp({ embeds: [embed] });
     }
   }

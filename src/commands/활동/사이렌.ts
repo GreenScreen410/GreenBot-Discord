@@ -6,7 +6,7 @@ import ERROR from "../../handler/ERROR.js";
 export default {
   data: new SlashCommandBuilder()
     .setName("사이렌")
-    .setDescription("매우 큰 사이렌을 재생합니다. 소리에 주의하세요.")
+    .setDescription("매우 시끄러운 사이렌을 재생합니다. 소리에 주의하세요.")
     .setDMPermission(false),
 
   run: async (client: Client, interaction: ChatInputCommandInteraction) => {

@@ -1,12 +1,12 @@
-import { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from "discord.js";
+import { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder } from "discord.js";
 import { QueueRepeatMode } from "discord-player";
 import player from "../../events/player/player.js";
 import ERROR from "../../handler/ERROR.js";
 
 export default {
   data: new SlashCommandBuilder()
-    .setName("넘기기")
-    .setDescription("재생중인 노래를 넘깁니다.")
+    .setName("자동재생")
+    .setDescription("재생되고 있는 노래와 관련된 노래를 그린Bot이 직접 찾고, 재생합니다.")
     .setDMPermission(false),
 
   run: async (client: Client, interaction: ChatInputCommandInteraction) => {
@@ -20,14 +20,28 @@ export default {
       return ERROR.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction);
     }
 
-    queue.skip();
-
     const embed = new EmbedBuilder()
       .setColor("Random")
-      .setTitle("⏩ 재생중인 노래를 넘겼습니다!")
       .setDescription(`${queue.current.title}`)
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
-    interaction.followUp({ embeds: [embed] });
+
+    if (queue.repeatMode == QueueRepeatMode.AUTOPLAY) {
+      queue.setRepeatMode(QueueRepeatMode.OFF);
+      embed.setTitle("🔍 대기열대로 노래를 재생합니다.")
+      return interaction.followUp({ embeds: [embed] });
+
+    } else {
+      queue.setRepeatMode(QueueRepeatMode.AUTOPLAY);
+
+      const embed = new EmbedBuilder()
+        .setColor("Random")
+        .setTitle("🔍 관련된 노래를 자동재생합니다.")
+        .setDescription(`${queue.current.title}`)
+        .setTimestamp()
+        .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
+
+      return interaction.followUp({ embeds: [embed] });
+    }
   },
 };

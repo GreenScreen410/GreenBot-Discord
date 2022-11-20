@@ -10,11 +10,11 @@ export default {
     .addStringOption(option => option
       .setName("옵션")
       .setDescription("옵션을 지정해 주세요.")
-      .addChoices({ name: "노래", value: "QUEUE" })
-      .addChoices({ name: "재생목록", value: "TRACK" })
+      .addChoices({ name: "노래", value: "TRACK" })
+      .addChoices({ name: "재생목록", value: "QUEUE" })
       .addChoices({ name: "끄기", value: "OFF" })
       .setRequired(true)
-      )
+    )
     .setDMPermission(false),
 
   run: async (client: Client, interaction: ChatInputCommandInteraction) => {
@@ -34,14 +34,14 @@ export default {
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
 
-    if (interaction.options.getString("옵션") == "QUEUE") {
-      queue.setRepeatMode(QueueRepeatMode.QUEUE);
+    if (interaction.options.getString("옵션") == "TRACK") {
+      queue.setRepeatMode(QueueRepeatMode.TRACK);
       embed.setTitle("🔁 노래 반복 재생이 **활성화** 되었습니다.")
       return interaction.followUp({ embeds: [embed] });
     }
 
-    if (interaction.options.getString("옵션") == "TRACK") {
-      queue.setRepeatMode(QueueRepeatMode.TRACK);
+    if (interaction.options.getString("옵션") == "QUEUE") {
+      queue.setRepeatMode(QueueRepeatMode.QUEUE);
       embed.setTitle("🔁 재생목록 반복 재생이 **활성화** 되었습니다.")
       return interaction.followUp({ embeds: [embed] });
     }

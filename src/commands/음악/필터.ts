@@ -1,6 +1,7 @@
 import { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import player from "../../events/player/player.js";
 import ERROR from "../../handler/ERROR.js";
+import ACHIEVEMENT from "../../handler/ACHIEVEMENT.js";
 
 export default {
   data: new SlashCommandBuilder()
@@ -27,8 +28,6 @@ export default {
     if (interaction.guild.members.me?.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
       return ERROR.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction);
     }
-
-    let djCondition = 0;
 
     const embed = new EmbedBuilder()
       .setColor("Random")

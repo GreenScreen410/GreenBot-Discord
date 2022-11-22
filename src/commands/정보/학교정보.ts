@@ -32,7 +32,7 @@ export default {
         .setTimestamp()
         .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
       interaction.followUp({ embeds: [embed] });
-      ACHIEVEMENT.grant(interaction, "CheckSchoolInfo");
+      ACHIEVEMENT.GRANT(interaction, "CheckSchoolInfo");
     
     } catch (error) {
       return ERROR.INVALID_ARGUMENT(interaction);

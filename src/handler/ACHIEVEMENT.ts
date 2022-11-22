@@ -18,7 +18,7 @@ const Columns = {
 };
 
 export default {
-  grant: function (interaction: ChatInputCommandInteraction, name: any) {
+  GRANT: function (interaction: ChatInputCommandInteraction, name: any) {
     // @ts-ignore
     const position = Columns[name];
 

@@ -1,6 +1,7 @@
 import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import mysql from "mysql";
 import achievement from "../achievement.json" assert { type: "json" };
+import ERROR from "./ERROR";
 
 const connection = mysql.createConnection({
   host: `${process.env.MYSQL_HOST}`,
@@ -33,5 +34,13 @@ export default {
         .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
       return interaction.followUp({ embeds: [embed] });
     })
+  },
+
+  REVOKE: function (interaction: ChatInputCommandInteraction, name: any) {
+    if (interaction.user.id == "332840377763758082") return ERROR.NO_PERMISSION(interaction);
+
+    const embed = new EmbedBuilder();
+
+    return interaction.followUp({ embeds: [embed] })
   }
 }

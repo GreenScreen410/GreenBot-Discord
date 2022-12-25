@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import mysql from "mysql";
 import achievement from "../../achievement.json" assert { type: "json" };
@@ -15,7 +16,7 @@ export default {
       database: "greenbot-database",
     });
 
-    connection.query(`SELECT * FROM achievement WHERE id=${interaction.user.id}`, function(error, result) {
+    connection.query(`SELECT * FROM achievement WHERE ID=${interaction.user.id}`, function(error, result) {
       if (result == "") {
         connection.query(`INSERT INTO achievement(ID, FirstStep) VALUES (${interaction.user.id}, 1)`)
         

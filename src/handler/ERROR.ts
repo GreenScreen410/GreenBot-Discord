@@ -20,7 +20,7 @@ export default {
       .addFields({ name: "에러 코드", value: "UNKNOWN_ERROR" })
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
-    interaction.followUp({ embeds: [embed] });
+    return interaction.followUp({ embeds: [embed] });
   },
 
   INVALID_INTERACTION: function (interaction: ChatInputCommandInteraction | ButtonInteraction) {

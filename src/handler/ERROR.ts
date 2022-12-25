@@ -1,6 +1,17 @@
 import { ChatInputCommandInteraction, ButtonInteraction, EmbedBuilder } from "discord.js";
 
 export default {
+  NO_PERMISSION: function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
+    const embed = new EmbedBuilder()
+      .setColor("#FF0000")
+      .setTitle("❌ 오류!")
+      .setDescription("권한이 없습니다.")
+      .setFields({ name: "에러 코드", value: "NO_PERMISSION" })
+      .setTimestamp()
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
+    return interaction.followUp({ embeds: [embed] });
+  },
+  
   UNKNOWN_ERROR: function (interaction: ChatInputCommandInteraction | ButtonInteraction, error: unknown) {
     const embed = new EmbedBuilder()
       .setColor("#FF0000")

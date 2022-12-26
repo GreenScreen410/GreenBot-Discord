@@ -1,7 +1,7 @@
 import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 import mysql from "mysql";
 import achievement from "../achievement.json" assert { type: "json" };
-import ERROR from "./ERROR";
+import ERROR from "./ERROR.js";
 
 const connection = mysql.createConnection({
   host: `${process.env.MYSQL_HOST}`,

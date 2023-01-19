@@ -10,9 +10,11 @@ export default {
     .addStringOption(option => option
       .setName("필터")
       .setDescription("필터를 지정해 주세요.")
+      .addChoices({ name: "끄기", value: "normalizer2" })
       .addChoices({ name: "8D", value: "8D" })
       .addChoices({ name: "베이스부스트 (소리 주의)", value: "bassboost" })
       .addChoices({ name: "베이퍼웨이브", value: "vaporwave" })
+      .addChoices({ name: "가라오케", value: "karaoke" })
       .addChoices({ name: "나이트코어", value: "nightcore" })
       .setRequired(true)
     )
@@ -33,6 +35,13 @@ export default {
       .setColor("Random")
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
+
+    if (interaction.options.getString("필터") == "normalizer2") {
+      queue.setFilters({ "normalizer2": true });
+      embed.setTitle("✨ 필터가 **비활성화** 되었습니다.")
+      embed.setDescription(`${queue.current.title}\n\n`)
+      return interaction.followUp({ embeds: [embed] });
+    }
 
     if (interaction.options.getString("필터") == "8D") {
       queue.setFilters({ "8D": true });

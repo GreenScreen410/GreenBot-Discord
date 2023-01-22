@@ -37,7 +37,7 @@ export default {
   },
 
   REVOKE: function (interaction: ChatInputCommandInteraction, name: any) {
-    if (interaction.user.id == "332840377763758082") return ERROR.NO_PERMISSION(interaction);
+    if (interaction.user.id != "332840377763758082") return ERROR.NO_PERMISSION(interaction);
 
     const embed = new EmbedBuilder();
 

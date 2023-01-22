@@ -14,7 +14,6 @@ export default {
       .addChoices({ name: "8D", value: "8D" })
       .addChoices({ name: "베이스부스트 (소리 주의)", value: "bassboost" })
       .addChoices({ name: "베이퍼웨이브", value: "vaporwave" })
-      .addChoices({ name: "가라오케", value: "karaoke" })
       .addChoices({ name: "나이트코어", value: "nightcore" })
       .setRequired(true)
     )

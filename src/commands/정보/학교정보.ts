@@ -1,6 +1,7 @@
 import { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import axios from "axios";
 import ERROR from "../../handler/ERROR.js";
+import ACHIEVEMENT from "../../handler/ACHIEVEMENT.js"
 
 export default {
   data: new SlashCommandBuilder()
@@ -31,6 +32,7 @@ export default {
         .setTimestamp()
         .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
       interaction.followUp({ embeds: [embed] });
+      ACHIEVEMENT.GRANT(interaction, "CheckSchoolInfo");
     
     } catch (error) {
       return ERROR.INVALID_ARGUMENT(interaction);

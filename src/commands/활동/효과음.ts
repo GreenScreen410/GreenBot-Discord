@@ -52,7 +52,7 @@ export default {
     }
 
     if (interaction.options.getString("효과음") == "siren") {
-      const resource = createAudioResource("https://www.myinstants.com//media/sounds/999-social-credit-siren.mp3");
+      const resource = createAudioResource("https://www.myinstants.com/media/sounds/999-social-credit-siren.mp3");
       player.play(resource);
       connection.subscribe(player);
       embed.setTitle("📢 **사이렌** 효과음을 재생합니다.")

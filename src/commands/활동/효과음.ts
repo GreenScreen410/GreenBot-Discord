@@ -1,5 +1,5 @@
 import { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from "discord.js";
-import { AudioPlayerStatus, createAudioPlayer, createAudioResource, joinVoiceChannel, AudioResource } from '@discordjs/voice';
+import { AudioPlayerStatus, createAudioPlayer, createAudioResource, joinVoiceChannel } from '@discordjs/voice';
 import ERROR from "../../handler/ERROR.js";
 
 export default {

@@ -13,7 +13,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@discordjs/voice": "^0.14.0",
     "axios": "^1.2.1",

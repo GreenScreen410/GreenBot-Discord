@@ -1,7 +1,6 @@
 import { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import axios from "axios";
 import * as cheerio from "cheerio";
-import ERROR from "../../handler/ERROR.js";
 
 export default {
   data: new SlashCommandBuilder()
@@ -17,22 +16,17 @@ export default {
     githubCommitData = cheerio.load(githubCommitData.data);
     const latestCommit = githubCommitData("#repo-content-pjax-container > div > div.commit.full-commit.mt-0.px-2.pt-2 > div.commit-title.markdown-title").text().trim();;
 
-    try {
-      const embed = new EmbedBuilder()
-        .setColor("Random")
-        .setTitle("GitHub로 이동하기")
-        .setURL("https://github.com/GreenScreen410/GreenBot-Discord")
-        .addFields(
-          { name: "최근 커밋", value: latestCommit, inline: false },
-          { name: "최근 릴리즈", value: latestRelease, inline: false }
-        )
-        .setTimestamp()
-        .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
+    const embed = new EmbedBuilder()
+      .setColor("Random")
+      .setTitle("GitHub로 이동하기")
+      .setURL("https://github.com/GreenScreen410/GreenBot-Discord")
+      .addFields(
+        { name: "최근 커밋", value: latestCommit, inline: false },
+        { name: "최근 릴리즈", value: latestRelease, inline: false }
+      )
+      .setTimestamp()
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
 
-      interaction.followUp({ embeds: [embed] });
-
-    } catch (error) {
-      ERROR.UNKNOWN_ERROR(interaction, error);
-    }
+    interaction.followUp({ embeds: [embed] });
   },
 }

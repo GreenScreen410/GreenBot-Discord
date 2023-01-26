@@ -1,4 +1,4 @@
-import { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
+import { Client, ChatInputCommandInteraction, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 import player from "../../events/player/player.js";
 import ERROR from "../../handler/ERROR.js";
 import MusicQueueButton from "./재생목록.js";
@@ -24,6 +24,8 @@ export default {
       return ERROR.CAN_NOT_FIND_MUSIC(interaction);
     }
 
+    queue.remove(0);
+
     const embed = new EmbedBuilder()
       .setColor("Random")
       .setThumbnail(queue.tracks[0].thumbnail)
@@ -35,7 +37,5 @@ export default {
     
     const button = new ActionRowBuilder<ButtonBuilder>().addComponents(MusicQueueButton.data)
     interaction.followUp({ embeds: [embed], components: [button] });
-
-    queue.remove(0);
   }
 };

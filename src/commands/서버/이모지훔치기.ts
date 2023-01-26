@@ -1,5 +1,4 @@
-import { Client, ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder, parseEmoji } from "discord.js";
-import { PermissionsBitField  } from "discord.js";
+import { Client, PermissionsBitField, ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder, parseEmoji, PermissionFlagsBits } from "discord.js";
 import ERROR from "../../handler/ERROR.js";
 
 export default {
@@ -11,6 +10,7 @@ export default {
       .setDescription("이모지를 입력해 주세요.")
       .setRequired(true))
     .setDMPermission(false),
+  permission: [PermissionsBitField.Flags.ManageEmojisAndStickers],
 
   run: async (client: Client, interaction: ChatInputCommandInteraction) => {
     if (!interaction.inCachedGuild()) return;
@@ -20,7 +20,7 @@ export default {
     try {
       const emoji = parseEmoji(rawEmoji)
       if (!emoji) return ERROR.INVALID_ARGUMENT(interaction);
-      
+
       const extension = emoji.animated ? ".gif" : ".png";
       const url = `https://cdn.discordapp.com/emojis/${emoji.id + extension}`;
 

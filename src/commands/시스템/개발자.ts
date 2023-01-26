@@ -1,0 +1,24 @@
+import { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from "discord.js";
+
+export default {
+  data: new SlashCommandBuilder()
+    .setName("개발자")
+    .setDescription("개발자에 대한 정보를 출력합니다."),
+
+  run: async (client: Client, interaction: ChatInputCommandInteraction) => {
+    if (!interaction.inCachedGuild()) return;
+
+    const embed = new EmbedBuilder()
+      .setColor("Random")
+      .setTitle("📘 개발자 정보")
+      .setDescription(`반응 속도 : ${client.ws.ping}ms`)
+      .addFields(
+        { name: "👑 이름", value: "그린스크린", inline: true },
+        { name: "🏷 디스코드 태그", value: "그린스크린#2647", inline: true },
+        { name: "🌐 웹사이트", value: "https://github.com/GreenScreen410", inline: true },
+      )
+      .setTimestamp()
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
+    interaction.followUp({ embeds: [embed] });
+  },
+};

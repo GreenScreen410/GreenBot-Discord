@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, ButtonInteraction, EmbedBuilder } from "discord.js";
+import { ChatInputCommandInteraction, ButtonInteraction, EmbedBuilder, ActionRowBuilder, ButtonBuilder } from "discord.js";
 
 export default {
   YOU_HAVE_BEEN_BANNED: function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
@@ -12,22 +12,22 @@ export default {
     interaction.followUp({ embeds: [embed] });
   },
 
-  NO_PERMISSION: function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
+  BOT_HAVE_NO_PERMISSION: function (interaction: ChatInputCommandInteraction | ButtonInteraction, permissions: string[]) {
     const embed = new EmbedBuilder()
       .setColor("#FF0000")
       .setTitle("❌ 오류!")
-      .setDescription("권한이 없습니다.")
-      .setFields({ name: "에러 코드", value: "NO_PERMISSION" })
+      .setDescription(`봇이 해당 작업을 수행할 권한이 없습니다.\n\`${permissions}\``)
+      .setFields({ name: "에러 코드", value: "BOT_HAVE_NO_PERMISSION" })
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
     interaction.followUp({ embeds: [embed] });
   },
   
-  UNKNOWN_ERROR: function (interaction: ChatInputCommandInteraction | ButtonInteraction, error: unknown) {
+  UNKNOWN_ERROR: function (interaction: ChatInputCommandInteraction | ButtonInteraction, error: Error) {
     const embed = new EmbedBuilder()
       .setColor("#FF0000")
       .setTitle("❌ 오류!")
-      .setDescription(`알 수 없는 오류가 발생하였습니다.\n\`\`\`ts${error}\`\`\``)
+      .setDescription(`알 수 없는 오류가 발생하였습니다.\n\`\`\`ts${error.stack}\`\`\``)
       .addFields({ name: "에러 코드", value: "UNKNOWN_ERROR" })
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });

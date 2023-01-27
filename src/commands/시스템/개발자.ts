@@ -11,7 +11,6 @@ export default {
     const embed = new EmbedBuilder()
       .setColor("Random")
       .setTitle("📘 개발자 정보")
-      .setDescription(`반응 속도 : ${client.ws.ping}ms`)
       .addFields(
         { name: "👑 이름", value: "그린스크린", inline: true },
         { name: "🏷 디스코드 태그", value: "그린스크린#2647", inline: true },

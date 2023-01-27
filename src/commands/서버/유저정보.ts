@@ -1,4 +1,4 @@
-import { Client, ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import { Client, ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder, version } from "discord.js";
 import moment from "moment";
 import os from "os";
 
@@ -35,6 +35,8 @@ export default {
       embed.addFields(
         { name: "🖥️ OS", value: `${os.type()} ${os.version()} ${os.release()}`, inline: true },
         { name: "💾 메모리 상태", value: `${Math.round(os.freemem() / 1000000)} MB/${Math.round(os.totalmem() / 1000000)} MB`, inline: true },
+        { name: "📂 node.js 버전", value: `${process.version}`, inline: true },
+        { name: "📂 discord.js 버전", value: `${version}`, inline: true },
       )
       interaction.followUp({ embeds: [embed] });
 

@@ -24,8 +24,6 @@ export default {
       return ERROR.CAN_NOT_FIND_MUSIC(interaction);
     }
 
-    queue.remove(0);
-
     const embed = new EmbedBuilder()
       .setColor("Random")
       .setThumbnail(queue.tracks[0].thumbnail)
@@ -35,6 +33,8 @@ export default {
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
     
+    queue.remove(0);
+
     const button = new ActionRowBuilder<ButtonBuilder>().addComponents(MusicQueueButton.data)
     interaction.followUp({ embeds: [embed], components: [button] });
   }

@@ -12,6 +12,7 @@ export default {
     interaction.followUp({ embeds: [embed] });
   },
 
+  /*
   BOT_HAVE_NO_PERMISSION: function (interaction: ChatInputCommandInteraction | ButtonInteraction, permissions: string[]) {
     const embed = new EmbedBuilder()
       .setColor("#FF0000")
@@ -22,6 +23,7 @@ export default {
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
     interaction.followUp({ embeds: [embed] });
   },
+  */
   
   UNKNOWN_ERROR: function (interaction: ChatInputCommandInteraction | ButtonInteraction, error: Error) {
     const embed = new EmbedBuilder()

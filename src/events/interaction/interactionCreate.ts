@@ -19,12 +19,15 @@ client.on("interactionCreate", async (interaction: BaseInteraction) => {
   await interaction.deferReply();
 
   if (!command) return ERROR.INVALID_INTERACTION(interaction);
+
+  /*
   if (command.permission && command.permission.length > 0) {
     if (!interaction.guild.members.me?.permissions.has(command.permission)) {
       const permissionList = new PermissionsBitField(command.permission).toArray()
       return ERROR.BOT_HAVE_NO_PERMISSION(interaction, permissionList);
     }
   }
+  */
 
   connection.query(`SELECT * FROM ban WHERE ID=${interaction.user.id}`, function (error, result) {
     try {

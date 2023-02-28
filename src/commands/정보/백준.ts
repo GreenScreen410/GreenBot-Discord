@@ -59,6 +59,7 @@ export default {
       problemData = JSON.parse(JSON.stringify(problemData.data));
 
       const embed = new EmbedBuilder()
+        .setURL(`https://www.acmicpc.net/problem/${problemID}`)
         .setColor("Random")
         .setTitle(`${problemData.problemId} - ${problemData.titleKo}`)
         .setDescription(`난이도: ${tier[problemData.level]}`)

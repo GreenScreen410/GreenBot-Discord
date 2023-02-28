@@ -1,6 +1,6 @@
 {
   "name": "greenbot-discord",
-  "version": "1.9.9",
+  "version": "1.9.10",
   "description": "",
   "exports": "./index.js",
   "type": "module",

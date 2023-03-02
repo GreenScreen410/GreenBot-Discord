@@ -1,7 +1,6 @@
 import { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import player from "../../events/player/player.js";
 import ERROR from "../../handler/ERROR.js";
-import ACHIEVEMENT from "../../handler/ACHIEVEMENT.js";
 
 export default {
   data: new SlashCommandBuilder()

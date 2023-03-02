@@ -1,7 +1,6 @@
 import { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import axios from "axios";
 import ERROR from "../../handler/ERROR.js";
-import ACHIEVEMENT from "../../handler/ACHIEVEMENT.js"
 
 export default {
   data: new SlashCommandBuilder()
@@ -16,24 +15,26 @@ export default {
     const school = interaction.options.getString("학교명", true);
 
     try {
-      let schoolData: any = await axios.get(`https://schoolmenukr.ml/code/api?q=${encodeURIComponent(school)}`);
+      let schoolData: any = await axios.get(`https://open.neis.go.kr/hub/schoolInfo?Type=json&SCHUL_NM=${encodeURIComponent(school)}&key=${process.env.NEIS_OPENINFO_KEY}`);
       schoolData = JSON.parse(JSON.stringify(schoolData.data));
 
       const embed = new EmbedBuilder()
         .setColor("Random")
-        .setTitle(`${schoolData.school_infos[0].name} 정보`)
-        .setDescription(`${schoolData.school_infos[0].website}`)
+        .setTitle(`${schoolData.schoolInfo[1].row[0].SCHUL_NM} 정보`)
+        .setDescription(`${schoolData.schoolInfo[1].row[0].HMPG_ADRES}`)
         .addFields(
-          { name: "개교일", value: `${schoolData.school_infos[0].estDate["y"]}년 ${schoolData.school_infos[0].estDate["m"]}월 ${schoolData.school_infos[0].estDate["d"]}일`, inline: true },
-          { name: "주소", value: `${schoolData.school_infos[0].address}`, inline: false },
-          { name: "전화번호", value: `${schoolData.school_infos[0].phone}`, inline: false },
-          { name: "학교코드", value: `${schoolData.school_infos[0].code}`, inline: false },
+          { name: "개교일", value: `${schoolData.schoolInfo[1].row[0].FOND_YMD}`, inline: false },
+          { name: "영문", value: `${schoolData.schoolInfo[1].row[0].ENG_SCHUL_NM}`, inline: false },
+          { name: "종류", value: `${schoolData.schoolInfo[1].row[0].HS_GNRL_BUSNS_SC_NM}`, inline: false },
+          { name: "주소", value: `${schoolData.schoolInfo[1].row[0].ORG_RDNMA}`, inline: false },
+          { name: "전화번호", value: `${schoolData.schoolInfo[1].row[0].ORG_TELNO}`, inline: false },
+          { name: "학교코드", value: `${schoolData.schoolInfo[1].row[0].ATPT_OFCDC_SC_CODE + schoolData.schoolInfo[1].row[0].SD_SCHUL_CODE}`, inline: false },
+          { name: "데이터 수정일자", value: `${schoolData.schoolInfo[1].row[0].LOAD_DTM}`, inline: false },
         )
         .setTimestamp()
         .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
       interaction.followUp({ embeds: [embed] });
-      ACHIEVEMENT.GRANT(interaction, "CheckSchoolInfo");
-    
+
     } catch (error) {
       return ERROR.INVALID_ARGUMENT(interaction);
     }

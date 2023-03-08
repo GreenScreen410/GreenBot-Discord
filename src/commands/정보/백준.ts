@@ -4,11 +4,11 @@ import ERROR from "../../handler/ERROR.js";
 
 const tier = [
   "<:unranked:857632511117754429>",
-  "<:bronze5:857632511181586443>",
-  "<:bronze4:857632511072665650>",
-  "<:bronze3:857632511060607036>",
-  "<:bronze2:857632510997692446>",
-  "<:bronze1:857632515854172160>",
+  "<:bronze5:857632515854172160>",
+  "<:bronze4:857632511181586443>",
+  "<:bronze3:857632511072665650>",
+  "<:bronze2:857632511060607036>",
+  "<:bronze1:857632510997692446>",
 
   "<:silver5:857632511243976754>",
   "<:silver4:857632511189450784>",
@@ -69,6 +69,15 @@ export default {
         )
         .setTimestamp()
         .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
+      
+      let tags =  "";
+      for (let i = 0; i < Object.keys(problemData.tags).length; i++) {
+        tags += problemData.tags[i].displayNames[0].name + "\n";
+      }
+      embed.addFields(
+        { name: "📛 알고리즘 분류", value: `${tags}`, inline: false }
+      )
+
       interaction.followUp({ embeds: [embed] });
     
     } catch (error) {

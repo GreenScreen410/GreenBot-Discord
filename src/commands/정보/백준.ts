@@ -69,17 +69,20 @@ export default {
         )
         .setTimestamp()
         .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
-      
-      let tags =  "";
-      for (let i = 0; i < Object.keys(problemData.tags).length; i++) {
-        tags += problemData.tags[i].displayNames[0].name + "\n";
+
+      // 간혹 알고리즘 태그가 없는 문제들이 있기 때문에, 해당 조건문이 필요합니다.
+      if (Object.keys(problemData.tags).length) {
+        let tags =  "";
+        for (let i = 0; i < Object.keys(problemData.tags).length; i++) {
+          tags += problemData.tags[i].displayNames[0].name + "\n";
+        }
+        embed.addFields(
+          { name: "📛 알고리즘 분류", value: `${tags}`, inline: false }
+        )
       }
-      embed.addFields(
-        { name: "📛 알고리즘 분류", value: `${tags}`, inline: false }
-      )
 
       interaction.followUp({ embeds: [embed] });
-    
+            
     } catch (error) {
       return ERROR.INVALID_ARGUMENT(interaction);
     }

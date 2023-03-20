@@ -7,7 +7,7 @@ export default {
     .setLabel("재생목록")
     .setEmoji("📄")
     .setStyle(ButtonStyle.Secondary),
-  
+
   run: async (client: Client, interaction: ChatInputCommandInteraction) => {
     MusicQueue.run(client, interaction);
   }

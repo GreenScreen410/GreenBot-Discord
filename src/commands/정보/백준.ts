@@ -21,7 +21,7 @@ const tier = [
   "<:gold3:857632511181717564>",
   "<:gold2:857632511035047986>",
   "<:gold1:857632511080005632>",
-  
+
   "<:platinum5:857632511228248074>",
   "<:platinum4:857632511270191114>",
   "<:platinum3:857632511151308800>",
@@ -72,7 +72,7 @@ export default {
 
       // 간혹 알고리즘 태그가 없는 문제들이 있기 때문에, 해당 조건문이 필요합니다.
       if (Object.keys(problemData.tags).length) {
-        let tags =  "";
+        let tags = "";
         for (let i = 0; i < Object.keys(problemData.tags).length; i++) {
           tags += problemData.tags[i].displayNames[0].name + "\n";
         }
@@ -82,7 +82,7 @@ export default {
       }
 
       interaction.followUp({ embeds: [embed] });
-            
+
     } catch (error) {
       return ERROR.INVALID_ARGUMENT(interaction);
     }

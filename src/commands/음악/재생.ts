@@ -56,7 +56,7 @@ export default {
       .setURL(`${track.tracks[0].url}`)
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
-    
+
     const button = new ActionRowBuilder<ButtonBuilder>().addComponents(MusicQueueButton.data, MusicRemove.data)
 
     if (!queue.playing) {

@@ -24,7 +24,7 @@ export default {
     if (interaction.guild.members.me?.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
       return ERROR.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction);
     }
-    if(!queue.tracks[trackIndex]) {
+    if (!queue.tracks[trackIndex]) {
       return ERROR.CAN_NOT_FIND_MUSIC(interaction);
     }
 
@@ -36,7 +36,7 @@ export default {
       .setURL(`${queue.tracks[trackIndex].url}`)
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
-    
+
     const button = new ActionRowBuilder<ButtonBuilder>().addComponents(MusicQueueButton.data)
     interaction.followUp({ embeds: [embed], components: [button] });
 

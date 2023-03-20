@@ -14,7 +14,7 @@ export default {
       .addChoices({ name: "재생목록", value: "TRACK" })
       .addChoices({ name: "끄기", value: "OFF" })
       .setRequired(true)
-      )
+    )
     .setDMPermission(false),
 
   run: async (client: Client, interaction: ChatInputCommandInteraction) => {

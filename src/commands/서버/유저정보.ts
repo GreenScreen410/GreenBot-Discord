@@ -14,10 +14,10 @@ export default {
 
   run: async (client: Client, interaction: ChatInputCommandInteraction) => {
     if (!interaction.inCachedGuild()) return;
-    
+
     const userInfoUser = interaction.options.getUser("유저", true);
     const userInfoMember = interaction.options.getMember("유저");
-    
+
     const embed = new EmbedBuilder()
       .setColor("Random")
       .setTitle(`${userInfoUser.tag}의 정보`)

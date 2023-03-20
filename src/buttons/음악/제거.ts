@@ -9,7 +9,7 @@ export default {
     .setLabel("이거 아니에요!")
     .setEmoji("🗑️")
     .setStyle(ButtonStyle.Danger),
-  
+
   run: async (client: Client, interaction: ChatInputCommandInteraction) => {
     if (!interaction.inCachedGuild()) return;
 
@@ -20,7 +20,7 @@ export default {
     if (interaction.guild.members.me?.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
       return ERROR.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction);
     }
-    if(!queue.tracks[0]) {
+    if (!queue.tracks[0]) {
       return ERROR.CAN_NOT_FIND_MUSIC(interaction);
     }
 
@@ -32,7 +32,7 @@ export default {
       .setURL(`${queue.tracks[0].url}`)
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
-    
+
     queue.remove(0);
 
     const button = new ActionRowBuilder<ButtonBuilder>().addComponents(MusicQueueButton.data)

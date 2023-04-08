@@ -1,7 +1,6 @@
 import "dotenv/config";
 import Handler from "./handler/index.js";
-import { Collection } from "discord.js";
-import { KoreanbotsClient } from "koreanbots";
+import { Client, Collection } from "discord.js";
 
 declare module "discord.js" {
   export interface Client {
@@ -10,16 +9,7 @@ declare module "discord.js" {
   }
 }
 
-const client = new KoreanbotsClient({
-  intents: 32767,
-  koreanbots: {
-    api: {
-      token: `${process.env.KOREANBOTS_TOKEN}`
-    }
-  }, koreanbotsClient: {
-    updateInterval: 600000
-  }
-});
+const client = new Client({ intents: 32767 });
 
 export default client;
 

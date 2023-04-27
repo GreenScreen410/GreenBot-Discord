@@ -1,6 +1,10 @@
+import { Events } from "discord.js";
 import chalk from "chalk";
-import client from "../../index.js";
 
-client.on("error", (error) => {
-  console.log(chalk.red.bold(`[ERROR] ${error.stack}`));
-});
+export default {
+  name: Events.Error,
+
+  execute(error: Error) {
+    console.log(chalk.red.bold(`[ERROR] ${error.stack}`));
+  }
+}

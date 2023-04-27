@@ -1,6 +1,10 @@
+import { Events } from "discord.js";
 import chalk from "chalk";
-import client from "../../index.js";
 
-client.on("warn", (info) => {
-  console.log(chalk.yellow.bold(`[WARN] ${info}`));
-});
+export default {
+  name: Events.Warn,
+
+  execute(warn: string) {
+    console.log(chalk.yellow.bold(`[WARN] ${warn}`));
+  }
+}

@@ -1,4 +1,4 @@
-import { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from "discord.js";
+import { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from "discord.js";
 
 export default {
   data: new SlashCommandBuilder()
@@ -10,7 +10,7 @@ export default {
       .setRequired(true)
     ),
 
-  run: async (client: Client, interaction: ChatInputCommandInteraction) => {
+  async execute(interaction: ChatInputCommandInteraction) {
     const description = interaction.options.getString("설명");
 
     const embed = new EmbedBuilder()

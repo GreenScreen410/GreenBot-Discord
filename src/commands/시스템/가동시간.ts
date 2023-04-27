@@ -1,12 +1,14 @@
-import { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from "discord.js";
+import { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from "discord.js";
 
 export default {
   data: new SlashCommandBuilder()
     .setName("가동시간")
     .setDescription("봇의 가동 시간을 확인합니다."),
 
-  run: async (client: Client<true>, interaction: ChatInputCommandInteraction) => {
-    let totalSeconds = (client.uptime / 1000);
+  async execute(interaction: ChatInputCommandInteraction) {
+    if (!interaction.client.uptime) return;
+
+    let totalSeconds = (interaction.client.uptime / 1000);
     let days = Math.floor(totalSeconds / 86400);
     totalSeconds %= 86400;
     let hours = Math.floor(totalSeconds / 3600);
@@ -20,6 +22,6 @@ export default {
       .setDescription(`${days}일 ${hours}시간  ${minutes}분 ${seconds}초`)
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
-    interaction.followUp({ embeds: [embed] });
+    return interaction.followUp({ embeds: [embed] });
   }
 }

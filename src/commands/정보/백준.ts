@@ -1,6 +1,5 @@
-import { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from "discord.js";
+import { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import axios from "axios";
-import ERROR from "../../handler/ERROR.js";
 
 const tier = [
   "<:unranked:857632511117754429>",
@@ -45,46 +44,41 @@ export default {
   data: new SlashCommandBuilder()
     .setName("백준")
     .setDescription("백준 문제 정보를 불러옵니다.")
-    .addNumberOption((option) => option
+    .addIntegerOption((option) => option
       .setName("문제")
       .setDescription("문제 ID를 입력해 주세요.")
       .setRequired(true)
     ),
 
-  run: async (client: Client, interaction: ChatInputCommandInteraction) => {
-    const problemID = interaction.options.getNumber("문제");
+  async execute(interaction: ChatInputCommandInteraction) {
+    const problemID = interaction.options.getInteger("문제");
 
-    try {
-      let problemData: any = await axios.get(`https://solved.ac/api/v3/problem/show?problemId=${problemID}`);
-      problemData = JSON.parse(JSON.stringify(problemData.data));
+    let problemData: any = await axios.get(`https://solved.ac/api/v3/problem/show?problemId=${problemID}`);
+    problemData = JSON.parse(JSON.stringify(problemData.data));
 
-      const embed = new EmbedBuilder()
-        .setURL(`https://www.acmicpc.net/problem/${problemID}`)
-        .setColor("Random")
-        .setTitle(`${problemData.problemId} - ${problemData.titleKo}`)
-        .setDescription(`난이도: ${tier[problemData.level]}`)
-        .addFields(
-          { name: "<:ac:955478410682069038> 맞은 사람", value: `${problemData.acceptedUserCount}`, inline: true },
-          { name: "🔁 평균 시도 횟수", value: `${problemData.averageTries}`, inline: true },
-        )
-        .setTimestamp()
-        .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
+    const embed = new EmbedBuilder()
+      .setURL(`https://www.acmicpc.net/problem/${problemID}`)
+      .setColor("Random")
+      .setTitle(`${problemData.problemId} - ${problemData.titleKo}`)
+      .setDescription(`난이도: ${tier[problemData.level]}`)
+      .addFields(
+        { name: "<:ac:955478410682069038> 맞은 사람", value: `${problemData.acceptedUserCount}`, inline: true },
+        { name: "🔁 평균 시도 횟수", value: `${problemData.averageTries}`, inline: true },
+      )
+      .setTimestamp()
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
 
-      // 간혹 알고리즘 태그가 없는 문제들이 있기 때문에, 해당 조건문이 필요합니다.
-      if (Object.keys(problemData.tags).length) {
-        let tags = "";
-        for (let i = 0; i < Object.keys(problemData.tags).length; i++) {
-          tags += problemData.tags[i].displayNames[0].name + "\n";
-        }
-        embed.addFields(
-          { name: "📛 알고리즘 분류", value: `${tags}`, inline: false }
-        )
+    // 간혹 알고리즘 태그가 없는 문제들이 있기 때문에, 해당 조건문이 필요합니다.
+    if (Object.keys(problemData.tags).length) {
+      let tags = "";
+      for (let i = 0; i < Object.keys(problemData.tags).length; i++) {
+        tags += problemData.tags[i].displayNames[0].name + "\n";
       }
-
-      interaction.followUp({ embeds: [embed] });
-
-    } catch (error) {
-      return ERROR.INVALID_ARGUMENT(interaction);
+      embed.addFields(
+        { name: "📛 알고리즘 분류", value: `${tags}`, inline: false }
+      )
     }
+
+    return interaction.followUp({ embeds: [embed] });
   },
 }

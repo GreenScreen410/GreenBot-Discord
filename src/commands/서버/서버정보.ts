@@ -1,4 +1,4 @@
-import { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from "discord.js";
+import { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import moment from "moment";
 
 export default {
@@ -7,7 +7,7 @@ export default {
     .setDescription("현재 서버의 정보를 보여줍니다.")
     .setDMPermission(false),
 
-  run: async (client: Client, interaction: ChatInputCommandInteraction) => {
+  async execute(interaction: ChatInputCommandInteraction) {
     if (!interaction.inCachedGuild()) return;
 
     const roles = interaction.guild.roles.cache.sort((a, b) => b.position - a.position).map((role) => role.toString());

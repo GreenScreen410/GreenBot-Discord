@@ -1,4 +1,4 @@
-import { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from "discord.js";
+import { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import mysql from "mysql";
 
 const connection = mysql.createConnection({
@@ -22,7 +22,7 @@ export default {
       .setRequired(true)
     ),
 
-  run: async (client: Client, interaction: ChatInputCommandInteraction) => {
+  async execute(interaction: ChatInputCommandInteraction) {
     if (interaction.user.id != "332840377763758082") return;
 
     const user = interaction.options.getUser("유저", true);

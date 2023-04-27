@@ -24,12 +24,12 @@ export default {
     interaction.followUp({ embeds: [embed] });
   },
   */
-  
+
   UNKNOWN_ERROR: function (interaction: ChatInputCommandInteraction | ButtonInteraction, error: Error) {
     const embed = new EmbedBuilder()
       .setColor("#FF0000")
       .setTitle("❌ 오류!")
-      .setDescription(`알 수 없는 오류가 발생하였습니다.\n\`\`\`ts${error.stack}\`\`\``)
+      .setDescription(`알 수 없는 오류가 발생하였습니다.\n\`\`\`ts\n${error.message}\`\`\``)
       .addFields({ name: "에러 코드", value: "UNKNOWN_ERROR" })
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
@@ -40,13 +40,14 @@ export default {
     const embed = new EmbedBuilder()
       .setColor("#FF0000")
       .setTitle("❌ 오류!")
-      .setDescription("올바르지 않은 명령어입니다.")
+      .setDescription("올바르지 않은 명령입니다.")
       .addFields({ name: "에러 코드", value: "INVALID_INTERACTION" })
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
     interaction.followUp({ embeds: [embed] });
   },
 
+  /*
   PLEASE_TYPE_ARGUMENTS: function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
     const embed = new EmbedBuilder()
       .setColor("#FF0000")
@@ -57,12 +58,13 @@ export default {
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
     interaction.followUp({ embeds: [embed] });
   },
+  */
 
-  INVALID_ARGUMENT: function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
+  INVALID_ARGUMENT: function (interaction: ChatInputCommandInteraction | ButtonInteraction, argument?: string) {
     const embed = new EmbedBuilder()
       .setColor("#FF0000")
       .setTitle("❌ 오류!")
-      .setDescription("잘못된 인자입니다.")
+      .setDescription(`잘못된 인자입니다: \`${argument}\``)
       .addFields({ name: "에러 코드", value: "INVALID_ARGUMENT" })
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })

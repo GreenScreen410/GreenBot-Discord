@@ -1,3 +1,4 @@
+import { Player } from "discord-player";
 import { Client, GatewayIntentBits, Collection } from "discord.js";
 import { readdir } from "node:fs/promises";
 import { join, dirname } from "node:path";
@@ -21,7 +22,14 @@ const client = new Client({
 });
 client.commands = new Collection();
 client.buttons = new Collection();
-client.error = import("./handler/error.js")
+client.error = (await import("./handler/error.js")).default;
+const player = Player.singleton(client, {
+  ytdlOptions: {
+    quality: "highestaudio",
+    filter: "audioonly",
+  },
+});
+await player.extractors.loadDefault();
 
 const commands: any = [];
 const commandFiles = await readdir(join(__dirname, "./commands"));

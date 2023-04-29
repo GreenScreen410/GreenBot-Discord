@@ -1,5 +1,4 @@
 import { ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder, version } from "discord.js";
-import ERROR from "../../handler/ERROR.js";
 import moment from "moment";
 import os from "os";
 
@@ -10,14 +9,13 @@ export default {
     .addUserOption((option) => option
       .setName("유저")
       .setDescription("유저를 선택해주세요.")
-      .setRequired(true))
-    .setDMPermission(false),
+      .setRequired(true)),
 
   async execute(interaction: ChatInputCommandInteraction) {
     if (!interaction.inCachedGuild()) return;
 
     const userInfo = interaction.options.getMember("유저");
-    if (!userInfo) return ERROR.INVALID_INTERACTION(interaction);
+    if (!userInfo) return interaction.client.error.INVALID_ARGUMENT(interaction, userInfo);
 
     const embed = new EmbedBuilder()
       .setColor("Random")
@@ -40,6 +38,7 @@ export default {
         { name: "📂 discord.js 버전", value: `${version}`, inline: true },
       )
     }
+
     interaction.followUp({ embeds: [embed] });
   },
 };

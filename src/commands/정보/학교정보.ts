@@ -14,6 +14,8 @@ export default {
     const school = interaction.options.getString("학교명", true);
     const response = await axios.get(`https://open.neis.go.kr/hub/schoolInfo?Type=json&SCHUL_NM=${encodeURIComponent(school)}&key=${process.env.NEIS_OPENINFO_KEY}`);
 
+    if (response.data.RESULT !== undefined) return interaction.client.error.INVALID_ARGUMENT(interaction, school);
+
     const embed = new EmbedBuilder()
       .setColor("Random")
       .setTitle(`${response.data.schoolInfo[1].row[0].SCHUL_NM} 정보`)

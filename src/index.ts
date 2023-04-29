@@ -1,29 +1,27 @@
-import "dotenv/config";
 import { Client, GatewayIntentBits, Collection } from "discord.js";
-import { Player } from "discord-player";
 import { readdir } from "node:fs/promises";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url"
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 declare module "discord.js" {
-  export interface Client {
+  interface Client {
     commands: Collection<string, any>;
     buttons: Collection<string, any>;
-    player: Player;
+    error: any;
   }
 }
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildVoiceStates,
+  ]
+});
 client.commands = new Collection();
 client.buttons = new Collection();
-
-client.player = new Player(client, {
-  ytdlOptions: {
-    quality: "highestaudio",
-    highWaterMark: 1 << 25,
-  },
-});
+client.error = import("./handler/error.js")
 
 const commands: any = [];
 const commandFiles = await readdir(join(__dirname, "./commands"));
@@ -42,7 +40,9 @@ for (const folders of eventFiles) {
   const folder = await readdir(join(__dirname, `./events/${folders}`));
   for (const file of folder) {
     const event = (await import(`./events/${folders}/${file}`)).default;
-    client.on(event.name, (...args) => event.execute(...args));
+    if (folders !== "process") {
+      client.on(event.name, (...args) => event.execute(...args));
+    }
   }
 }
 

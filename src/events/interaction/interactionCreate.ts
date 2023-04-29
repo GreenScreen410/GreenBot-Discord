@@ -1,6 +1,6 @@
-import { Events, Client, BaseInteraction } from "discord.js";
+import { Events, BaseInteraction } from "discord.js";
 import chalk from "chalk";
-import ERROR from "../../handler/ERROR.js";
+import ERROR from "../../handler/error.js";
 
 export default {
   name: Events.InteractionCreate,
@@ -13,7 +13,7 @@ export default {
 
     if (!command) return ERROR.INVALID_INTERACTION(interaction);
     try {
-      command.execute(interaction);
+      await command.execute(interaction);
       console.log(chalk.white(`[COMMAND] ${interaction.guild.name}(${interaction.guild.id}) - ${interaction.user.tag}(${interaction.user.id}) executed ${interaction.commandName}`))
     } catch (error: any) {
       return ERROR.UNKNOWN_ERROR(interaction, error);

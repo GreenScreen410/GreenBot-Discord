@@ -1,3 +1,4 @@
+import "dotenv/config.js";
 import { Player } from "discord-player";
 import { Client, GatewayIntentBits, Collection } from "discord.js";
 import { readdir } from "node:fs/promises";

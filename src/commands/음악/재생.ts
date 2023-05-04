@@ -1,9 +1,5 @@
-import { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder } from "discord.js";
-import { QueryType } from "discord-player";
-import MusicQueueButton from "../../buttons/음악/재생목록.js";
-import MusicRemove from "../../buttons/음악/제거.js";
-import player from "../../events/player/player.js";
-import ERROR from "../../handler/ERROR.js";
+import { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from "discord.js";
+import { QueryType, useMasterPlayer } from "discord-player";
 
 export default {
   data: new SlashCommandBuilder()
@@ -12,59 +8,29 @@ export default {
     .addStringOption((option) => option
       .setName("노래")
       .setDescription("노래 제목을 입력해 주세요.")
-      .setRequired(true))
-    .setDMPermission(false),
+      .setRequired(true)
+    ),
 
-  run: async (client: Client, interaction: ChatInputCommandInteraction) => {
+  async execute(interaction: ChatInputCommandInteraction) {
     if (!interaction.inCachedGuild()) return;
 
-    const songTitle = interaction.options.getString("노래", true);
     if (!interaction.member.voice.channel) {
-      return ERROR.PLEASE_JOIN_VOICE_CHANNEL(interaction);
+      return interaction.client.error.PLEASE_JOIN_VOICE_CHANNEL(interaction);
     }
     if (interaction.guild.members.me?.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
-      return ERROR.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction);
+      return interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction);
     }
+    const query = interaction.options.getString("노래", true);
+    const player = useMasterPlayer()!;
 
-    const queue = player.createQueue(interaction.guild, {
-      metadata: interaction.channel,
+    const results = await player.search(query, { searchEngine: QueryType.YOUTUBE });
+    if (!results.hasTracks()) return interaction.client.error.INVALID_ARGUMENT(interaction, query);;
+
+    const res = await player.play(interaction.member.voice.channel.id, results);
+    return interaction.followUp({
+      content: `${res.track.playlist ? ` **목록 **${res.track.playlist.title}**` : `**${res.track.title}**\n**(해당 메시지는 임시 출력 결과입니다! 조만간 수정될 예정입니다.)**`
+        }`
     });
 
-    try {
-      if (!queue.connection) await queue.connect(interaction.member.voice.channel);
-    } catch (error) {
-      queue.destroy();
-      return ERROR.CAN_NOT_JOIN_VOICE_CHANNEL(interaction);
-    }
-
-    const track: any = await player.search(songTitle, {
-      requestedBy: interaction.user,
-      searchEngine: QueryType.AUTO,
-    });
-    if (!track || !track.tracks.length) {
-      return ERROR.CAN_NOT_FIND_MUSIC(interaction);
-    }
-    if (track.tracks[0].durationMS >= 10800000) {
-      return ERROR.MUSIC_IS_TOO_LONG(interaction);
-    }
-
-    const embed = new EmbedBuilder()
-      .setColor("Random")
-      .setThumbnail(track.tracks[0].thumbnail)
-      .setTitle(`🎵 ${track.playlist ? "playlist" : "재생목록에 추가되었습니다."}`)
-      .setDescription(`${track.tracks[0].title}`)
-      .setURL(`${track.tracks[0].url}`)
-      .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
-
-    const button = new ActionRowBuilder<ButtonBuilder>().addComponents(MusicQueueButton.data, MusicRemove.data)
-
-    if (!queue.playing) {
-      track.playlist ? queue.addTracks(track.playlist) : queue.play(track.tracks[0]);
-      return await interaction.followUp({ embeds: [embed], components: [button] });
-    } else if (queue.playing) {
-      track.playlist ? queue.addTracks(track.playlist) : queue.addTrack(track.tracks[0]);
-      return await interaction.followUp({ embeds: [embed], components: [button] });
-    }
   },
 };

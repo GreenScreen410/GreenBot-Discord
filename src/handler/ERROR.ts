@@ -82,7 +82,7 @@ export default {
     const embed = new EmbedBuilder()
       .setColor("#FF0000")
       .setTitle("❌ 오류!")
-      .setDescription("3시간 이하의 노래만 재생할 수 있습니다.")
+      .setDescription("5시간 이하의 노래만 재생할 수 있습니다.")
       .addFields({ name: "에러 코드", value: "MUSIC_IS_TOO_LONG" })
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })

@@ -1,6 +1,6 @@
 import "dotenv/config.js";
-import { Player } from "discord-player";
 import { Client, GatewayIntentBits, Collection } from "discord.js";
+import { Player } from "discord-player";
 import { readdir } from "node:fs/promises";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url"
@@ -39,7 +39,6 @@ for (const folders of commandFiles) {
   for (const file of folder) {
     const command = (await import(`./commands/${folders}/${file}`)).default;
     client.commands.set(command.data.name, command);
-    await client.guilds.cache.get("825741743235268639")?.commands.set(commands);
     commands.push(command.data.toJSON());
   }
 }
@@ -55,4 +54,8 @@ for (const folders of eventFiles) {
   }
 }
 
+client.on("ready", async () => {
+  await client.guilds.cache.get("825741743235268639")?.commands.set(commands);
+  await client.application?.commands.set(commands);
+});
 client.login(process.env.BETA_TOKEN);

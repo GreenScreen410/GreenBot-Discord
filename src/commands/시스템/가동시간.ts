@@ -6,8 +6,6 @@ export default {
     .setDescription("봇의 가동 시간을 확인합니다."),
 
   async execute(interaction: ChatInputCommandInteraction) {
-    if (!interaction.client.uptime) return;
-
     let totalSeconds = (interaction.client.uptime / 1000);
     let days = Math.floor(totalSeconds / 86400);
     totalSeconds %= 86400;

@@ -20,17 +20,21 @@ export default {
     if (interaction.guild.members.me?.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
       return interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction);
     }
+
     const query = interaction.options.getString("노래", true);
     const player = useMasterPlayer()!;
-
     const results = await player.search(query, { searchEngine: QueryType.YOUTUBE });
     if (!results.hasTracks()) return interaction.client.error.INVALID_ARGUMENT(interaction, query);;
 
-    const res = await player.play(interaction.member.voice.channel.id, results);
-    return interaction.followUp({
-      content: `${res.track.playlist ? ` **목록 **${res.track.playlist.title}**` : `**${res.track.title}**\n**(해당 메시지는 임시 출력 결과입니다! 조만간 수정될 예정입니다.)**`
-        }`
-    });
-
+    const track = await player.play(interaction.member.voice.channel.id, results);
+    const embed = new EmbedBuilder()
+      .setColor("Random")
+      .setTitle("🎵 재생목록에 추가되었습니다.")
+      .setDescription(track.track.title)
+      .setURL(track.track.url)
+      .setThumbnail(track.track.thumbnail)
+      .setTimestamp()
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
+    await interaction.followUp({ embeds: [embed] });
   },
 };

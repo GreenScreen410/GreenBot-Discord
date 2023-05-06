@@ -11,25 +11,31 @@ export default {
 
     const queue = useQueue(interaction.guildId);
     if (!queue || !queue.currentTrack) {
-      return interaction.client.error.ERROR.MUSIC_QUEUE_IS_EMPTY(interaction);
+      return interaction.client.error.MUSIC_QUEUE_IS_EMPTY(interaction);
     }
     if (interaction.guild.members.me?.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
-      return interaction.client.error.ERROR.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction);
+      return interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction);
     }
 
     const titleArray: any = [];
     queue.tracks.toArray().slice(0, queue.tracks.toArray().length).forEach((track) => {
       titleArray.push(track.title);
     });
-    let queueEmbed = new EmbedBuilder()
+    const embed = new EmbedBuilder()
       .setColor("Random")
-      .setTitle(`재생목록 - ${titleArray.length}개 (임시 출력 결과)`)
+      .setTitle(`재생목록 - ${titleArray.length}개`)
       .addFields(
         { name: "재생중", value: `${queue.currentTrack.title}` },
-        { name: "진행도", value: `${queue.node.createProgressBar()}` });
+        { name: "진행도", value: `${queue.node.createProgressBar()}` })
+      .setThumbnail(queue.currentTrack.thumbnail);
+
     for (let i = 0; i < titleArray.length; i++) {
-      queueEmbed.addFields({ name: (i + 1).toString(), value: titleArray[i] });
+      if (i == 21) {
+        embed.addFields({ name: `(${titleArray.length - 22}개의 음악)`, value: "이하 생략" });
+        break;
+      }
+      embed.addFields({ name: (i + 1).toString(), value: titleArray[i] });
     }
-    return interaction.followUp({ embeds: [queueEmbed] });
+    return interaction.followUp({ embeds: [embed] });
   },
 };

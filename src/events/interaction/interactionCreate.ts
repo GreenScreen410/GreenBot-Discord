@@ -15,6 +15,7 @@ export default {
       await command.execute(interaction);
       console.log(chalk.white(`[COMMAND] ${interaction.guild.name}(${interaction.guild.id}) - ${interaction.user.tag}(${interaction.user.id}) executed ${interaction.commandName}`))
     } catch (error: any) {
+      console.log(error);
       return interaction.client.error.UNKNOWN_ERROR(interaction, error);
     }
 

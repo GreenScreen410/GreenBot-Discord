@@ -15,6 +15,7 @@ export default {
       await button.execute(interaction);
       console.log(chalk.white(`[BUTTON] ${interaction.guild.name}(${interaction.guild.id}) - ${interaction.user.tag}(${interaction.user.id}) executed ${button.data.data.label}`))
     } catch (error: any) {
+      console.log(error);
       return interaction.client.error.UNKNOWN_ERROR(interaction, error);
     }
   }

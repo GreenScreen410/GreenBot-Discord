@@ -4,8 +4,7 @@ import moment from "moment";
 export default {
   data: new SlashCommandBuilder()
     .setName("서버정보")
-    .setDescription("현재 서버의 정보를 보여줍니다.")
-    .setDMPermission(false),
+    .setDescription("현재 서버의 정보를 보여줍니다."),
 
   async execute(interaction: ChatInputCommandInteraction) {
     if (!interaction.inCachedGuild()) return;

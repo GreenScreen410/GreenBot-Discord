@@ -15,7 +15,7 @@ export default {
     if (!interaction.inCachedGuild()) return;
 
     const userInfo = interaction.options.getMember("유저");
-    if (!userInfo) return interaction.client.error.INVALID_ARGUMENT(interaction, userInfo);
+    if (!userInfo) return;
 
     const embed = new EmbedBuilder()
       .setColor("Random")

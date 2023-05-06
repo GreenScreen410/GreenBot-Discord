@@ -10,7 +10,7 @@ declare module "discord.js" {
   interface Client {
     commands: Collection<string, any>;
     buttons: Collection<string, any>;
-    error: any;
+    error: typeof import("./handler/error.js").default;
   }
 }
 

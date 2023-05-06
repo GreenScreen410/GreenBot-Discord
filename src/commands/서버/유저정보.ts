@@ -8,7 +8,7 @@ export default {
     .setDescription("해당 유저의 정보를 보여줍니다. 그린Bot의 정보를 요청할 경우 특별한 정보가 추가됩니다.")
     .addUserOption((option) => option
       .setName("유저")
-      .setDescription("유저를 선택해주세요.")
+      .setDescription("유저를 선택해 주세요.")
       .setRequired(true)),
 
   async execute(interaction: ChatInputCommandInteraction) {

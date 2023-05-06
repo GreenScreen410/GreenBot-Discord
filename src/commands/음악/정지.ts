@@ -11,10 +11,10 @@ export default {
 
     const queue = useQueue(interaction.guildId);
     if (!queue || !queue.node.isPlaying()) {
-      return interaction.client.error.ERROR.MUSIC_QUEUE_IS_EMPTY(interaction);
+      return interaction.client.error.MUSIC_QUEUE_IS_EMPTY(interaction);
     }
     if (interaction.guild.members.me?.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
-      return interaction.client.error.ERROR.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction);
+      return interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction);
     }
 
     queue.delete();

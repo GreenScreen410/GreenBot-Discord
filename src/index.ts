@@ -48,8 +48,11 @@ for (const folders of eventFiles) {
   const folder = await readdir(join(__dirname, `./events/${folders}`));
   for (const file of folder) {
     const event = (await import(`./events/${folders}/${file}`)).default;
-    if (folders !== "process") {
+    if (folders == "client" || folders == "interaction") {
       client.on(event.name, (...args) => event.execute(...args));
+    }
+    else if (folders == "player") {
+      player.events.on(event.name, (...args: any) => event.execute(...args));
     }
   }
 }

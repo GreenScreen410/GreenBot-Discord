@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@types/mysql": "^2.15.21",
-    "@types/node": "^20.1.0",
+    "@types/node": "^20.1.1",
     "nodemon": "^2.0.22",
     "ts-node": "^10.9.1"
   }

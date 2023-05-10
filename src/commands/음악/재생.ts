@@ -24,9 +24,14 @@ export default {
     const query = interaction.options.getString("노래", true);
     const player = useMasterPlayer()!;
     const results = await player.search(query, { searchEngine: QueryType.YOUTUBE });
-    if (!results.hasTracks()) return interaction.client.error.INVALID_ARGUMENT(interaction, query);;
+    if (!results.hasTracks()) return interaction.client.error.INVALID_ARGUMENT(interaction, query);
 
-    const track = await player.play(interaction.member.voice.channel.id, results);
+    const track = await player.play(interaction.member.voice.channel.id, results, {
+      nodeOptions: {
+        metadata: interaction,
+      },
+    });
+
     const embed = new EmbedBuilder()
       .setColor("Random")
       .setTitle("🎵 재생목록에 추가되었습니다.")

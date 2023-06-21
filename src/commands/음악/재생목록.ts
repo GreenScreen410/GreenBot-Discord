@@ -17,7 +17,7 @@ export default {
       return interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction);
     }
 
-    const titleArray: any = [];
+    const titleArray: string[] = [];
     queue.tracks.toArray().slice(0, queue.tracks.toArray().length).forEach((track) => {
       titleArray.push(track.title);
     });

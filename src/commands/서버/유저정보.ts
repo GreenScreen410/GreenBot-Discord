@@ -1,5 +1,4 @@
 import { ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder, version } from "discord.js";
-import moment from "moment";
 import os from "os";
 
 export default {
@@ -24,8 +23,8 @@ export default {
       .addFields(
         { name: "📛 이름", value: `${userInfo.user.username}`, inline: true },
         { name: "🆔 ID", value: `${userInfo.user.id}`, inline: true },
-        { name: "🎂 계정 생성일", value: `${moment(userInfo.user.createdAt).locale("ko").format("YYYY년 MMMM Do h:mm:ss")}`, inline: true },
-        { name: "📅 서버 참여일", value: `${moment(userInfo.joinedTimestamp).locale("ko").format("YYYY년 MMMM Do h:mm:ss")}`, inline: true }
+        { name: "🎂 계정 생성일", value: `${userInfo.user.createdAt}`, inline: true },
+        { name: "📅 서버 참여일", value: `${userInfo.joinedTimestamp}`, inline: true }
       )
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });

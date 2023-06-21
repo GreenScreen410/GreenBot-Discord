@@ -68,7 +68,7 @@ export default {
         tags += response.data.tags[i].displayNames[0].name + "\n";
       }
       embed.addFields(
-        { name: "📛 알고리즘 분류", value: `${tags}`, inline: false }
+        { name: "📛 알고리즘 분류", value: `${tags}` }
       )
     }
 

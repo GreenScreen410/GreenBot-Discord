@@ -1,5 +1,4 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from "discord.js";
-import moment from "moment";
 
 export default {
   data: new SlashCommandBuilder()
@@ -21,7 +20,7 @@ export default {
         { name: "📝 서버 설명", value: `${interaction.guild.description || "없음"}`, inline: true },
         { name: "🆔 ID", value: `${interaction.guild.id}`, inline: true },
         { name: "👑 서버 소유자", value: `<@${interaction.guild.ownerId}>`, inline: true },
-        { name: "🎂 서버 생성일", value: `${moment(interaction.guild.createdAt).locale("ko").format("LLLL")}`, inline: true },
+        { name: "🎂 서버 생성일", value: `${interaction.guild.createdAt}`, inline: true },
         { name: "👤 유저 수", value: `${interaction.guild.memberCount}명`, inline: true },
         { name: "🎭 역할 및 권한", value: `${roles.length}개`, inline: true },
         { name: "📺 채널", value: `${channels.length}개`, inline: true },

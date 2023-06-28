@@ -7,6 +7,7 @@ export default {
   async execute(interaction: BaseInteraction) {
     if (!interaction.isButton() || !interaction.inCachedGuild()) return;
 
+    /*
     const button = interaction.client.buttons.get(interaction.customId);
     await interaction.deferReply();
 
@@ -18,5 +19,6 @@ export default {
       console.log(error);
       return interaction.client.error.UNKNOWN_ERROR(interaction, error);
     }
+    */
   }
 }

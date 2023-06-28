@@ -13,6 +13,7 @@ export default {
   async execute(interaction: ChatInputCommandInteraction) {
     const image = interaction.options.getAttachment("이미지", true);
     const data = await tesseract.recognize(`${image.url}`, "kor");
+
     const embed = new EmbedBuilder()
       .setColor("Random")
       .setThumbnail(`${image.url}`)

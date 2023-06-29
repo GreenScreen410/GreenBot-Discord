@@ -1,6 +1,15 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ComponentType, Embed } from "discord.js";
+import { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ComponentType } from "discord.js";
 import axios from "axios";
+import "dotenv/config.js";
+import mysql from "mysql";
 import country from "../../country.json" assert { type: "json" };
+
+const connection = mysql.createConnection({
+  host: `${process.env.MYSQL_HOST}`,
+  user: "root",
+  password: `${process.env.MYSQL_PASSWORD}`,
+  database: "greenbot-database",
+});
 
 export default {
   data: new SlashCommandBuilder()
@@ -44,26 +53,34 @@ export default {
     collector?.on("collect", i => {
       i.deferUpdate();
 
-      if (i.customId === "correct") {
-        const correctEmbed = new EmbedBuilder()
-          .setColor("#00FF00")
-          .setTitle(`✅ ${i.user.tag}님 정답!`)
-          .setDescription(`정답은 **'${correctCountryName}'** 이였습니다.`)
-          .setTimestamp()
-          .setFooter({ text: `Requested by ${i.user.tag}`, iconURL: `${i.user.displayAvatarURL()}` });
-        interaction.followUp({ embeds: [correctEmbed] });
-        return collector.stop();
-      }
-      else {
-        const wrongEmbed = new EmbedBuilder()
-          .setColor("#FF0000")
-          .setTitle(`❌ ${i.user.tag}님 오답!`)
-          .setDescription(`정답은 **'${correctCountryName}'** 이였습니다.`)
-          .setTimestamp()
-          .setFooter({ text: `Requested by ${i.user.tag}`, iconURL: `${i.user.displayAvatarURL()}` });
-        interaction.followUp({ embeds: [wrongEmbed] });
-        return collector.stop();
-      }
+      connection.query(`SELECT * FROM activity WHERE id=${interaction.user.id}`, function (error, result) {
+        if (result == "") {
+          connection.query(`INSERT INTO activity(id, flag_quiz) VALUES (${interaction.user.id}, 0)`);
+        }
+
+        if (i.customId === "correct") {
+          connection.query(`UPDATE activity SET flag_quiz=${result[0].flag_quiz + 1} WHERE id=${interaction.user.id}`);
+
+          const correctEmbed = new EmbedBuilder()
+            .setColor("#00FF00")
+            .setTitle(`✅ ${i.user.tag}님 정답!`)
+            .setDescription(`정답은 **'${correctCountryName}'** 이였습니다.\n현재 점수: **${result[0].flag_quiz + 1}**점`)
+            .setTimestamp()
+            .setFooter({ text: `Requested by ${i.user.tag}`, iconURL: `${i.user.displayAvatarURL()}` });
+          interaction.followUp({ embeds: [correctEmbed] });
+          return collector.stop();
+        }
+        else {
+          const wrongEmbed = new EmbedBuilder()
+            .setColor("#FF0000")
+            .setTitle(`❌ ${i.user.tag}님 오답!`)
+            .setDescription(`정답은 **'${correctCountryName}'** 이였습니다.\n현재 점수: **${result[0].flag_quiz}**점`)
+            .setTimestamp()
+            .setFooter({ text: `Requested by ${i.user.tag}`, iconURL: `${i.user.displayAvatarURL()}` });
+          interaction.followUp({ embeds: [wrongEmbed] });
+          return collector.stop();
+        }
+      });
     });
 
     collector?.on("end", collected => {

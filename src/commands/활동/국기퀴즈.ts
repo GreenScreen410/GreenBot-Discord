@@ -53,13 +53,13 @@ export default {
     collector?.on("collect", i => {
       i.deferUpdate();
 
-      connection.query(`SELECT * FROM activity WHERE id=${interaction.user.id}`, function (error, result) {
+      connection.query(`SELECT * FROM activity WHERE id=${i.user.id}`, function (error, result) {
         if (result == "") {
-          connection.query(`INSERT INTO activity(id, flag_quiz) VALUES (${interaction.user.id}, 0)`);
+          connection.query(`INSERT INTO activity(id, flag_quiz) VALUES (${i.user.id}, 0)`);
         }
 
         if (i.customId === "correct") {
-          connection.query(`UPDATE activity SET flag_quiz=${result[0].flag_quiz + 1} WHERE id=${interaction.user.id}`);
+          connection.query(`UPDATE activity SET flag_quiz=${result[0].flag_quiz + 1} WHERE id=${i.user.id}`);
 
           const correctEmbed = new EmbedBuilder()
             .setColor("#00FF00")

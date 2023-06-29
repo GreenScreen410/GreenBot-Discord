@@ -38,7 +38,7 @@ export default {
     // @ts-ignore
     let wrongCountryName2 = country[wrongCountryCode2];
     const wrongButton2 = new ButtonBuilder().setCustomId("wrong2").setLabel(wrongCountryName2).setStyle(1);
-    const multipleRow = new ActionRowBuilder<ButtonBuilder>().addComponents(correctButton, wrongButton1, wrongButton2);
+    const multipleRow = new ActionRowBuilder<ButtonBuilder>().addComponents(...[correctButton, wrongButton1, wrongButton2].sort(() => Math.random() - 0.5));
 
     const image = await axios.get(`https://flagcdn.com/w320/${countryCode}.png`);
     const embed = new EmbedBuilder()

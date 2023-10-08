@@ -19,10 +19,8 @@ export default {
       .setColor("Random")
       .setTitle(`${response.data.list[0].word}`)
       .setURL(`${response.data.list[0].permalink}`)
-      .setDescription(`${response.data.list[0].definition}`)
-      .addFields(
-        { name: "예문", value: `${response.data.list[0].example}`, inline: true }
-      )
+      .setDescription(`${response.data.list[0].definition.slice(0, 1021)}...`)
+      .addFields({ name: "예문", value: `${response.data.list[0].example.slice(0, 1021)}...`, inline: true })
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
     interaction.followUp({ embeds: [embed] });

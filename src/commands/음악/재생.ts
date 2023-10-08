@@ -1,5 +1,5 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from "discord.js";
-import { QueryType, useMasterPlayer } from "discord-player";
+import { QueryType, useMainPlayer } from "discord-player";
 
 export default {
   data: new SlashCommandBuilder()
@@ -22,7 +22,7 @@ export default {
     }
 
     const query = interaction.options.getString("노래", true);
-    const player = useMasterPlayer()!;
+    const player = useMainPlayer()!;
     const results = await player.search(query, { searchEngine: QueryType.YOUTUBE });
     if (!results.hasTracks()) return interaction.client.error.INVALID_ARGUMENT(interaction, query);
 

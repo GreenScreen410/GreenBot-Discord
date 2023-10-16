@@ -1,5 +1,28 @@
 import { Events, BaseInteraction } from "discord.js";
+import mysql from "mysql";
 import chalk from "chalk";
+
+const connection = mysql.createConnection({
+  host: `${process.env.MYSQL_HOST}`,
+  user: "root",
+  password: `${process.env.MYSQL_PASSWORD}`,
+  database: "greenbot-database",
+});
+
+var today = new Date();
+
+var year = today.getFullYear();
+var month = ('0' + (today.getMonth() + 1)).slice(-2);
+var day = ('0' + today.getDate()).slice(-2);
+
+var dateString = year + '-' + month + '-' + day;
+var hours = ('0' + today.getHours()).slice(-2);
+var minutes = ('0' + today.getMinutes()).slice(-2);
+var seconds = ('0' + today.getSeconds()).slice(-2);
+
+var timeString = hours + ':' + minutes + ':' + seconds;
+
+console.log(dateString, timeString);
 
 export default {
   name: Events.InteractionCreate,
@@ -12,8 +35,14 @@ export default {
 
     if (!command) return interaction.client.error.INVALID_INTERACTION(interaction);
     try {
-      await command.execute(interaction);
-      console.log(chalk.white(`[COMMAND] ${interaction.guild.name}(${interaction.guild.id}) - ${interaction.user.tag}(${interaction.user.id}) executed ${interaction.commandName}`))
+      connection.query(`SELECT * FROM user WHERE id=${interaction.user.id}`, function (error, result) {
+        if (result[0].banned) {
+          return interaction.client.error.YOU_HAVE_BEEN_BANNED(interaction);
+        } else {
+          command.execute(interaction);
+          console.log(chalk.white(`${dateString} ${timeString} - [COMMAND] ${interaction.guild.name}(${interaction.guild.id}): ${interaction.user.tag}(${interaction.user.id}) executed ${interaction.commandName}`))
+        }
+      });
     } catch (error: any) {
       console.log(error);
       return interaction.client.error.UNKNOWN_ERROR(interaction, error);

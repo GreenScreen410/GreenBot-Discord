@@ -16,7 +16,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/mysql": "^2.15.22",
-    "@types/node": "^20.8.4",
+    "@types/node": "^20.8.6",
     "typescript": "^5.2.2"
   },
   "dependencies": {
@@ -29,6 +29,6 @@
     "mediaplex": "^0.0.8",
     "mysql": "^2.18.1",
     "tesseract.js": "^5.0.2",
-    "youtube-ext": "^1.1.14"
+    "youtube-ext": "^1.1.16"
   }
 }

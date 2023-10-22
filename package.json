@@ -1,6 +1,6 @@
 {
   "name": "greenbot-discord",
-  "version": "1.11.0",
+  "version": "1.11.1",
   "description": "",
   "exports": "./index.js",
   "type": "module",
@@ -15,8 +15,8 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@types/mysql": "^2.15.22",
-    "@types/node": "^20.8.6",
+    "@types/mysql": "^2.15.23",
+    "@types/node": "^20.8.7",
     "typescript": "^5.2.2"
   },
   "dependencies": {

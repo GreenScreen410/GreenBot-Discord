@@ -21,6 +21,9 @@ export default {
     ),
 
   async execute(interaction: ChatInputCommandInteraction) {
+    interaction.followUp({ content: "MySQL 수리 중입니다..." });
+
+    /*
     const activity = interaction.options.getString("종목");
 
     const embed = new EmbedBuilder()
@@ -39,5 +42,6 @@ export default {
         interaction.followUp({ embeds: [embed] });
       });
     }
+    */
   }
 }

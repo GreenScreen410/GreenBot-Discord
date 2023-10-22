@@ -2,12 +2,14 @@ import { Events, BaseInteraction } from "discord.js";
 import mysql from "mysql";
 import chalk from "chalk";
 
+/*
 const connection = mysql.createConnection({
   host: `${process.env.MYSQL_HOST}`,
   user: "root",
   password: `${process.env.MYSQL_PASSWORD}`,
   database: "greenbot-database",
 });
+*/
 
 var today = new Date();
 
@@ -34,6 +36,10 @@ export default {
     await interaction.deferReply();
 
     if (!command) return interaction.client.error.INVALID_INTERACTION(interaction);
+    command.execute(interaction);
+    console.log(chalk.white(`${dateString} ${timeString} - [COMMAND] ${interaction.guild.name}(${interaction.guild.id}): ${interaction.user.tag}(${interaction.user.id}) executed ${interaction.commandName}`))
+
+    /*
     try {
       connection.query(`SELECT * FROM user WHERE id=${interaction.user.id}`, function (error, result) {
         if (result[0].banned) {
@@ -47,6 +53,7 @@ export default {
       console.log(error);
       return interaction.client.error.UNKNOWN_ERROR(interaction, error);
     }
+    */
 
     /*
     import mysql from "mysql";

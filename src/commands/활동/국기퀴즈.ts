@@ -17,6 +17,9 @@ export default {
     .setDescription("256개의 국기 퀴즈를 풀어보세요!"),
 
   async execute(interaction: ChatInputCommandInteraction) {
+    interaction.followUp({ content: "MySQL 수리 중입니다..." });
+
+    /*
     const countryCodes = Object.keys(country);
     const randomIndex = () => Math.floor(Math.random() * countryCodes.length);
 
@@ -94,5 +97,6 @@ export default {
         interaction.followUp({ embeds: [timeoutEmbed] });
       }
     });
+    */
   },
 };

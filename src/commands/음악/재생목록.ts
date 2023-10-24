@@ -21,6 +21,7 @@ export default {
     queue.tracks.toArray().slice(0, queue.tracks.toArray().length).forEach((track) => {
       titleArray.push(track.title);
     });
+
     const embed = new EmbedBuilder()
       .setColor("Random")
       .setTitle(`재생목록 - ${titleArray.length}개`)

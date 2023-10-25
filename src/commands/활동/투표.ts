@@ -21,7 +21,7 @@ export default {
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
 
     const message = await interaction.followUp({ embeds: [embed] });
-    await message.react("✅");
+    await message.react("⭕");
     await message.react("❌");
   }
 }

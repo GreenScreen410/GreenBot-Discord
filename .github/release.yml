@@ -1,0 +1,16 @@
+# .github/release.yml
+
+changelog:
+  categories:
+    - title: ✨ 새로운 기능
+      labels:
+        - "enhancement"
+    - title: 🐛 버그 수정
+      labels:
+        - "bug"
+    - title: 📝 문서
+      labels:
+        - "documentation"
+    - title: ⬆️ 모듈
+      labels:
+        - dependencies

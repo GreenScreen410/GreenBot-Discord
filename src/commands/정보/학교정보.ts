@@ -18,19 +18,18 @@ export default {
     const embed = new EmbedBuilder()
       .setColor("Random")
       .setTitle(`${response.data.schoolInfo[1].row[0].SCHUL_NM} 정보`)
-      .setDescription(response.data.schoolInfo[1].row[0].HMPG_ADRES)
+      .setDescription(`${response.data.schoolInfo[1].row[0].HMPG_ADRES}`)
       .addFields(
-        { name: "🎂 개교일", value: response.data.schoolInfo[1].row[0].FOND_YMD },
-        { name: "🌐 영문", value: response.data.schoolInfo[1].row[0].ENG_SCHUL_NM },
-        { name: "🏫 종류", value: response.data.schoolInfo[1].row[0].HS_GNRL_BUSNS_SC_NM },
-        { name: "🏠 주소", value: response.data.schoolInfo[1].row[0].ORG_RDNMA },
-        { name: "📞 전화번호", value: response.data.schoolInfo[1].row[0].ORG_TELNO },
-        { name: "🔢 학교코드", value: response.data.schoolInfo[1].row[0].ATPT_OFCDC_SC_CODE + response.data.schoolInfo[1].row[0].SD_SCHUL_CODE },
-        { name: "📅 데이터 수정일자", value: response.data.schoolInfo[1].row[0].LOAD_DTM }
+        { name: "🎂 개교일", value: `${response.data.schoolInfo[1].row[0].FOND_YMD}` },
+        { name: "🌐 영문", value: `${response.data.schoolInfo[1].row[0].ENG_SCHUL_NM}` },
+        { name: "🏫 종류", value: `${response.data.schoolInfo[1].row[0].HS_GNRL_BUSNS_SC_NM}` },
+        { name: "🏠 주소", value: `${response.data.schoolInfo[1].row[0].ORG_RDNMA}` },
+        { name: "📞 전화번호", value: `${response.data.schoolInfo[1].row[0].ORG_TELNO}` },
+        { name: "🔢 학교코드", value: `${response.data.schoolInfo[1].row[0].ATPT_OFCDC_SC_CODE + response.data.schoolInfo[1].row[0].SD_SCHUL_CODE}` },
+        { name: "📅 데이터 수정일자", value: `${response.data.schoolInfo[1].row[0].LOAD_DTM}` }
       )
       .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() });
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
     interaction.followUp({ embeds: [embed] });
-    interaction.client.achievements.GRANT(interaction, "school_info");
   },
 }

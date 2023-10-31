@@ -16,14 +16,14 @@
   {
     "id": "dj",
     "name": "DJ",
-    "description": "평범한 음악에는 만족하지 못하시는군요",
+    "description": "평범한 음악에는 만족하지 못하시는군요?",
     "condition": "음악 필터를 5번 사용하기"
   },
 
   {
     "id": "ruin_the_fun",
     "name": "흥이 다 깨져버렸어",
-    "description": "너 때문에 흥이 다 깨져버렸으니까 책임져",
+    "description": "너 때문에 흥이 다 깨져버렸으니까 책임져.",
     "condition": "음악이 10개 이상 담긴 재생목록을 초기화하기"
   },
 
@@ -32,5 +32,26 @@
     "name": "학생",
     "description": "내가 다니는 학교의 정보는 어떨까?",
     "condition": "학교정보 명령어 사용하기"
+  },
+
+  {
+    "id": "developer",
+    "name": "누가 이 봇을 만들었을까?",
+    "description": "이 봇을 만든 개발자의 정보를 알아보세요!",
+    "condition": "개발자 명령어 사용하기"
+  },
+
+  {
+    "id": "uptime_1",
+    "name": "It's over 9000",
+    "description": "봇이 1주 동안 꺼지지 않았네요.",
+    "condition": "봇의 가동시간이 7일 이상일 때, 가동시간 명령어 사용하기"
+  },
+
+  {
+    "id": "uptime_2",
+    "name": "맛있는 고기가 숙성되는 시간",
+    "description": "봇이 2주 동안 꺼지지 않았네요.",
+    "condition": "봇의 가동시간이 14일 이상일 때, 가동시간 명령어 사용하기"
   }
 ]

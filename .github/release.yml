@@ -13,4 +13,4 @@ changelog:
         - "documentation"
     - title: ⬆️ 모듈
       labels:
-        - "dependencies"
+        - "dependency"

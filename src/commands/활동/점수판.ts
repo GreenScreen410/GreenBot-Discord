@@ -3,10 +3,10 @@ import "dotenv/config.js";
 import mysql from "mysql";
 
 const connection = mysql.createConnection({
-  host: `${process.env.MYSQL_HOST}`,
-  user: "root",
-  password: `${process.env.MYSQL_PASSWORD}`,
-  database: "greenbot-database",
+  host: process.env.MYSQL_HOST,
+  user: "ubuntu",
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE
 });
 
 export default {
@@ -21,9 +21,6 @@ export default {
     ),
 
   async execute(interaction: ChatInputCommandInteraction) {
-    interaction.followUp({ content: "MySQL 수리 중입니다..." });
-
-    /*
     const activity = interaction.options.getString("종목");
 
     const embed = new EmbedBuilder()
@@ -42,6 +39,5 @@ export default {
         interaction.followUp({ embeds: [embed] });
       });
     }
-    */
   }
 }

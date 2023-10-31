@@ -34,8 +34,11 @@ export default {
         .setColor("Random")
         .setTitle("⭐ 획득한 도전과제")
       for (let i = 0; i < Object.keys(achievements).length; i++) {
-        if (result[0][achievements[i].id] == 0) continue
-        description += `**${achievements[i].name}** - ${achievements[i].description}\n`;
+        if (result[0][achievements[i].id] == 0) {
+          description += `**${achievements[i].name}** - ?\n`;
+        } else {
+          description += `**${achievements[i].name}** - ${achievements[i].description}\n`;
+        }
       }
       embed.setDescription(description);
 

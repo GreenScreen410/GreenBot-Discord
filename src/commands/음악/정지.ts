@@ -17,8 +17,6 @@ export default {
       return interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction);
     }
 
-    queue.delete();
-
     const embed = new EmbedBuilder()
       .setColor("Random")
       .setTitle("🚫 정지!")
@@ -26,5 +24,11 @@ export default {
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
     interaction.followUp({ embeds: [embed] });
+
+    if (queue.size >= 10) {
+      interaction.client.achievements.GRANT(interaction, "ruin_the_fun");
+    }
+
+    queue.delete();
   },
 };

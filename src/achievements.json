@@ -1,0 +1,36 @@
+[
+  {
+    "id": "first_step",
+    "name": "첫걸음",
+    "description": "도전과제 메뉴에 오신것을 환영합니다!",
+    "condition": "도전과제 명령어 사용하기"
+  },
+
+  {
+    "id": "debugger",
+    "name": "디버거",
+    "description": "오늘도 개발자는 일합니다...",
+    "condition": "예상치 못한(Unexpected) 오류 일으키기"
+  },
+
+  {
+    "id": "dj",
+    "name": "DJ",
+    "description": "평범한 음악에는 만족하지 못하시는군요",
+    "condition": "음악 필터를 5번 사용하기"
+  },
+
+  {
+    "id": "ruin_the_fun",
+    "name": "흥이 다 깨져버렸어",
+    "description": "너 때문에 흥이 다 깨져버렸으니까 책임져",
+    "condition": "음악이 10개 이상 담긴 재생목록을 초기화하기"
+  },
+
+  {
+    "id": "school_info",
+    "name": "학생",
+    "description": "내가 다니는 학교의 정보는 어떨까?",
+    "condition": "학교정보 명령어 사용하기"
+  }
+]

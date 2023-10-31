@@ -11,6 +11,7 @@ declare module "discord.js" {
     commands: Collection<string, any>;
     buttons: Collection<string, any>;
     error: typeof import("./handler/error.js").default;
+    achievements: typeof import("./handler/achievements.js").default;
   }
 }
 
@@ -23,6 +24,7 @@ const client = new Client({
 client.commands = new Collection();
 client.buttons = new Collection();
 client.error = (await import("./handler/error.js")).default;
+client.achievements = (await import("./handler/achievements.js")).default;
 const player = Player.singleton(client, {
   ytdlOptions: {
     quality: "highestaudio",

@@ -68,7 +68,23 @@ export default {
             .setTimestamp()
             .setFooter({ text: `Requested by ${i.user.tag}`, iconURL: i.user.displayAvatarURL() });
           interaction.followUp({ embeds: [correctEmbed] });
-          return collector.stop();
+          collector.stop();
+
+          if (result[0].flag_quiz + 1 >= 5) {
+            interaction.client.achievements.GRANT(interaction, "flag_quiz_1");
+            if (result[0].flag_quiz + 1 >= 25) {
+              interaction.client.achievements.GRANT(interaction, "flag_quiz_2");
+              if (result[0].flag_quiz + 1 >= 50) {
+                interaction.client.achievements.GRANT(interaction, "flag_quiz_3");
+                if (result[0].flag_quiz + 1 >= 100) {
+                  interaction.client.achievements.GRANT(interaction, "flag_quiz_4");
+                  if (result[0].flag_quiz + 1 >= 200) {
+                    interaction.client.achievements.GRANT(interaction, "flag_quiz_5");
+                  }
+                }
+              }
+            }
+          }
         }
         else {
           const wrongEmbed = new EmbedBuilder()

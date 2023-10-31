@@ -5,10 +5,10 @@ import mysql from "mysql";
 import country from "../../country.json" assert { type: "json" };
 
 const connection = mysql.createConnection({
-  host: `${process.env.MYSQL_HOST}`,
-  user: "root",
-  password: `${process.env.MYSQL_PASSWORD}`,
-  database: "greenbot-database",
+  host: process.env.MYSQL_HOST,
+  user: "ubuntu",
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE
 });
 
 export default {
@@ -17,9 +17,6 @@ export default {
     .setDescription("256개의 국기 퀴즈를 풀어보세요!"),
 
   async execute(interaction: ChatInputCommandInteraction) {
-    interaction.followUp({ content: "MySQL 수리 중입니다..." });
-
-    /*
     const countryCodes = Object.keys(country);
     const randomIndex = () => Math.floor(Math.random() * countryCodes.length);
 
@@ -69,7 +66,7 @@ export default {
             .setTitle(`✅ ${i.user.tag}님 정답!`)
             .setDescription(`정답은 **'${correctCountryName}'** 이였습니다.\n현재 점수: **${result[0].flag_quiz + 1}**점`)
             .setTimestamp()
-            .setFooter({ text: `Requested by ${i.user.tag}`, iconURL: `${i.user.displayAvatarURL()}` });
+            .setFooter({ text: `Requested by ${i.user.tag}`, iconURL: i.user.displayAvatarURL() });
           interaction.followUp({ embeds: [correctEmbed] });
           return collector.stop();
         }
@@ -79,7 +76,7 @@ export default {
             .setTitle(`❌ ${i.user.tag}님 오답!`)
             .setDescription(`정답은 **'${correctCountryName}'** 이였습니다.\n현재 점수: **${result[0].flag_quiz}**점`)
             .setTimestamp()
-            .setFooter({ text: `Requested by ${i.user.tag}`, iconURL: `${i.user.displayAvatarURL()}` });
+            .setFooter({ text: `Requested by ${i.user.tag}`, iconURL: i.user.displayAvatarURL() });
           interaction.followUp({ embeds: [wrongEmbed] });
           return collector.stop();
         }
@@ -93,10 +90,9 @@ export default {
           .setTitle(`⏰ ${interaction.user.tag}님 시간 초과!`)
           .setDescription(`정답은 **'${correctCountryName}'** 이였습니다.`)
           .setTimestamp()
-          .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
+          .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() });
         interaction.followUp({ embeds: [timeoutEmbed] });
       }
     });
-    */
   },
 };

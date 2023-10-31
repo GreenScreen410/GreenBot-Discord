@@ -20,6 +20,14 @@ export default {
       .setDescription(`${days}일 ${hours}시간  ${minutes}분 ${seconds}초`)
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
-    return interaction.followUp({ embeds: [embed] });
+    interaction.followUp({ embeds: [embed] });
+
+    if (totalSeconds >= 10080) {
+      interaction.client.achievements.GRANT(interaction, "uptime_1");
+
+      if (totalSeconds >= 20160) {
+        interaction.client.achievements.GRANT(interaction, "uptime_2");
+      }
+    }
   }
 }

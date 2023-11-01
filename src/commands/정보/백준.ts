@@ -1,5 +1,5 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import axios from 'axios';
+import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js'
+import axios from 'axios'
 
 const tier = [
   '<:unranked:857632511117754429>',
@@ -32,7 +32,7 @@ const tier = [
   '<:ruby4:857632511151439902>',
   '<:ruby3:857632511182372894>',
   '<:ruby2:857632511185518622>',
-  '<:ruby1:857632510937792590>',
+  '<:ruby1:857632510937792590>'
 ]
 
 export default {
@@ -45,9 +45,9 @@ export default {
       .setRequired(true)
     ),
 
-  async execute(interaction: ChatInputCommandInteraction) {
-    const problemID = interaction.options.getInteger('문제');
-    const response = await axios.get(`https://solved.ac/api/v3/problem/show?problemId=${problemID}`);
+  async execute (interaction: ChatInputCommandInteraction) {
+    const problemID = interaction.options.getInteger('문제')
+    const response = await axios.get(`https://solved.ac/api/v3/problem/show?problemId=${problemID}`)
 
     const embed = new EmbedBuilder()
       .setURL(`https://www.acmicpc.net/problem/${problemID}`)
@@ -56,22 +56,21 @@ export default {
       .setDescription(`난이도: ${tier[response.data.level]}`)
       .addFields(
         { name: '<:ac:955478410682069038> 맞은 사람', value: `${response.data.acceptedUserCount}`, inline: true },
-        { name: '🔁 평균 시도 횟수', value: `${response.data.averageTries}`, inline: true },
+        { name: '🔁 평균 시도 횟수', value: `${response.data.averageTries}`, inline: true }
       )
       .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
 
-    // 간혹 알고리즘 태그가 없는 문제들이 있기 때문에, 해당 조건문이 필요합니다.
-    if (Object.keys(response.data.tags).length) {
-      let tags = '';
+    if (Object.keys(response.data.tags).length > 0) {
+      let tags = ''
       for (let i = 0; i < Object.keys(response.data.tags).length; i++) {
-        tags += response.data.tags[i].displayNames[0].name + '\n';
+        tags += response.data.tags[i].displayNames[0].name + '\n'
       }
       embed.addFields(
         { name: '📛 알고리즘 분류', value: `${tags}` }
       )
     }
 
-    return interaction.followUp({ embeds: [embed] });
-  },
+    await interaction.followUp({ embeds: [embed] })
+  }
 }

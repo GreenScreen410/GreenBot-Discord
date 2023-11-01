@@ -1,13 +1,13 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from "discord.js";
-import { QueryType, useMainPlayer } from "discord-player";
+import { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js';
+import { QueryType, useMainPlayer } from 'discord-player';
 
 export default {
   data: new SlashCommandBuilder()
-    .setName("재생")
-    .setDescription("노래를 재생합니다.")
+    .setName('재생')
+    .setDescription('노래를 재생합니다.')
     .addStringOption((option) => option
-      .setName("노래")
-      .setDescription("노래 제목을 입력해 주세요.")
+      .setName('노래')
+      .setDescription('노래 제목을 입력해 주세요.')
       .setRequired(true)
     ),
 
@@ -22,8 +22,8 @@ export default {
     }
 
     let isSoundCloud = false;
-    const query = interaction.options.getString("노래", true);
-    if (query.startsWith("https://soundcloud.com")) isSoundCloud = true;
+    const query = interaction.options.getString('노래', true);
+    if (query.startsWith('https://soundcloud.com')) isSoundCloud = true;
 
     const player = useMainPlayer()!;
     const results = await player.search(query, { searchEngine: isSoundCloud ? QueryType.SOUNDCLOUD : QueryType.YOUTUBE });
@@ -36,8 +36,8 @@ export default {
     });
 
     const embed = new EmbedBuilder()
-      .setColor("Random")
-      .setTitle("🎵 재생목록에 추가되었습니다.")
+      .setColor('Random')
+      .setTitle('🎵 재생목록에 추가되었습니다.')
       .setDescription(track.track.title)
       .setURL(track.track.url)
       .setThumbnail(track.track.thumbnail)

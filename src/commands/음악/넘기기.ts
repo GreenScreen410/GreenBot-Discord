@@ -1,10 +1,10 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from "discord.js";
-import { useQueue } from "discord-player";
+import { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js';
+import { useQueue } from 'discord-player';
 
 export default {
   data: new SlashCommandBuilder()
-    .setName("넘기기")
-    .setDescription("재생중인 노래를 넘깁니다."),
+    .setName('넘기기')
+    .setDescription('재생중인 노래를 넘깁니다.'),
 
   async execute(interaction: ChatInputCommandInteraction) {
     if (!interaction.inCachedGuild()) return;
@@ -20,8 +20,8 @@ export default {
     queue.node.skip();
 
     const embed = new EmbedBuilder()
-      .setColor("Random")
-      .setTitle("⏩ 재생중인 노래를 넘겼습니다!")
+      .setColor('Random')
+      .setTitle('⏩ 재생중인 노래를 넘겼습니다!')
       .setDescription(`${queue.currentTrack?.title}`)
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });

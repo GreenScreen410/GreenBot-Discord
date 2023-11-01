@@ -1,5 +1,5 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import { QueryType, useMainPlayer } from 'discord-player';
+import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js'
+import { QueryType, useMainPlayer } from 'discord-player'
 
 export default {
   data: new SlashCommandBuilder()
@@ -11,29 +11,30 @@ export default {
       .setRequired(true)
     ),
 
-  async execute(interaction: ChatInputCommandInteraction) {
-    if (!interaction.inCachedGuild()) return;
+  async execute (interaction: ChatInputCommandInteraction) {
+    if (!interaction.inCachedGuild()) return
 
-    if (!interaction.member.voice.channel) {
-      return interaction.client.error.PLEASE_JOIN_VOICE_CHANNEL(interaction);
+    if (interaction.member.voice.channel == null) {
+      await interaction.client.error.PLEASE_JOIN_VOICE_CHANNEL(interaction); return
     }
-    if (interaction.guild.members.me?.voice.channelId && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
-      return interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction);
+    if (((interaction.guild.members.me?.voice.channelId) != null) && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
+      await interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction); return
     }
 
-    let isSoundCloud = false;
-    const query = interaction.options.getString('노래', true);
-    if (query.startsWith('https://soundcloud.com')) isSoundCloud = true;
+    let isSoundCloud = false
+    const query = interaction.options.getString('노래', true)
+    if (query.startsWith('https://soundcloud.com')) isSoundCloud = true
 
-    const player = useMainPlayer()!;
-    const results = await player.search(query, { searchEngine: isSoundCloud ? QueryType.SOUNDCLOUD : QueryType.YOUTUBE });
-    if (!results.hasTracks()) return interaction.client.error.INVALID_ARGUMENT(interaction, query);
+    const player = useMainPlayer()!
+
+    const results = await player.search(query, { searchEngine: isSoundCloud ? QueryType.SOUNDCLOUD : QueryType.YOUTUBE })
+    if (!results.hasTracks()) { await interaction.client.error.INVALID_ARGUMENT(interaction, query); return }
 
     const track = await player.play(interaction.member.voice.channel.id, results, {
       nodeOptions: {
-        metadata: interaction,
-      },
-    });
+        metadata: interaction
+      }
+    })
 
     const embed = new EmbedBuilder()
       .setColor('Random')
@@ -42,7 +43,7 @@ export default {
       .setURL(track.track.url)
       .setThumbnail(track.track.thumbnail)
       .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
-    await interaction.followUp({ embeds: [embed] });
-  },
-};
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
+    await interaction.followUp({ embeds: [embed] })
+  }
+}

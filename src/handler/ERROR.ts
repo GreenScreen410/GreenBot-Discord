@@ -12,11 +12,11 @@ export default {
     interaction.followUp({ embeds: [embed] });
   },
 
-  UNKNOWN_ERROR: function (interaction: ChatInputCommandInteraction | ButtonInteraction, error: Error) {
+  UNKNOWN_ERROR: function (interaction: ChatInputCommandInteraction | ButtonInteraction, error: unknown) {
     const embed = new EmbedBuilder()
       .setColor("#FF0000")
       .setTitle("❌ 오류!")
-      .setDescription(`알 수 없는 오류가 발생하였습니다.\n\`\`\`ts\n${error.message}\`\`\``)
+      .setDescription(`알 수 없는 오류가 발생하였습니다.\n\`\`\`ts\n${error}\`\`\``)
       .addFields({ name: "에러 코드", value: "UNKNOWN_ERROR" })
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });

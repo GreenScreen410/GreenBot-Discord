@@ -1,13 +1,13 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from "discord.js";
-import { useQueue } from "discord-player";
+import { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js';
+import { useQueue } from 'discord-player';
 
 export default {
   data: new SlashCommandBuilder()
-    .setName("제거")
-    .setDescription("재생목록에서 특정 음악을 제거합니다.")
+    .setName('제거')
+    .setDescription('재생목록에서 특정 음악을 제거합니다.')
     .addIntegerOption((option) => option
-      .setName("번호")
-      .setDescription("제거할 음악 번호를 입력해주세요. 음악 번호는 재생목록 명령어에서 확인할 수 있습니다.")
+      .setName('번호')
+      .setDescription('제거할 음악 번호를 입력해주세요. 음악 번호는 재생목록 명령어에서 확인할 수 있습니다.')
       .setRequired(true)),
 
   async execute(interaction: ChatInputCommandInteraction) {
@@ -24,8 +24,8 @@ export default {
       queue.node.skip();
 
       const embed = new EmbedBuilder()
-        .setColor("Random")
-        .setTitle("⏩ 재생중인 노래를 넘겼습니다!")
+        .setColor('Random')
+        .setTitle('⏩ 재생중인 노래를 넘겼습니다!')
         .setDescription(`${queue.currentTrack?.title}`)
         .setTimestamp()
         .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
@@ -33,8 +33,8 @@ export default {
     }
 
     const embed = new EmbedBuilder()
-      .setColor("Random")
-      .setTitle("🗑️ 정상적으로 제거하였습니다.")
+      .setColor('Random')
+      .setTitle('🗑️ 정상적으로 제거하였습니다.')
       .setDescription(queue.tracks.data[0].title)
       .setURL(queue.tracks.data[0].url)
       .setThumbnail(queue.tracks.data[0].thumbnail)
@@ -42,7 +42,7 @@ export default {
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
     interaction.followUp({ embeds: [embed] });
 
-    const index = interaction.options.getInteger("번호", true);
+    const index = interaction.options.getInteger('번호', true);
     queue.removeTrack(index - 1);
   },
 };

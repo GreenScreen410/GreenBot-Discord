@@ -1,5 +1,5 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import axios from 'axios';
+import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js'
+import axios from 'axios'
 
 export default {
   data: new SlashCommandBuilder()
@@ -10,10 +10,12 @@ export default {
       .setDescription('정식 명칭을 적어주세요. 정식 명칭이 아닐 시 결과가 나오지 않을 수 있습니다.')
       .setRequired(true)),
 
-  async execute(interaction: ChatInputCommandInteraction) {
-    const school = interaction.options.getString('학교명', true);
-    const response = await axios.get(`https://open.neis.go.kr/hub/schoolInfo?Type=json&SCHUL_NM=${encodeURIComponent(school)}&key=${process.env.NEIS_OPENINFO_KEY}`);
-    if (response.data.RESULT !== undefined) return interaction.client.error.INVALID_ARGUMENT(interaction, school);
+  async execute (interaction: ChatInputCommandInteraction) {
+    const school = interaction.options.getString('학교명', true)
+    const response = await axios.get(`https://open.neis.go.kr/hub/schoolInfo?Type=json&SCHUL_NM=${encodeURIComponent(school)}&key=${process.env.NEIS_OPENINFO_KEY}`)
+    if (response.data.RESULT !== undefined) {
+      await interaction.client.error.INVALID_ARGUMENT(interaction, school)
+    }
 
     const embed = new EmbedBuilder()
       .setColor('Random')
@@ -29,8 +31,8 @@ export default {
         { name: '📅 데이터 수정일자', value: `${response.data.schoolInfo[1].row[0].LOAD_DTM}` }
       )
       .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
-    interaction.followUp({ embeds: [embed] });
-    interaction.client.achievements.GRANT(interaction, 'school_info');
-  },
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
+    await interaction.followUp({ embeds: [embed] })
+    await interaction.client.achievements.GRANT(interaction, 'school_info')
+  }
 }

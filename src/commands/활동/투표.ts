@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js';
+import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js'
 
 export default {
   data: new SlashCommandBuilder()
@@ -10,18 +10,18 @@ export default {
       .setRequired(true)
     ),
 
-  async execute(interaction: ChatInputCommandInteraction) {
-    const description = interaction.options.getString('설명');
+  async execute (interaction: ChatInputCommandInteraction) {
+    const description = interaction.options.getString('설명')
 
     const embed = new EmbedBuilder()
       .setColor('Random')
       .setTitle('📊 투표')
       .setDescription(description)
       .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
 
-    const message = await interaction.followUp({ embeds: [embed] });
-    await message.react('⭕');
-    await message.react('❌');
+    const message = await interaction.followUp({ embeds: [embed] })
+    await message.react('⭕')
+    await message.react('❌')
   }
 }

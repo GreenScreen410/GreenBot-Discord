@@ -1,9 +1,9 @@
-import { Client, ChatInputCommandInteraction } from "discord.js";
-import { GuildQueue } from "discord-player";
-import chalk from "chalk";
+import { Client, ChatInputCommandInteraction } from 'discord.js';
+import { GuildQueue } from 'discord-player';
+import chalk from 'chalk';
 
 export default {
-  name: "playerError",
+  name: 'playerError',
 
   execute(queue: GuildQueue<{ client: Client, interaction: ChatInputCommandInteraction }>, error: Error) {
     console.log(chalk.red.bold(`[PLAYER_ERROR] ${error.stack}`));

@@ -1,5 +1,5 @@
-import { Events, Guild } from "discord.js";
-import chalk from "chalk";
+import { Events, Guild } from 'discord.js';
+import chalk from 'chalk';
 
 export default {
   name: Events.GuildCreate,

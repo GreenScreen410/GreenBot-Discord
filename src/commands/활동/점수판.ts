@@ -1,36 +1,36 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ComponentType } from "discord.js";
-import "dotenv/config.js";
-import mysql from "mysql";
+import { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ComponentType } from 'discord.js';
+import 'dotenv/config.js';
+import mysql from 'mysql';
 
 const connection = mysql.createConnection({
   host: process.env.MYSQL_HOST,
-  user: "ubuntu",
+  user: 'ubuntu',
   password: process.env.MYSQL_PASSWORD,
   database: process.env.MYSQL_DATABASE
 });
 
 export default {
   data: new SlashCommandBuilder()
-    .setName("점수판")
-    .setDescription("[베타] 활동 점수판을 확인합니다.")
+    .setName('점수판')
+    .setDescription('[베타] 활동 점수판을 확인합니다.')
     .addStringOption(option => option
-      .setName("종목")
-      .setDescription("종목을 선택해 주세요.")
-      .addChoices({ name: "국기퀴즈", value: "flag_quiz" })
+      .setName('종목')
+      .setDescription('종목을 선택해 주세요.')
+      .addChoices({ name: '국기퀴즈', value: 'flag_quiz' })
       .setRequired(true)
     ),
 
   async execute(interaction: ChatInputCommandInteraction) {
-    const activity = interaction.options.getString("종목");
+    const activity = interaction.options.getString('종목');
 
     const embed = new EmbedBuilder()
-      .setColor("Random")
-      .setTitle("🏆 국기퀴즈 순위표")
-      .setDescription("이 순위는 모든 서버에 반영됩니다!")
+      .setColor('Random')
+      .setTitle('🏆 국기퀴즈 순위표')
+      .setDescription('이 순위는 모든 서버에 반영됩니다!')
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() });
 
-    if (activity === "flag_quiz") {
+    if (activity === 'flag_quiz') {
       connection.query(`SELECT * FROM activity ORDER BY ${activity} DESC`, function (error, result) {
         for (let i = 0; i < result.length; i++) {
           embed.addFields({ name: `${i + 1}위`, value: `<@${result[i].id}>: ${result[i].flag_quiz}점` });

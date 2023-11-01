@@ -5,8 +5,8 @@ import chalk from 'chalk'
 export default {
   name: 'playerError',
 
-  execute (queue: GuildQueue<{ client: Client, interaction: ChatInputCommandInteraction }>, error: Error) {
+  async execute (queue: GuildQueue<{ client: Client, interaction: ChatInputCommandInteraction }>, error: Error) {
     console.log(chalk.red.bold(`[PLAYER_ERROR] ${error.stack}`))
-    queue.metadata.client.error.UNKNOWN_ERROR(queue.metadata.interaction, error)
+    await queue.metadata.client.error.UNKNOWN_ERROR(queue.metadata.interaction, error)
   }
 }

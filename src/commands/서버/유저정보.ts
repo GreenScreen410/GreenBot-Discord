@@ -1,5 +1,5 @@
-import { ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder, version } from 'discord.js';
-import os from 'os';
+import { type ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder, version } from 'discord.js'
+import os from 'os'
 
 export default {
   data: new SlashCommandBuilder()
@@ -10,11 +10,11 @@ export default {
       .setDescription('유저를 선택해 주세요.')
       .setRequired(true)),
 
-  async execute(interaction: ChatInputCommandInteraction) {
-    if (!interaction.inCachedGuild()) return;
+  async execute (interaction: ChatInputCommandInteraction) {
+    if (!interaction.inCachedGuild()) return
 
-    const userInfo = interaction.options.getMember('유저');
-    if (!userInfo) return;
+    const userInfo = interaction.options.getMember('유저')
+    if (userInfo == null) return
 
     const embed = new EmbedBuilder()
       .setColor('Random')
@@ -23,21 +23,21 @@ export default {
       .addFields(
         { name: '📛 이름', value: `${userInfo.user.username}`, inline: true },
         { name: '🆔 ID', value: `${userInfo.user.id}`, inline: true },
-        { name: '🎂 계정 생성일', value: `${userInfo.user.createdAt}`, inline: true },
+        { name: '🎂 계정 생성일', value: userInfo.user.createdAt.toISOString(), inline: true },
         { name: '📅 서버 참여일', value: `${userInfo.joinedTimestamp}`, inline: true }
       )
       .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` });
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
 
-    if (userInfo.user.id == '767371161083314236') {
+    if (userInfo.user.id === '767371161083314236') {
       embed.addFields(
         { name: '🖥️ OS', value: `${os.type()} ${os.version()} ${os.release()}`, inline: true },
         { name: '💾 메모리 상태', value: `${Math.round(os.freemem() / 1000000)} MB/${Math.round(os.totalmem() / 1000000)} MB`, inline: true },
         { name: '📂 node.js 버전', value: `${process.version}`, inline: true },
-        { name: '📂 discord.js 버전', value: `${version}`, inline: true },
+        { name: '📂 discord.js 버전', value: `${version}`, inline: true }
       )
     }
 
-    interaction.followUp({ embeds: [embed] });
-  },
-};
+    await interaction.followUp({ embeds: [embed] })
+  }
+}

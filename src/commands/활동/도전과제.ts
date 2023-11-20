@@ -1,6 +1,6 @@
 import 'dotenv/config'
 import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js'
-import mysql from 'mysql2/promise'
+import mysql from 'mysql2'
 import achievements from '../../achievements.json' assert { type: 'json' }
 
 export default {
@@ -9,16 +9,16 @@ export default {
     .setDescription('여러 명령어들을 입력하고, 보고, 실행하며 도전과제들을 달성해보세요!'),
 
   async execute (interaction: ChatInputCommandInteraction) {
-    const connection = await mysql.createConnection({
+    const connection = mysql.createConnection({
       host: process.env.MYSQL_HOST,
       user: 'ubuntu',
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DATABASE
     })
 
-    const [result]: any = await connection.query(`SELECT * FROM achievements WHERE ID=${interaction.user.id}`)
+    const [result]: any = connection.query(`SELECT * FROM achievements WHERE ID=${interaction.user.id}`)
     if (result === '') {
-      await connection.query(`INSERT INTO achievements(id, first_step) VALUES (${interaction.user.id}, 1)`)
+      connection.query(`INSERT INTO achievements(id, first_step) VALUES (${interaction.user.id}, 1)`)
 
       const embed = new EmbedBuilder()
         .setColor('Random')

@@ -4,7 +4,7 @@ import chalk from 'chalk'
 export default {
   name: Events.Warn,
 
-  execute (warn: string) {
+  async execute (warn: string) {
     console.log(chalk.yellow.bold(`[WARN] ${warn}`))
   }
 }

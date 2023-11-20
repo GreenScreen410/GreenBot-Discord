@@ -1,5 +1,5 @@
 import { Events, type BaseInteraction } from 'discord.js'
-import mysql from 'mysql2/promise'
+import mysql from 'mysql2'
 import chalk from 'chalk'
 
 const today = new Date()
@@ -16,7 +16,7 @@ export default {
   name: Events.InteractionCreate,
 
   async execute (interaction: BaseInteraction) {
-    const connection = await mysql.createConnection({
+    const connection = mysql.createConnection({
       host: process.env.MYSQL_HOST,
       user: 'ubuntu',
       password: process.env.MYSQL_PASSWORD,
@@ -34,7 +34,7 @@ export default {
     }
     console.log(chalk.white(`${dateString} ${timeString} - [COMMAND] ${interaction.guild.name}(${interaction.guild.id}): ${interaction.user.tag}(${interaction.user.id}) executed ${interaction.commandName}`))
 
-    const [result]: any = await connection.query(`SELECT * FROM user WHERE id=${interaction.user.id}`)
+    const [result]: any = connection.query(`SELECT * FROM user WHERE id=${interaction.user.id}`)
     console.log(result)
     if (result[0] == null || result[0].banned === 0) {
       command.execute(interaction)

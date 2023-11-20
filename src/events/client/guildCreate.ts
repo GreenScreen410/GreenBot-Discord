@@ -4,7 +4,7 @@ import chalk from 'chalk'
 export default {
   name: Events.GuildCreate,
 
-  execute (guild: Guild) {
+  async execute (guild: Guild) {
     console.log(chalk.green.bold(`[GUILD_CREATE] Invited to ${guild.name}(${guild.id})`))
   }
 }

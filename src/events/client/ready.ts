@@ -5,7 +5,7 @@ export default {
   name: Events.ClientReady,
   once: true,
 
-  execute (client: Client) {
+  async execute (client: Client) {
     console.log(chalk.green.bold(`[READY] ${client.user?.tag} is up and ready to go!`))
     console.log(chalk.green.bold(`[READY] ${client.guilds.cache.size} servers, ${client.users.cache.size} members`))
 

@@ -15,7 +15,7 @@ export default {
         { name: '🌐 웹사이트', value: 'https://github.com/GreenScreen410', inline: true }
       )
       .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
     await interaction.followUp({ embeds: [embed] })
     await interaction.client.achievements.GRANT(interaction, 'developer')
   }

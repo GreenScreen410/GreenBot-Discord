@@ -1,11 +1,11 @@
 import { type ChatInputCommandInteraction, type ButtonInteraction, EmbedBuilder } from 'discord.js'
 
 export default {
-  YOU_HAVE_BEEN_BANNED: async function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
+  YOU_HAVE_BEEN_BANNED: async function (interaction: ChatInputCommandInteraction | ButtonInteraction, reason: string) {
     const embed = new EmbedBuilder()
       .setColor('#FF0000')
       .setTitle('❌ 오류!')
-      .setDescription('관리자로부터 차단당하였습니다.')
+      .setDescription(`관리자로부터 차단당하였습니다.\n사유: \`${reason}\``)
       .setFields({ name: '에러 코드', value: 'YOU_HAVE_BEEN_BANNED' })
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })

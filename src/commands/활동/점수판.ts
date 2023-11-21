@@ -1,6 +1,6 @@
 import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js'
 import 'dotenv/config.js'
-import mysql from 'mysql2'
+import mysql from 'mysql2/promise'
 
 export default {
   data: new SlashCommandBuilder()
@@ -14,7 +14,7 @@ export default {
     ),
 
   async execute (interaction: ChatInputCommandInteraction) {
-    const connection = mysql.createConnection({
+    const connection = await mysql.createConnection({
       host: process.env.MYSQL_HOST,
       user: 'ubuntu',
       password: process.env.MYSQL_PASSWORD,
@@ -31,7 +31,7 @@ export default {
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
 
     if (activity === 'flag_quiz') {
-      const [result]: any = connection.query(`SELECT * FROM activity ORDER BY ${activity} DESC`)
+      const [result]: any = await connection.query(`SELECT * FROM activity ORDER BY ${activity} DESC`)
       for (let i = 0; i < result.length; i++) {
         embed.addFields({ name: `${i + 1}위`, value: `<@${result[i].id}>: ${result[i].flag_quiz}점` })
       }

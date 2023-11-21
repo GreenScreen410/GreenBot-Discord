@@ -21,9 +21,9 @@ export default {
       .setTitle(`${userInfo.user.tag}의 정보`)
       .setThumbnail(userInfo.user.displayAvatarURL())
       .addFields(
-        { name: '📛 이름', value: `${userInfo.user.username}`, inline: true },
-        { name: '🆔 ID', value: `${userInfo.user.id}`, inline: true },
-        { name: '🎂 계정 생성일', value: userInfo.user.createdAt.toISOString(), inline: true },
+        { name: '📛 이름', value: userInfo.user.username, inline: true },
+        { name: '🆔 ID', value: userInfo.user.id, inline: true },
+        { name: '🎂 계정 생성일', value: userInfo.user.createdAt.toUTCString(), inline: true },
         { name: '📅 서버 참여일', value: `${userInfo.joinedTimestamp}`, inline: true }
       )
       .setTimestamp()
@@ -33,8 +33,8 @@ export default {
       embed.addFields(
         { name: '🖥️ OS', value: `${os.type()} ${os.version()} ${os.release()}`, inline: true },
         { name: '💾 메모리 상태', value: `${Math.round(os.freemem() / 1000000)} MB/${Math.round(os.totalmem() / 1000000)} MB`, inline: true },
-        { name: '📂 node.js 버전', value: `${process.version}`, inline: true },
-        { name: '📂 discord.js 버전', value: `${version}`, inline: true }
+        { name: '📂 node.js 버전', value: process.version, inline: true },
+        { name: '📂 discord.js 버전', value: version, inline: true }
       )
     }
 

@@ -1,5 +1,5 @@
 import { Events, type BaseInteraction } from 'discord.js'
-import mysql from 'mysql2'
+import mysql from 'mysql2/promise'
 import chalk from 'chalk'
 
 const today = new Date()
@@ -16,7 +16,7 @@ export default {
   name: Events.InteractionCreate,
 
   async execute (interaction: BaseInteraction) {
-    const connection = mysql.createConnection({
+    const connection = await mysql.createConnection({
       host: process.env.MYSQL_HOST,
       user: 'ubuntu',
       password: process.env.MYSQL_PASSWORD,
@@ -32,15 +32,13 @@ export default {
       await interaction.client.error.INVALID_INTERACTION(interaction)
       return
     }
-    console.log(chalk.white(`${dateString} ${timeString} - [COMMAND] ${interaction.guild.name}(${interaction.guild.id}): ${interaction.user.tag}(${interaction.user.id}) executed ${interaction.commandName}`))
 
-    const [result]: any = connection.query(`SELECT * FROM user WHERE id=${interaction.user.id}`)
-    console.log(result)
+    const [result]: any = await connection.query(`SELECT * FROM user WHERE id=${interaction.user.id}`)
     if (result[0] == null || result[0].banned === 0) {
-      command.execute(interaction)
+      await command.execute(interaction)
       console.log(chalk.white(`${dateString} ${timeString} - [COMMAND] ${interaction.guild.name}(${interaction.guild.id}): ${interaction.user.tag}(${interaction.user.id}) executed ${interaction.commandName}`))
     } else if (result[0].banned === 1) {
-      await interaction.client.error.YOU_HAVE_BEEN_BANNED(interaction)
+      await interaction.client.error.YOU_HAVE_BEEN_BANNED(interaction, 'Test Message, 이게 나온다면 @6r33n을 멘션해 주세요.')
     }
   }
 }

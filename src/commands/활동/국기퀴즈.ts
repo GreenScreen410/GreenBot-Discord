@@ -1,7 +1,7 @@
 import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ComponentType } from 'discord.js'
 import axios from 'axios'
 import 'dotenv/config.js'
-import mysql from 'mysql2'
+import mysql from 'mysql2/promise'
 import country from '../../country.json' assert { type: 'json' }
 
 export default {
@@ -10,7 +10,7 @@ export default {
     .setDescription('256개의 국기 퀴즈를 풀어보세요!'),
 
   async execute (interaction: ChatInputCommandInteraction) {
-    const connection = mysql.createConnection({
+    const connection = await mysql.createConnection({
       host: process.env.MYSQL_HOST,
       user: 'ubuntu',
       password: process.env.MYSQL_PASSWORD,
@@ -50,13 +50,13 @@ export default {
     collector?.on('collect', async i => {
       await i.deferUpdate()
 
-      const [result]: any = connection.query(`SELECT * FROM activity WHERE id=${i.user.id}`)
+      const [result]: any = await connection.query(`SELECT * FROM activity WHERE id=${i.user.id}`)
       if (result === '') {
-        connection.query(`INSERT INTO activity(id, flag_quiz) VALUES (${i.user.id}, 0)`)
+        await connection.query(`INSERT INTO activity(id, flag_quiz) VALUES (${i.user.id}, 0)`)
       }
 
       if (i.customId === 'correct') {
-        connection.query(`UPDATE activity SET flag_quiz=${result[0].flag_quiz + 1} WHERE id=${i.user.id}`)
+        await connection.query(`UPDATE activity SET flag_quiz=${result[0].flag_quiz + 1} WHERE id=${i.user.id}`)
 
         const correctEmbed = new EmbedBuilder()
           .setColor('#00FF00')

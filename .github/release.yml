@@ -14,3 +14,6 @@ changelog:
     - title: ⬆️ 모듈
       labels:
         - "dependency"
+    - title: "🔨 기타"
+      labels:
+        - "chore

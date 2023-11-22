@@ -51,7 +51,7 @@ export default {
       await i.deferUpdate()
 
       const [result]: any = await connection.query(`SELECT * FROM activity WHERE id=${i.user.id}`)
-      if (result === '') {
+      if (result.length === 0) {
         await connection.query(`INSERT INTO activity(id, flag_quiz) VALUES (${i.user.id}, 0)`)
       }
 

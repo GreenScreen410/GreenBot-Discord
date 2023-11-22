@@ -17,7 +17,7 @@ export default {
     })
 
     const [result]: any = await connection.query(`UPDATE achievements SET ${name}=1 WHERE id=${interaction.user.id}`)
-    if (result.info.includes('Changed: 0') == null) return
+    if (result.info.includes('Changed: 0') === true) return
 
     const embed = new EmbedBuilder()
       .setColor('Random')

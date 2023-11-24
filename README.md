@@ -40,4 +40,4 @@ A: 그린Bot은 v1.9.0부터 TypeScript로 변경되게 되었고, 이에 따라
 
 > Q: 재생 명령어 입력 시, 봇이 채널에 접속하긴 하지만 즉시 접속을 끊어요.
 
-A: npm의 `ffmpeg-static`는 상당히 불안정합니다. 윈도우에서는 작동될 수 있지만, 리눅스 환경에서는 작동되지 않을 수 있습니다. 기존에 있던 `ffmpeg-static`을 제거하고, `sudo apt-get install ffmpeg`로 설치해 보세요. 그래도 안 된다면 Issue를 남겨주세요.
+A: npm의 `ffmpeg-static`는 상당히 불안정합니다. 윈도우에서는 작동될 수 있지만, 리눅스 환경에서는 작동되지 않을 수 있습니다. 기존에 있던 `ffmpeg-static`을 제거하고, `sudo apt-get install ffmpeg`로 설치해 보세요. 그래도 안 된다면 Issue를 남겨주세요. 1.12.3 이후 버전부터는 윈도우에서도 ffmpeg 바이너리를 사용하도록 설정되었으므로, <https://ffmpeg.org/>를 통해 설치해 주세요.

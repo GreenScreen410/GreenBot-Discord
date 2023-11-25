@@ -23,8 +23,8 @@ export default {
       .addFields(
         { name: '📛 이름', value: userInfo.user.username, inline: true },
         { name: '🆔 ID', value: userInfo.user.id, inline: true },
-        { name: '🎂 계정 생성일', value: userInfo.user.createdAt.toUTCString(), inline: true },
-        { name: '📅 서버 참여일', value: `${userInfo.joinedTimestamp}`, inline: true }
+        { name: '🎂 계정 생성일', value: userInfo.user.createdAt.toLocaleString(), inline: true },
+        { name: '📅 서버 가입일', value: userInfo.joinedTimestamp != null ? new Date(userInfo.joinedTimestamp).toLocaleString() : '알 수 없음', inline: true }
       )
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })

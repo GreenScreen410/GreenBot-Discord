@@ -10,10 +10,10 @@ export default {
     if (!interaction.inCachedGuild()) return
 
     const queue = useQueue(interaction.guildId)
-    if (queue == null || !queue.node.isPlaying()) {
+    if (queue?.currentTrack == null) {
       await interaction.client.error.MUSIC_QUEUE_IS_EMPTY(interaction); return
     }
-    if ((interaction.guild.members.me?.voice.channelId != null) && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
+    if (interaction.guild.members.me?.voice.channelId != null && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
       await interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction); return
     }
 

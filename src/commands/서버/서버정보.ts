@@ -20,10 +20,10 @@ export default {
         { name: '📝 서버 설명', value: `${(interaction.guild.description != null) || '없음'}`, inline: true },
         { name: '🆔 ID', value: interaction.guild.id, inline: true },
         { name: '👑 서버 소유자', value: `<@${interaction.guild.ownerId}>`, inline: true },
-        { name: '🎂 서버 생성일', value: interaction.guild.createdAt.toISOString(), inline: true },
+        { name: '🎂 서버 생성일', value: interaction.guild.createdAt.toLocaleString(), inline: true },
         { name: '👤 유저 수', value: `${interaction.guild.memberCount}명`, inline: true },
         { name: '🎭 역할 및 권한', value: `${roles.length}개`, inline: true },
-        { name: '📺 채널', value: `${channels.length}개`, inline: true },
+        { name: '📺 채널 (카테고리 포함)', value: `${channels.length}개`, inline: true },
         { name: '📜 서버 규칙', value: `${(interaction.guild.rulesChannel != null) || '없음'}`, inline: true },
         { name: '🕮 서버 규칙 채널', value: `${(interaction.guild.rulesChannelId != null) || '없음'}`, inline: true },
         { name: '🌐 서버 지역', value: `${interaction.guild.preferredLocale}`, inline: true },
@@ -33,8 +33,8 @@ export default {
         { name: '💤 AFK 채널', value: `${(interaction.guild.afkChannel != null) || '없음'}`, inline: true },
         { name: '⏰ AFK 시간', value: `${interaction.guild.afkTimeout / 60}분`, inline: true },
         { name: '🔄 AFK 이동', value: `${(interaction.guild.afkChannelId != null) ? 'O' : 'X'}`, inline: true },
-        { name: '🖼️ 서버 아이콘', value: `[링크](${interaction.guild.iconURL()})`, inline: true },
-        { name: '🚩 서버 배너', value: `[링크](${interaction.guild.bannerURL()})`, inline: true },
+        { name: '🖼️ 서버 아이콘', value: interaction.guild.iconURL() != null ? `[링크](${interaction.guild.iconURL()})` : '없음', inline: true },
+        { name: '🚩 서버 배너', value: interaction.guild.bannerURL() != null ? `[링크](${interaction.guild.bannerURL()})` : '없음', inline: true },
         { name: '✨ 서버 부스트 레벨', value: `${interaction.guild.premiumTier}`, inline: true },
         { name: '🌟 서버 부스트 수', value: `${interaction.guild.premiumSubscriptionCount}`, inline: true }
       )

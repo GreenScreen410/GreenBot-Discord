@@ -5,15 +5,19 @@ changelog:
     - title: ✨ 새로운 기능
       labels:
         - "enhancement"
+
     - title: 🐛 버그 수정
       labels:
         - "bug"
+
     - title: 📝 문서
       labels:
         - "documentation"
+
     - title: ⬆️ 모듈
       labels:
         - "dependency"
-    - title: "🔨 기타"
+
+    - title: 🔨 기타
       labels:
         - "chore

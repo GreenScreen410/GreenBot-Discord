@@ -105,5 +105,7 @@ export default {
         await interaction.followUp({ embeds: [timeoutEmbed] })
       }
     })
+
+    await connection.end()
   }
 }

@@ -42,5 +42,7 @@ export default {
       embed.setDescription(description)
       await interaction.followUp({ embeds: [embed] })
     }
+
+    await connection.end()
   }
 }

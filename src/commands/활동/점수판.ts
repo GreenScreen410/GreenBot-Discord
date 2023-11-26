@@ -37,5 +37,7 @@ export default {
       }
       await interaction.followUp({ embeds: [embed] })
     }
+
+    await connection.end()
   }
 }

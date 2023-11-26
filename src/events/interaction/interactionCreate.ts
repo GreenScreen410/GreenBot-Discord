@@ -40,5 +40,7 @@ export default {
     } else if (result[0].banned === 1) {
       await interaction.client.error.YOU_HAVE_BEEN_BANNED(interaction, 'Test Message, 이게 나온다면 @6r33n을 멘션해 주세요.')
     }
+
+    await connection.end()
   }
 }

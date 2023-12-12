@@ -21,24 +21,5 @@ export default {
     translatedText = translatedText.message.result.translatedText
 
     return translatedText
-  },
-
-  kakao: async function (target: string, text: string) {
-    let translatedText: any = await axios({
-      method: 'POST',
-      url: 'https://api-free.deepl.com/v2/translate',
-      params: {
-        text: `${text}`,
-        target_lang: `${target}`
-      },
-      headers: {
-        Authorization: `DeepL-Auth-Key ${process.env.KAKAO_REST_API_KEY}`
-      }
-    })
-
-    translatedText = JSON.parse(JSON.stringify(translatedText.data))
-    translatedText = translatedText.translations[0].text
-
-    return translatedText
   }
 }

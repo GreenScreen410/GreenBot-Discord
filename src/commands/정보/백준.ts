@@ -1,8 +1,8 @@
-import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js'
+import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, type ColorResolvable } from 'discord.js'
 import axios from 'axios'
 
 const tier = [
-  '<:unranked:857632511117754429>',
+  '<:notratable:857632511117754429>',
   '<:bronze5:857632515854172160>',
   '<:bronze4:857632511181586443>',
   '<:bronze3:857632511072665650>',
@@ -35,6 +35,40 @@ const tier = [
   '<:ruby1:857632510937792590>'
 ]
 
+const tierColor = [
+  '#000000',
+  '#a95918',
+  '#a95918',
+  '#a95918',
+  '#a95918',
+  '#a95918',
+  '#455f78',
+  '#455f78',
+  '#455f78',
+  '#455f78',
+  '#455f78',
+  '#e89c2b',
+  '#e89c2b',
+  '#e89c2b',
+  '#e89c2b',
+  '#e89c2b',
+  '#4ce0a7',
+  '#4ce0a7',
+  '#4ce0a7',
+  '#4ce0a7',
+  '#4ce0a7',
+  '#2eb2f6',
+  '#2eb2f6',
+  '#2eb2f6',
+  '#2eb2f6',
+  '#2eb2f6',
+  '#f72664',
+  '#f72664',
+  '#f72664',
+  '#f72664',
+  '#f72664'
+]
+
 export default {
   data: new SlashCommandBuilder()
     .setName('백준')
@@ -51,7 +85,7 @@ export default {
 
     const embed = new EmbedBuilder()
       .setURL(`https://www.acmicpc.net/problem/${problemID}`)
-      .setColor('Random')
+      .setColor(tierColor[response.data.level] as ColorResolvable)
       .setTitle(`${response.data.problemId} - ${response.data.titleKo}`)
       .setDescription(`난이도: ${tier[response.data.level]}`)
       .addFields(

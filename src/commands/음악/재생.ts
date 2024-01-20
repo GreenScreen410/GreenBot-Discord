@@ -25,7 +25,7 @@ export default {
     const query = interaction.options.getString('노래', true)
     if (query.startsWith('https://soundcloud.com')) isSoundCloud = true
 
-    const player = useMainPlayer()!
+    const player = useMainPlayer()
 
     const results = await player.search(query, { searchEngine: isSoundCloud ? QueryType.SOUNDCLOUD : QueryType.YOUTUBE })
     if (!results.hasTracks()) { await interaction.client.error.INVALID_ARGUMENT(interaction, query); return }

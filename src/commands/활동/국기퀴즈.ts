@@ -82,6 +82,7 @@ export default {
             }
           }
         }
+        await connection.end()
       } else {
         const wrongEmbed = new EmbedBuilder()
           .setColor('#FF0000')
@@ -91,6 +92,7 @@ export default {
           .setFooter({ text: `Requested by ${i.user.tag}`, iconURL: i.user.displayAvatarURL() })
         await interaction.followUp({ embeds: [wrongEmbed] })
         collector.stop()
+        await connection.end()
       }
     })
 
@@ -103,9 +105,8 @@ export default {
           .setTimestamp()
           .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
         await interaction.followUp({ embeds: [timeoutEmbed] })
+        await connection.end()
       }
     })
-
-    await connection.end()
   }
 }

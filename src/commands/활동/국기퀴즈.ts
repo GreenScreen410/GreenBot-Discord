@@ -40,7 +40,7 @@ export default {
     const image = await axios.get(`https://flagcdn.com/w320/${countryCode}.png`)
     const embed = new EmbedBuilder()
       .setColor('Random')
-      .setImage(image.request.res.responseUrl)
+      .setImage(image.request.res.responseUrl as string)
       .setTitle('아래 국기는 어디 국기일까요?')
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })

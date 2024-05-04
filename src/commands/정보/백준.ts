@@ -95,14 +95,14 @@ export default {
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     if (Object.keys(response.data.tags).length > 0) {
       let tags = ''
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       for (let i = 0; i < Object.keys(response.data.tags).length; i++) {
         tags += response.data.tags[i].displayNames[0].name + '\n'
       }
-      embed.addFields(
-        { name: '📛 알고리즘 분류', value: `${tags}` }
-      )
+      embed.addFields({ name: '📛 알고리즘 분류', value: `${tags}` })
     }
 
     await interaction.followUp({ embeds: [embed] })

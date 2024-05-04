@@ -34,7 +34,7 @@ export default {
 
     const embed = new EmbedBuilder()
       .setColor('Random')
-      .setTitle('🗑️ 정상적으로 제거하였습니다.')
+      .setTitle('🗑️ 정상적으로 제거되었습니다.')
       .setDescription(queue.tracks.data[0].title)
       .setURL(queue.tracks.data[0].url)
       .setThumbnail(queue.tracks.data[0].thumbnail)

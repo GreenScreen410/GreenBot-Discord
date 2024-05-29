@@ -16,7 +16,6 @@ export default {
 
     if (response.data.ip === '127.0.0.1') {
       await interaction.client.error.INVALID_ARGUMENT(interaction, server)
-      return
     }
 
     const embed = new EmbedBuilder()

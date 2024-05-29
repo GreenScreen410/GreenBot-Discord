@@ -19,7 +19,7 @@ export default {
 
     const embed = new EmbedBuilder()
       .setColor('Random')
-      .setTitle(`${response.data.schoolInfo[1].row[0].SCHUL_NM} 정보`)
+      .setTitle(`${response.data.schoolInfo[1].row[0].SCHUL_NM}`)
       .setDescription(`${response.data.schoolInfo[1].row[0].HMPG_ADRES}`)
       .addFields(
         { name: '🎂 개교일', value: `${response.data.schoolInfo[1].row[0].FOND_YMD}` },

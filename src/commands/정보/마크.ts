@@ -20,18 +20,25 @@ export default {
 
     const embed = new EmbedBuilder()
       .setColor('Random')
-      .setThumbnail(`https://api.mcsrvstat.us/icon/${encodeURIComponent(server)}`)
-      .setTitle(`${response.data.motd.clean.join('\n')}`)
       .setDescription(`${response.data.ip}`)
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
 
     if (response.data.online === true) {
+      embed.setThumbnail(`https://api.mcsrvstat.us/icon/${encodeURIComponent(server)}`)
+      embed.setTitle(`${response.data.motd.clean.join('\n')}`)
       embed.addFields(
         { name: '🛜 서버 상태', value: '✅', inline: true },
         { name: '👥 플레이어', value: `${response.data.players.online}/${response.data.players.max}`, inline: true },
         { name: '🔗 버전', value: `${response.data.version}`, inline: true }
       )
+
+      if (response.data.players.list != null) {
+        const playerCount = response.data.players.list.length
+        embed.addFields(
+          { name: '👥 플레이어 목록', value: `${response.data.players.list[0].name}${playerCount > 10 ? ` 외 ${playerCount - 1}명` : ''}` }
+        )
+      }
     } else {
       embed.addFields(
         { name: '🛜 서버 상태', value: '❌' }

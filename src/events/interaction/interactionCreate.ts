@@ -19,14 +19,15 @@ export default {
     await interaction.deferReply()
 
     if (command == null) {
-      await interaction.client.error.INVALID_INTERACTION(interaction)
-      return
+      return await interaction.client.error.INVALID_INTERACTION(interaction)
     }
 
     const [result]: any = await connection.query(`SELECT * FROM user WHERE id=${interaction.user.id}`)
-    if (result[0].banned === 1) {
-      await interaction.client.error.YOU_HAVE_BEEN_BANNED(interaction, 'Test Message, 이게 나온다면 @6r33n을 멘션해 주세요.'); return
-    } else if (result[0] == null) {
+    try {
+      if (result[0].banned === 1) {
+        return await interaction.client.error.YOU_HAVE_BEEN_BANNED(interaction, 'Test Message, 이게 나온다면 @6r33n을 멘션해 주세요.')
+      }
+    } catch (error) {
       await connection.query(`INSERT INTO user (id, banned) VALUES (${interaction.user.id}, 0)`)
     }
 

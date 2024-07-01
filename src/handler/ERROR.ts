@@ -9,7 +9,7 @@ export default {
       .setFields({ name: '에러 코드', value: 'YOU_HAVE_BEEN_BANNED' })
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
-    await interaction.followUp({ embeds: [embed] })
+    return await interaction.followUp({ embeds: [embed] })
   },
 
   UNKNOWN_ERROR: async function (interaction: ChatInputCommandInteraction | ButtonInteraction, error: any) {
@@ -20,7 +20,7 @@ export default {
       .addFields({ name: '에러 코드', value: 'UNKNOWN_ERROR' })
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
-    await interaction.followUp({ embeds: [embed] })
+    return await interaction.followUp({ embeds: [embed] })
   },
 
   INVALID_INTERACTION: async function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
@@ -31,7 +31,7 @@ export default {
       .addFields({ name: '에러 코드', value: 'INVALID_INTERACTION' })
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
-    await interaction.followUp({ embeds: [embed] })
+    return await interaction.followUp({ embeds: [embed] })
   },
 
   INVALID_ARGUMENT: async function (interaction: ChatInputCommandInteraction | ButtonInteraction, argument?: string) {
@@ -42,7 +42,7 @@ export default {
       .addFields({ name: '에러 코드', value: 'INVALID_ARGUMENT' })
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
-    await interaction.followUp({ embeds: [embed] })
+    return await interaction.followUp({ embeds: [embed] })
   },
 
   PLEASE_JOIN_VOICE_CHANNEL: async function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
@@ -53,7 +53,7 @@ export default {
       .addFields({ name: '에러 코드', value: 'PLEASE_JOIN_VOICE_CHANNEL' })
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
-    await interaction.followUp({ embeds: [embed] })
+    return await interaction.followUp({ embeds: [embed] })
   },
 
   PLEASE_JOIN_SAME_VOICE_CHANNEL: async function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
@@ -64,7 +64,7 @@ export default {
       .addFields({ name: '에러 코드', value: 'PLEASE_JOIN_SAME_VOICE_CHANNEL' })
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
-    await interaction.followUp({ embeds: [embed] })
+    return await interaction.followUp({ embeds: [embed] })
   },
 
   MUSIC_QUEUE_IS_EMPTY: async function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
@@ -75,7 +75,7 @@ export default {
       .addFields({ name: '에러 코드', value: 'MUSIC_QUEUE_IS_EMPTY' })
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
-    await interaction.followUp({ embeds: [embed] })
+    return await interaction.followUp({ embeds: [embed] })
   },
 
   MUSIC_IS_TOO_LONG: async function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
@@ -86,7 +86,7 @@ export default {
       .addFields({ name: '에러 코드', value: 'MUSIC_IS_TOO_LONG' })
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
-    await interaction.followUp({ embeds: [embed] })
+    return await interaction.followUp({ embeds: [embed] })
   },
 
   CAN_NOT_USE_IN_DM: async function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
@@ -97,6 +97,6 @@ export default {
       .addFields({ name: '에러 코드', value: 'CAN_NOT_USE_IN_DM' })
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
-    await interaction.followUp({ embeds: [embed] })
+    return await interaction.followUp({ embeds: [embed] })
   }
 }

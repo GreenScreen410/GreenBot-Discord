@@ -8,7 +8,7 @@ for (let i = 0; i < Object.keys(achievements).length; i++) {
 }
 
 export default {
-  GRANT: async function (interaction: ChatInputCommandInteraction, name: string) {
+  get: async function (interaction: ChatInputCommandInteraction, name: string) {
     const connection = await mysql.createConnection({
       host: process.env.MYSQL_HOST,
       user: 'ubuntu',

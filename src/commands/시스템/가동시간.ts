@@ -23,10 +23,10 @@ export default {
     await interaction.followUp({ embeds: [embed] })
 
     if (interaction.client.uptime / 1000 >= 10080) {
-      await interaction.client.achievements.GRANT(interaction, 'uptime_1')
+      await interaction.client.achievements.get(interaction, 'uptime_1')
 
       if (interaction.client.uptime / 1000 >= 20160) {
-        await interaction.client.achievements.GRANT(interaction, 'uptime_2')
+        await interaction.client.achievements.get(interaction, 'uptime_2')
       }
     }
   }

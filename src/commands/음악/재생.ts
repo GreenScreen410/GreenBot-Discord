@@ -21,14 +21,19 @@ export default {
       await interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction); return
     }
 
-    let isSoundCloud = false
+    let searchEngine
     const query = interaction.options.getString('노래', true)
-    if (query.startsWith('https://soundcloud.com')) isSoundCloud = true
+    if (query.startsWith('https://soundcloud.com')) searchEngine = QueryType.SOUNDCLOUD
+    else if (query.startsWith('https://www.youtube.com/playlist')) searchEngine = QueryType.YOUTUBE_PLAYLIST
+    else searchEngine = QueryType.YOUTUBE
 
     const player = useMainPlayer()
-
-    const results = await player.search(query, { searchEngine: isSoundCloud ? QueryType.SOUNDCLOUD : QueryType.YOUTUBE })
-    if (!results.hasTracks()) { await interaction.client.error.INVALID_ARGUMENT(interaction, query); return }
+    const results = await player.search(query, {
+      searchEngine
+    })
+    if (!results.hasTracks()) {
+      await interaction.client.error.INVALID_ARGUMENT(interaction, query); return
+    }
 
     const track = await player.play(interaction.member.voice.channel.id, results, {
       nodeOptions: {

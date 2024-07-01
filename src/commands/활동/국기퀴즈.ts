@@ -68,15 +68,15 @@ export default {
         collector.stop()
 
         if (result[0].flag_quiz + 1 >= 5) {
-          await interaction.client.achievements.GRANT(interaction, 'flag_quiz_1')
+          await interaction.client.achievements.get(interaction, 'flag_quiz_1')
           if (result[0].flag_quiz + 1 >= 25) {
-            await interaction.client.achievements.GRANT(interaction, 'flag_quiz_2')
+            await interaction.client.achievements.get(interaction, 'flag_quiz_2')
             if (result[0].flag_quiz + 1 >= 50) {
-              await interaction.client.achievements.GRANT(interaction, 'flag_quiz_3')
+              await interaction.client.achievements.get(interaction, 'flag_quiz_3')
               if (result[0].flag_quiz + 1 >= 100) {
-                await interaction.client.achievements.GRANT(interaction, 'flag_quiz_4')
+                await interaction.client.achievements.get(interaction, 'flag_quiz_4')
                 if (result[0].flag_quiz + 1 >= 200) {
-                  await interaction.client.achievements.GRANT(interaction, 'flag_quiz_5')
+                  await interaction.client.achievements.get(interaction, 'flag_quiz_5')
                 }
               }
             }

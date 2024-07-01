@@ -15,10 +15,10 @@ export default {
 
     const queue = useQueue(interaction.guildId)
     if (queue?.currentTrack == null) {
-      await interaction.client.error.MUSIC_QUEUE_IS_EMPTY(interaction); return
+      return await interaction.client.error.MUSIC_QUEUE_IS_EMPTY(interaction)
     }
     if (interaction.guild.members.me?.voice.channelId != null && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
-      await interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction); return
+      return await interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction)
     }
     if (queue.tracks.size <= 1) {
       queue.node.skip()

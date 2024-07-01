@@ -76,11 +76,15 @@ export default {
     .addIntegerOption((option) => option
       .setName('문제')
       .setDescription('문제 ID를 입력해 주세요.')
+      .setMinValue(1000)
       .setRequired(true)
     ),
 
   async execute (interaction: ChatInputCommandInteraction) {
-    const problemID = interaction.options.getInteger('문제')
+    const problemID = interaction.options.getInteger('문제', true)
+    const maxProblemID = (await axios.get('https://solved.ac/api/v3/site/stats')).data.problemCount
+    if (problemID > maxProblemID) return await interaction.client.error.INVALID_ARGUMENT(interaction, problemID)
+
     const response = await axios.get(`https://solved.ac/api/v3/problem/show?problemId=${problemID}`)
 
     const embed = new EmbedBuilder()

@@ -15,10 +15,10 @@ export default {
     if (!interaction.inCachedGuild()) return
 
     if (interaction.member.voice.channel == null) {
-      await interaction.client.error.PLEASE_JOIN_VOICE_CHANNEL(interaction); return
+      return await interaction.client.error.PLEASE_JOIN_VOICE_CHANNEL(interaction)
     }
     if (((interaction.guild.members.me?.voice.channelId) != null) && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
-      await interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction); return
+      return await interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction)
     }
 
     let searchEngine
@@ -32,7 +32,7 @@ export default {
       searchEngine
     })
     if (!results.hasTracks()) {
-      await interaction.client.error.INVALID_ARGUMENT(interaction, query); return
+      return await interaction.client.error.INVALID_ARGUMENT(interaction, query)
     }
 
     const track = await player.play(interaction.member.voice.channel.id, results, {

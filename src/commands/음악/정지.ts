@@ -26,7 +26,7 @@ export default {
     await interaction.followUp({ embeds: [embed] })
 
     if (queue.size >= 10) {
-      await interaction.client.achievements.GRANT(interaction, 'ruin_the_fun')
+      await interaction.client.achievements.get(interaction, 'ruin_the_fun')
     }
 
     queue.delete()

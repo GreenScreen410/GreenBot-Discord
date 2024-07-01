@@ -34,7 +34,7 @@ export default {
     return await interaction.followUp({ embeds: [embed] })
   },
 
-  INVALID_ARGUMENT: async function (interaction: ChatInputCommandInteraction | ButtonInteraction, argument?: string) {
+  INVALID_ARGUMENT: async function (interaction: ChatInputCommandInteraction | ButtonInteraction, argument?: string | number) {
     const embed = new EmbedBuilder()
       .setColor('#FF0000')
       .setTitle('❌ 오류!')

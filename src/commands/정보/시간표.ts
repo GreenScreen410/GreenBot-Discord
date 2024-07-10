@@ -49,7 +49,7 @@ export default {
 
     for (let i = 0; i < response.hisTimetable[0].head[0].list_total_count; i++) {
       embed.addFields(
-        { name: `${i + 1}교시`, value: `${response.hisTimetable[1].row[i].ITRT_CNTNT}` }
+        { name: `${response.hisTimetable[1].row[i].PERIO}교시`, value: `${response.hisTimetable[1].row[i].ITRT_CNTNT}` }
       )
     }
 

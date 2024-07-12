@@ -34,7 +34,7 @@ export default {
     const embed = new EmbedBuilder()
       .setColor('Random')
       .setTitle(`${response.mealServiceDietInfo[1].row[0].SCHUL_NM} 급식`)
-      .setDescription(`${response.mealServiceDietInfo[1].row[0].DDISH_NM}`)
+      .setDescription(`${(response.mealServiceDietInfo[1].row[0].DDISH_NM).replace(/<br\/>/g, '\n')}`)
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
 
     await interaction.followUp({ embeds: [embed] })

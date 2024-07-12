@@ -30,6 +30,7 @@ const player = Player.singleton(client, {
   }
 })
 await player.extractors.register(YoutubeiExtractor, {
+  // @ts-expect-error asdf
   authentication: process.env.YOUTUBE_OAUTH
 })
 

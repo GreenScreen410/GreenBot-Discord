@@ -1,6 +1,6 @@
 {
   "name": "greenbot-discord",
-  "version": "1.14.0",
+  "version": "1.14.1",
   "description": "",
   "exports": "./index.js",
   "type": "module",
@@ -15,15 +15,18 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@discord-player/extractor": "^4.4.7",
+    "@distube/ytdl-core": "^4.13.5",
     "axios": "^1.6.2",
     "chalk": "^5.3.0",
     "cheerio": "^1.0.0-rc.12",
     "discord-gamecord": "^4.4.2",
-    "discord-player": "^6.6.6",
+    "discord-player": "^6.6.2",
+    "discord-player-youtubei": "^1.0.9",
     "discord.js": "^14.12.1",
     "dotenv": "^16.3.1",
-    "mysql2": "^3.6.5",
-    "play-dl": "^1.9.7"
+    "mediaplex": "^0.0.9",
+    "mysql2": "^3.6.5"
   },
   "devDependencies": {
     "@types/node": "^20.12.8",

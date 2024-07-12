@@ -1,5 +1,5 @@
 import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js'
-import { QueryType, type SearchQueryType, useMainPlayer } from 'discord-player'
+import { useMainPlayer } from 'discord-player'
 
 export default {
   data: new SlashCommandBuilder()

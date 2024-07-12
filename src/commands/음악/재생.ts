@@ -1,5 +1,5 @@
 import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js'
-import { QueryType, useMainPlayer } from 'discord-player'
+import { QueryType, type SearchQueryType, useMainPlayer } from 'discord-player'
 
 export default {
   data: new SlashCommandBuilder()
@@ -21,21 +21,10 @@ export default {
       return await interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction)
     }
 
-    let searchEngine
     const query = interaction.options.getString('노래', true)
-    if (query.startsWith('https://soundcloud.com')) searchEngine = QueryType.SOUNDCLOUD
-    else if (query.startsWith('https://www.youtube.com/playlist')) searchEngine = QueryType.YOUTUBE_PLAYLIST
-    else searchEngine = QueryType.YOUTUBE
-
     const player = useMainPlayer()
-    const results = await player.search(query, {
-      searchEngine
-    })
-    if (!results.hasTracks()) {
-      return await interaction.client.error.INVALID_ARGUMENT(interaction, query)
-    }
-
-    const track = await player.play(interaction.member.voice.channel.id, results, {
+    const results = await player.search(query)
+    const track = await player.play(interaction.member.voice.channel, results, {
       nodeOptions: {
         metadata: interaction
       }
@@ -43,7 +32,7 @@ export default {
 
     const embed = new EmbedBuilder()
       .setColor('Random')
-      .setTitle('🎵 재생목록에 추가되었습니다.')
+      .setTitle('🎵 재생목록에 추가되었습니다.\n[긴급] 음악 명령어가 많이 불안정합니다.')
       .setDescription(track.track.title)
       .setURL(track.track.url)
       .setThumbnail(track.track.thumbnail)

@@ -4,6 +4,7 @@ import { Player } from 'discord-player'
 import { readdir } from 'node:fs/promises'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { YoutubeiExtractor } from 'discord-player-youtubei'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 declare module 'discord.js' {
@@ -28,7 +29,9 @@ const player = Player.singleton(client, {
     filter: 'audioonly'
   }
 })
-await player.extractors.loadDefault()
+await player.extractors.register(YoutubeiExtractor, {
+  authentication: process.env.YOUTUBE_OAUTH
+})
 
 const commands: any = []
 const commandFiles = await readdir(join(__dirname, './commands'))

@@ -14,8 +14,7 @@ export default {
       .addChoices({ name: '베이퍼웨이브', value: 'vaporwave' })
       .addChoices({ name: '나이트코어', value: 'nightcore' })
       .setRequired(true)
-    )
-    .setDMPermission(false),
+    ),
 
   async execute (interaction: ChatInputCommandInteraction) {
     if (!interaction.inCachedGuild()) return
@@ -28,38 +27,20 @@ export default {
       return await interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction)
     }
 
-    const filter = interaction.options.getString('필터')
-
+    const filter = interaction.options.getString('필터', true)
     const embed = new EmbedBuilder()
       .setColor('Random')
       .setTimestamp()
+      .setDescription(queue.currentTrack.title)
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
 
     if (filter === 'normal') {
       await queue.filters.ffmpeg.setFilters([])
       embed.setTitle('✨ 필터가 **비활성화** 되었습니다.')
-      embed.setDescription(queue.currentTrack.title)
       return await interaction.followUp({ embeds: [embed] })
-    }
-
-    if (filter === '8D') {
-      await queue.filters.ffmpeg.setFilters(['8D'])
-      embed.setTitle('✨ 8D 필터가 **활성화** 되었습니다.')
-      embed.setDescription(queue.currentTrack.title)
-      return await interaction.followUp({ embeds: [embed] })
-    }
-
-    if (filter === 'bassboost') {
-      await queue.filters.ffmpeg.setFilters(['bassboost'])
-      embed.setTitle('✨ 베이스부스트 필터가 **활성화** 되었습니다.')
-      embed.setDescription(`${queue.currentTrack.title}\n\n매우 강력한 베이스, 소리의 주의하세요!`)
-      return await interaction.followUp({ embeds: [embed] })
-    }
-
-    if (filter === 'vaporwave') {
-      await queue.filters.ffmpeg.setFilters(['vaporwave'])
-      embed.setTitle('✨ 베이퍼웨이브 필터가 **활성화** 되었습니다.')
-      embed.setDescription(`${queue.currentTrack.title}\n\n때로는 낮고, 느린 분위기도 좋죠.`)
+    } else {
+      await queue.filters.ffmpeg.setFilters([filter])
+      embed.setTitle(`✨ ${filter} 필터가 **활성화** 되었습니다.`)
       return await interaction.followUp({ embeds: [embed] })
     }
   }

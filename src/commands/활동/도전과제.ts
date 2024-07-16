@@ -16,6 +16,7 @@ export default {
       database: process.env.MYSQL_DATABASE
     })
 
+    return await interaction.followUp('도전과제 명령어 보수 중입니다.')
     const [result]: any = await connection.query(`SELECT * FROM achievements WHERE id=${interaction.user.id}`)
     if (result[0].length === 0) {
       await connection.query(`INSERT INTO achievements(id, first_step) VALUES (${interaction.user.id}, 1)`)

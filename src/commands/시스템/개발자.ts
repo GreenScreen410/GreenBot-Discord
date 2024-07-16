@@ -11,12 +11,12 @@ export default {
       .setTitle('📘 개발자 정보')
       .addFields(
         { name: '👑 이름', value: '그린스크린', inline: true },
-        { name: '🏷 디스코드 태그', value: '<@332840377763758082>', inline: true },
+        { name: '🏷 디스코드 태그', value: '6r33n', inline: true },
         { name: '🌐 웹사이트', value: 'https://github.com/GreenScreen410', inline: true }
       )
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
     await interaction.followUp({ embeds: [embed] })
-    await interaction.client.achievements.get(interaction, 'developer')
+    // await interaction.client.achievements.get(interaction, 'developer')
   }
 }

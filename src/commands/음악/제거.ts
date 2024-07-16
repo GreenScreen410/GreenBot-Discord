@@ -20,16 +20,10 @@ export default {
     if (interaction.guild.members.me?.voice.channelId != null && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
       return await interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction)
     }
-    if (queue.tracks.size <= 1) {
-      queue.node.skip()
 
-      const embed = new EmbedBuilder()
-        .setColor('Random')
-        .setTitle('⏩ 재생중인 노래를 넘겼습니다!')
-        .setDescription(`${queue.currentTrack?.title}`)
-        .setTimestamp()
-        .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
-      return await interaction.followUp({ embeds: [embed] })
+    const index = interaction.options.getInteger('번호', true)
+    if (index < 1 || index > queue.tracks.size) {
+      return await interaction.client.error.INVALID_ARGUMENT(interaction, index)
     }
 
     const embed = new EmbedBuilder()
@@ -42,7 +36,6 @@ export default {
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
     await interaction.followUp({ embeds: [embed] })
 
-    const index = interaction.options.getInteger('번호', true)
     queue.removeTrack(index - 1)
   }
 }

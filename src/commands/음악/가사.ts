@@ -14,13 +14,14 @@ export default {
   async execute (interaction: ChatInputCommandInteraction) {
     if (!interaction.inCachedGuild()) return
 
-    const queue = useQueue(interaction.guildId)
-    if (queue?.currentTrack == null) {
-      return await interaction.client.error.MUSIC_QUEUE_IS_EMPTY(interaction)
-    }
-
     let song = interaction.options.getString('노래')
     if (song == null) {
+      const queue = useQueue(interaction.guildId)
+
+      if (queue?.currentTrack == null) {
+        return await interaction.client.error.MUSIC_QUEUE_IS_EMPTY(interaction)
+      }
+
       song = queue.currentTrack.title
     }
 
@@ -31,7 +32,6 @@ export default {
     }
 
     const trimmedLyrics = lyrics.lyrics.substring(0, 1997)
-
     const embed = new EmbedBuilder()
       .setColor('Random')
       .setTitle(lyrics.title)

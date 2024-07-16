@@ -33,6 +33,6 @@ export default {
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
     await interaction.followUp({ embeds: [embed] })
-    await interaction.client.achievements.get(interaction, 'school_info')
+    // await interaction.client.achievements.get(interaction, 'school_info')
   }
 }

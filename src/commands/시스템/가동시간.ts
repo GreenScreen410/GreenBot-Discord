@@ -22,6 +22,7 @@ export default {
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
     await interaction.followUp({ embeds: [embed] })
 
+    /*
     if (interaction.client.uptime / 1000 >= 10080) {
       await interaction.client.achievements.get(interaction, 'uptime_1')
 
@@ -29,5 +30,6 @@ export default {
         await interaction.client.achievements.get(interaction, 'uptime_2')
       }
     }
+    */
   }
 }

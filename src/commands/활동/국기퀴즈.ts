@@ -67,6 +67,7 @@ export default {
         await interaction.followUp({ embeds: [correctEmbed] })
         collector.stop()
 
+        /*
         if (result[0].flag_quiz + 1 >= 5) {
           await interaction.client.achievements.get(interaction, 'flag_quiz_1')
           if (result[0].flag_quiz + 1 >= 25) {
@@ -82,6 +83,7 @@ export default {
             }
           }
         }
+        */
         await connection.end()
       } else {
         const wrongEmbed = new EmbedBuilder()

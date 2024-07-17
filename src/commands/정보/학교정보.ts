@@ -31,7 +31,7 @@ export default {
         { name: '📅 데이터 수정일자', value: `${response.data.schoolInfo[1].row[0].LOAD_DTM}` }
       )
       .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
     await interaction.followUp({ embeds: [embed] })
     // await interaction.client.achievements.get(interaction, 'school_info')
   }

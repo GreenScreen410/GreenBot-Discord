@@ -33,7 +33,7 @@ export default {
       .setURL(queue.tracks.data[0].url)
       .setThumbnail(queue.tracks.data[0].thumbnail)
       .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
     await interaction.followUp({ embeds: [embed] })
 
     queue.removeTrack(index - 1)

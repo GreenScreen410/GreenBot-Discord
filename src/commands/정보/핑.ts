@@ -11,7 +11,7 @@ export default {
       .setTitle('🏓 퐁!')
       .setDescription(`반응 속도 : ${interaction.client.ws.ping}ms`)
       .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
     await interaction.followUp({ embeds: [embed] })
   }
 }

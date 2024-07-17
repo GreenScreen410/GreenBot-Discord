@@ -22,7 +22,7 @@ export default {
       .setTitle('🚫 정지!')
       .setDescription('음악 재생을 정상적으로 종료하였습니다.')
       .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
     await interaction.followUp({ embeds: [embed] })
 
     if (queue.size >= 10) {

@@ -22,7 +22,7 @@ export default {
       .setColor('Random')
       .setDescription(`${response.data.ip}`)
       .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
 
     if (response.data.online === true) {
       embed.setThumbnail(`https://api.mcsrvstat.us/icon/${encodeURIComponent(server)}`)
@@ -35,11 +35,19 @@ export default {
 
       if (response.data.players.list != null) {
         const playerCount = response.data.players.list.length
+
+        let players = ''
+        for (let i = 0; i < playerCount; i++) {
+          players += response.data.players.list[i].name
+          if (i !== playerCount - 1) players += ', '
+        }
+
         embed.addFields(
-          { name: '👥 플레이어 목록', value: `${response.data.players.list[0].name}${playerCount > 10 ? ` 외 ${playerCount - 1}명` : ''}` }
+          { name: '👥 플레이어 목록', value: `${players}` }
         )
       }
     } else {
+      embed.setTitle('서버가 오프라인 상태입니다.')
       embed.addFields(
         { name: '🛜 서버 상태', value: '❌' }
       )

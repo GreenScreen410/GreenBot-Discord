@@ -32,7 +32,7 @@ export default {
       .setColor('Random')
       .setTimestamp()
       .setDescription(queue.currentTrack.title)
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
 
     if (filter === 'normal') {
       await queue.filters.ffmpeg.setFilters([])

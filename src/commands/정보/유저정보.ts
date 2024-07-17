@@ -27,7 +27,7 @@ export default {
         { name: '📅 서버 가입일', value: userInfo.joinedTimestamp != null ? new Date(userInfo.joinedTimestamp).toLocaleString() : '알 수 없음', inline: true }
       )
       .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
 
     if (userInfo.user.id === '767371161083314236') {
       embed.addFields(

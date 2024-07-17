@@ -35,7 +35,7 @@ export default {
         .setTitle('🔁 현재 재생중인 음악을 반복 재생합니다!')
         .setDescription(queue.currentTrack.title)
         .setTimestamp()
-        .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
+        .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
       return await interaction.followUp({ embeds: [embed] })
     }
 
@@ -47,7 +47,7 @@ export default {
         .setTitle('🔁 전체 대기열을 반복 재생합니다!')
         .setDescription(`${queue.currentTrack.title} 외 ${queue.tracks.toArray().length}개의 음악`)
         .setTimestamp()
-        .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
+        .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
       return await interaction.followUp({ embeds: [embed] })
     }
 
@@ -59,7 +59,7 @@ export default {
         .setTitle('🔁 반복모드가 꺼졌습니다!')
         .setDescription(`${queue.currentTrack?.title}`)
         .setTimestamp()
-        .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
+        .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
       return await interaction.followUp({ embeds: [embed] })
     }
   }

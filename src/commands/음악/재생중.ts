@@ -27,7 +27,7 @@ export default {
         { name: '음악 출처', value: `\`${queue.currentTrack.extractor?.identifier == null || 'N/A'}\`` }
       ])
       .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
     await interaction.followUp({ embeds: [embed] })
   }
 }

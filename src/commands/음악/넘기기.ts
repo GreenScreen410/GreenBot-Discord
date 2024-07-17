@@ -24,7 +24,7 @@ export default {
       .setTitle('⏩ 재생중인 노래를 넘겼습니다!')
       .setDescription(`${queue.currentTrack?.title}`)
       .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
     await interaction.followUp({ embeds: [embed] })
   }
 }

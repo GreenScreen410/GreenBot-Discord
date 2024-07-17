@@ -97,7 +97,7 @@ export default {
         { name: '🔁 평균 시도 횟수', value: `${response.data.averageTries}`, inline: true }
       )
       .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     if (Object.keys(response.data.tags).length > 0) {

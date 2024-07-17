@@ -5,6 +5,6 @@ export default {
   name: Events.Warn,
 
   async execute (warn: string) {
-    console.log(chalk.yellow.bold(`[WARN] ${warn}`))
+    console.log(chalk.yellow.bold(`[Warn] ${warn}`))
   }
 }

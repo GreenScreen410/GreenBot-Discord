@@ -5,6 +5,6 @@ export default {
   name: Events.GuildCreate,
 
   async execute (guild: Guild) {
-    console.log(chalk.green.bold(`[GUILD_CREATE] Invited to ${guild.name}(${guild.id})`))
+    console.log(chalk.green.bold(`[GuildCreate] Invited to ${guild.name}(${guild.id})`))
   }
 }

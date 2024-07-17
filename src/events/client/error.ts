@@ -5,6 +5,6 @@ export default {
   name: Events.Error,
 
   async execute (error: Error) {
-    console.log(chalk.red.bold(`[ERROR] ${error.stack}`))
+    console.log(chalk.red.bold(`[Error] ${error.stack}`))
   }
 }

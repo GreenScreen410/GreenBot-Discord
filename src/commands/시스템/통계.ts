@@ -23,7 +23,7 @@ export default {
       .setDescription(`${String(date.getFullYear() + '년 ') + ('0' + (date.getMonth() + 1)).slice(-2) + '월 ' + ('0' + date.getDate()).slice(-2) + '일 ' + ('0' + date.getHours()).slice(-2) + '시 ' + ('0' + date.getMinutes()).slice(-2) + '분 ' + ('0' + date.getSeconds()).slice(-2) + '초 '} 기준`)
       .addFields(
         { name: '📊 전체 서버 수', value: `${interaction.client.guilds.cache.size}개`, inline: true },
-        { name: '👥 전체 온라인 유저 수', value: `${interaction.client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)}명`, inline: true },
+        { name: '👥 전체 유저 수', value: `${interaction.client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)}명`, inline: true },
         { name: '📜 전체 채널 수', value: `${interaction.client.channels.cache.size}개`, inline: true },
         { name: '🔧 전체 명령어 수', value: `${interaction.client.commands.size}개`, inline: true },
         { name: '🔧 총 명령어 실행 횟수', value: `${result[0].count}회`, inline: true },

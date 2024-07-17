@@ -1,7 +1,6 @@
 import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ComponentType } from 'discord.js'
 import axios from 'axios'
 import 'dotenv/config.js'
-import mysql from 'mysql2/promise'
 import country from '../../country.json' assert { type: 'json' }
 
 export default {
@@ -10,13 +9,6 @@ export default {
     .setDescription('256개의 국기 퀴즈를 풀어보세요!'),
 
   async execute (interaction: ChatInputCommandInteraction) {
-    const connection = await mysql.createConnection({
-      host: process.env.MYSQL_HOST,
-      user: 'ubuntu',
-      password: process.env.MYSQL_PASSWORD,
-      database: process.env.MYSQL_DATABASE
-    })
-
     const countryCodes = Object.keys(country)
     const randomIndex = (): number => Math.floor(Math.random() * countryCodes.length)
 
@@ -43,20 +35,20 @@ export default {
       .setImage(image.request.res.responseUrl as string)
       .setTitle('아래 국기는 어디 국기일까요?')
       .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
     await interaction.followUp({ embeds: [embed], components: [multipleRow] })
 
     const collector = interaction.channel?.createMessageComponentCollector({ componentType: ComponentType.Button, time: 10000 })
     collector?.on('collect', async i => {
       await i.deferUpdate()
 
-      const [result]: any = await connection.query(`SELECT * FROM activity WHERE id=${i.user.id}`)
+      const [result]: any = await interaction.client.mysql.query(`SELECT * FROM activity WHERE id=${i.user.id}`)
       if (result.length === 0) {
-        await connection.query(`INSERT INTO activity(id, flag_quiz) VALUES (${i.user.id}, 0)`)
+        await interaction.client.mysql.query(`INSERT INTO activity(id, flag_quiz) VALUES (${i.user.id}, 0)`)
       }
 
       if (i.customId === 'correct') {
-        await connection.query(`UPDATE activity SET flag_quiz=${result[0].flag_quiz + 1} WHERE id=${i.user.id}`)
+        await interaction.client.mysql.query(`UPDATE activity SET flag_quiz=${result[0].flag_quiz + 1} WHERE id=${i.user.id}`)
 
         const correctEmbed = new EmbedBuilder()
           .setColor('#00FF00')
@@ -84,7 +76,7 @@ export default {
           }
         }
         */
-        await connection.end()
+        await interaction.client.mysql.end()
       } else {
         const wrongEmbed = new EmbedBuilder()
           .setColor('#FF0000')
@@ -94,7 +86,7 @@ export default {
           .setFooter({ text: `Requested by ${i.user.tag}`, iconURL: i.user.displayAvatarURL() })
         await interaction.followUp({ embeds: [wrongEmbed] })
         collector.stop()
-        await connection.end()
+        await interaction.client.mysql.end()
       }
     })
 
@@ -107,7 +99,7 @@ export default {
           .setTimestamp()
           .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
         await interaction.followUp({ embeds: [timeoutEmbed] })
-        await connection.end()
+        await interaction.client.mysql.end()
       }
     })
   }

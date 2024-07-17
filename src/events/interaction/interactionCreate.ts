@@ -1,18 +1,10 @@
 import { Events, type BaseInteraction } from 'discord.js'
-import mysql from 'mysql2/promise'
 import chalk from 'chalk'
 
 export default {
   name: Events.InteractionCreate,
 
   async execute (interaction: BaseInteraction) {
-    const connection = await mysql.createConnection({
-      host: process.env.MYSQL_HOST,
-      user: 'ubuntu',
-      password: process.env.MYSQL_PASSWORD,
-      database: process.env.MYSQL_DATABASE
-    })
-
     if (!interaction.isChatInputCommand() || !interaction.inCachedGuild()) return
 
     const command = interaction.client.commands.get(interaction.commandName)
@@ -22,13 +14,13 @@ export default {
       return await interaction.client.error.INVALID_INTERACTION(interaction)
     }
 
-    const [result]: any = await connection.query(`SELECT * FROM user WHERE id=${interaction.user.id}`)
+    const [result]: any = await interaction.client.mysql.query(`SELECT * FROM user WHERE id=${interaction.user.id}`)
     try {
       if (result[0].banned === 1) {
         return await interaction.client.error.YOU_HAVE_BEEN_BANNED(interaction, 'Test Message, 이게 나온다면 @6r33n을 멘션해 주세요.')
       }
     } catch (error) {
-      await connection.query(`INSERT INTO user (id, banned) VALUES (${interaction.user.id}, 0)`)
+      await interaction.client.mysql.query(`INSERT INTO user (id, banned) VALUES (${interaction.user.id}, 0)`)
     }
 
     await command.execute(interaction)
@@ -43,8 +35,9 @@ export default {
     const seconds = ('0' + today.getSeconds()).slice(-2)
     const timeString = hours + ':' + minutes + ':' + seconds
 
-    console.log(chalk.white(`${dateString} ${timeString} - [COMMAND] ${interaction.guild.name}(${interaction.guild.id}): ${interaction.user.tag}(${interaction.user.id}) executed ${interaction.commandName}`))
+    console.log(chalk.white(`${dateString} ${timeString} - [InteractionCreate] ${interaction.guild.name}(${interaction.guild.id}): ${interaction.user.tag}(${interaction.user.id}) executed ${interaction.commandName}`))
+    await interaction.client.mysql.query('UPDATE statistics SET count=count+1 WHERE event="total_command"')
 
-    await connection.end()
+    // await interaction.client.mysql.end()
   }
 }

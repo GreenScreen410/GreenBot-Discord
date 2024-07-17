@@ -1,5 +1,4 @@
 import { type ChatInputCommandInteraction, EmbedBuilder } from 'discord.js'
-import mysql from 'mysql2/promise'
 import achievements from '../achievements.json' assert { type: 'json' }
 
 const position: Record<string, [number, string]> = {}
@@ -9,14 +8,7 @@ for (let i = 0; i < Object.keys(achievements).length; i++) {
 
 export default {
   get: async function (interaction: ChatInputCommandInteraction, name: string) {
-    const connection = await mysql.createConnection({
-      host: process.env.MYSQL_HOST,
-      user: 'ubuntu',
-      password: process.env.MYSQL_PASSWORD,
-      database: process.env.MYSQL_DATABASE
-    })
-
-    const [result]: any = await connection.query(`UPDATE achievements SET ${name}=1 WHERE id=${interaction.user.id}`)
+    const [result]: any = await interaction.client.mysql.query(`UPDATE achievements SET ${name}=1 WHERE id=${interaction.user.id}`)
     if (result.info.includes('Changed: 0') === true) return
 
     const embed = new EmbedBuilder()
@@ -26,7 +18,6 @@ export default {
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
     await interaction.followUp({ embeds: [embed] })
-
-    await connection.end()
+    await interaction.client.mysql.end()
   }
 }

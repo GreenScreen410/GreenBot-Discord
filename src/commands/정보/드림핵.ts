@@ -26,7 +26,7 @@ export default {
         { name: '출제자', value: `${$('#wargame-challenges > div.challenges-list.challenge-list > div:nth-child(2) > div.challenge-author > div > div > div > a > span').text()}`, inline: true }
       )
       .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
 
     await interaction.followUp({ embeds: [embed] })
   }

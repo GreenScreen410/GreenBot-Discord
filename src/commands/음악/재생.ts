@@ -26,13 +26,15 @@ export default {
     const results = await player.search(query)
     const track = await player.play(interaction.member.voice.channel, results, {
       nodeOptions: {
-        metadata: interaction
+        metadata: {
+          interaction
+        }
       }
     })
 
     const embed = new EmbedBuilder()
       .setColor('Random')
-      .setTitle('🎵 재생목록에 추가되었습니다.\n[긴급] 음악 명령어가 많이 불안정합니다.')
+      .setTitle('🎵 재생목록에 추가되었습니다.')
       .setDescription(track.track.title)
       .setURL(track.track.url)
       .setThumbnail(track.track.thumbnail)

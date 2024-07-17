@@ -1,5 +1,4 @@
 import { Events, type BaseInteraction } from 'discord.js'
-import chalk from 'chalk'
 
 export default {
   name: Events.InteractionCreate,
@@ -25,17 +24,7 @@ export default {
 
     await command.execute(interaction)
 
-    const today = new Date()
-    const year = today.getFullYear()
-    const month = ('0' + (today.getMonth() + 1)).slice(-2)
-    const day = ('0' + today.getDate()).slice(-2)
-    const dateString = year + '-' + month + '-' + day
-    const hours = ('0' + today.getHours()).slice(-2)
-    const minutes = ('0' + today.getMinutes()).slice(-2)
-    const seconds = ('0' + today.getSeconds()).slice(-2)
-    const timeString = hours + ':' + minutes + ':' + seconds
-
-    console.log(chalk.white(`${dateString} ${timeString} - [InteractionCreate] ${interaction.guild.name}(${interaction.guild.id}): ${interaction.user.tag}(${interaction.user.id}) executed ${interaction.commandName}`))
+    console.log(`[InteractionCreate] ${interaction.guild.name}(${interaction.guild.id}): ${interaction.user.tag}(${interaction.user.id}) executed ${interaction.commandName}`)
     await interaction.client.mysql.query('UPDATE statistics SET count=count+1 WHERE event="total_command"')
 
     // await interaction.client.mysql.end()

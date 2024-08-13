@@ -13,13 +13,13 @@ export default {
       return await interaction.client.error.INVALID_INTERACTION(interaction)
     }
 
-    const [result]: any = await interaction.client.mysql.query(`SELECT * FROM user WHERE id=${interaction.user.id}`)
+    const [result]: any = await interaction.client.mysql.query(`SELECT banned FROM user WHERE id=${interaction.user.id}`)
     try {
       if (result[0].banned === 1) {
         return await interaction.client.error.YOU_HAVE_BEEN_BANNED(interaction, 'Test Message, 이게 나온다면 @6r33n을 멘션해 주세요.')
       }
     } catch (error) {
-      await interaction.client.mysql.query(`INSERT INTO user (id, banned) VALUES (${interaction.user.id}, 0)`)
+      await interaction.client.mysql.query(`INSERT INTO user VALUES (${interaction.user.id}, 0)`)
     }
 
     await command.execute(interaction)

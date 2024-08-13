@@ -10,7 +10,7 @@ export default {
 
     const activities = [
       `${client.guilds.cache.size}개의 서버에서 활동`,
-      `${client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)}명의 온라인 유저와 활동`
+      `${client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)}명의 유저와 활동`
     ]
 
     setInterval(() => {

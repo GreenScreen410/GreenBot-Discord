@@ -20,6 +20,8 @@ export default {
       .addFields({ name: '에러 코드', value: 'UNKNOWN_ERROR' })
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
+
+    await interaction.client.users.cache.get('332840377763758082')?.send(`${error.stack}`)
     return await interaction.followUp({ embeds: [embed] })
   },
 

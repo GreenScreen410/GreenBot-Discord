@@ -5,6 +5,11 @@ import { readdir } from 'node:fs/promises'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { YoutubeiExtractor } from 'discord-player-youtubei'
+import mysql from 'mysql2/promise'
+import consoleStamp from 'console-stamp'
+consoleStamp(console, {
+  format: ':date(yyyy-mm-dd HH:MM:ss.l)'
+})
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 declare module 'discord.js' {
@@ -13,8 +18,17 @@ declare module 'discord.js' {
     buttons: Collection<string, any>
     error: typeof import('./handler/error.js').default
     achievements: typeof import('./handler/achievements.js').default
+    mysql: mysql.Connection
   }
 }
+
+const connection = mysql.createPool({
+  host: process.env.MYSQL_HOST,
+  user: 'ubuntu',
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE,
+  enableKeepAlive: true
+})
 
 const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates]
@@ -23,14 +37,15 @@ client.commands = new Collection()
 client.buttons = new Collection()
 client.error = (await import('./handler/error.js')).default
 client.achievements = (await import('./handler/achievements.js')).default
-const player = Player.singleton(client, {
+client.mysql = connection
+
+const player: any = Player.singleton(client, {
   ytdlOptions: {
     quality: 'highestaudio',
     filter: 'audioonly'
   }
 })
 await player.extractors.register(YoutubeiExtractor, {
-  // @ts-expect-error asdf
   authentication: process.env.YOUTUBE_OAUTH
 })
 
@@ -51,7 +66,7 @@ for (const folders of eventFiles) {
   for (const file of folder) {
     const event = (await import(`./events/${folders}/${file}`)).default
     if (folders === 'client' || folders === 'interaction') {
-      client.on(event.name, (...args) => event.execute(...args))
+      client.on(event.name, (...args) => event.execute(...args).catch(async (error: any) => await client.users.cache.get('332840377763758082')?.send(`${error.stack}`)))
     } else if (folders === 'player') {
       player.events.on(event.name, (...args: any) => event.execute(...args))
     }

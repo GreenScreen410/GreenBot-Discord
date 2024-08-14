@@ -1,6 +1,6 @@
 {
   "name": "greenbot-discord",
-  "version": "1.15.0",
+  "version": "1.15.1",
   "description": "",
   "exports": "./index.js",
   "type": "module",
@@ -16,26 +16,27 @@
   "license": "MIT",
   "dependencies": {
     "@discord-player/extractor": "^4.4.7",
-    "@distube/ytdl-core": "^4.13.5",
+    "@discordjs/opus": "^0.9.0",
+    "@evan/opus": "^1.0.3",
     "axios": "^1.6.2",
     "chalk": "^5.3.0",
     "cheerio": "^1.0.0-rc.12",
+    "console-stamp": "^3.1.2",
     "discord-gamecord": "^4.4.2",
     "discord-player": "^6.6.2",
-    "discord-player-youtubei": "^1.0.9",
+    "discord-player-youtubei": "^1.2.0",
     "discord.js": "^14.12.1",
     "dotenv": "^16.3.1",
-    "mediaplex": "^0.0.9",
-    "mysql2": "^3.6.5"
+    "mysql2": "^3.10.3"
   },
   "devDependencies": {
-    "@types/node": "^20.12.8",
+    "@types/node": "^20.14.11",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard-with-typescript": "^43.0.1",
-    "prettier": "^3.2.5",
+    "prettier": "^3.3.3",
     "typescript": "^5.4.5"
   }
 }

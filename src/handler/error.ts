@@ -1,6 +1,17 @@
 import { type ChatInputCommandInteraction, type ButtonInteraction, EmbedBuilder } from 'discord.js'
 
 export default {
+  NO_PERMISSION: async function (interaction: ChatInputCommandInteraction | ButtonInteraction, reason: string) {
+    const embed = new EmbedBuilder()
+      .setColor('#FF0000')
+      .setTitle('❌ 오류!')
+      .setDescription('권한이 없습니다.')
+      .setFields({ name: '에러 코드', value: 'NO_PERMISSION' })
+      .setTimestamp()
+      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
+    return await interaction.followUp({ embeds: [embed] })
+  },
+
   YOU_HAVE_BEEN_BANNED: async function (interaction: ChatInputCommandInteraction | ButtonInteraction, reason: string) {
     const embed = new EmbedBuilder()
       .setColor('#FF0000')

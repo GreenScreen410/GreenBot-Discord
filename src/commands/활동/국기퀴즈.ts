@@ -76,7 +76,6 @@ export default {
           }
         }
         */
-        await interaction.client.mysql.end()
       } else {
         const wrongEmbed = new EmbedBuilder()
           .setColor('#FF0000')
@@ -86,7 +85,6 @@ export default {
           .setFooter({ text: `Requested by ${i.user.tag}`, iconURL: i.user.displayAvatarURL() })
         await interaction.followUp({ embeds: [wrongEmbed] })
         collector.stop()
-        await interaction.client.mysql.end()
       }
     })
 
@@ -99,7 +97,6 @@ export default {
           .setTimestamp()
           .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
         await interaction.followUp({ embeds: [timeoutEmbed] })
-        await interaction.client.mysql.end()
       }
     })
   }

@@ -18,6 +18,5 @@ export default {
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
     await interaction.followUp({ embeds: [embed] })
-    await interaction.client.mysql.end()
   }
 }

@@ -27,6 +27,5 @@ export default {
       embed.addFields({ name: `${i + 1}위`, value: `<@${result[i].id}>: ${result[i].flag_quiz}점` })
     }
     await interaction.followUp({ embeds: [embed] })
-    await interaction.client.mysql.end()
   }
 }

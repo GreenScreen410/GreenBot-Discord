@@ -35,7 +35,5 @@ export default {
       embed.setDescription(description)
       await interaction.followUp({ embeds: [embed] })
     }
-
-    await interaction.client.mysql.end()
   }
 }

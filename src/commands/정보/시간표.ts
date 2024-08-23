@@ -39,7 +39,7 @@ export default {
       // 아무 의미 없는 코드, 오류 발생용
       console.log(response.hisTimetable[0].head[1].RESULT.CODE === 'INFO-000')
     } catch (error) {
-      return await interaction.client.error.INVALID_ARGUMENT(interaction, '학년, 반 정보가 잘못되었습니다.')
+      return await interaction.client.error.INVALID_ARGUMENT(interaction, '학년, 반 정보가 잘못되었습니다.\n또는 나이스 시간표 미지원 학교입니다.')
     }
 
     const embed = new EmbedBuilder()

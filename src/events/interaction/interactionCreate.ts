@@ -26,7 +26,5 @@ export default {
 
     console.log(`[InteractionCreate] ${interaction.guild.name}(${interaction.guild.id}): ${interaction.user.tag}(${interaction.user.id}) executed ${interaction.commandName}`)
     await interaction.client.mysql.query('UPDATE statistics SET count=count+1 WHERE event="total_command"')
-
-    // await interaction.client.mysql.end()
   }
 }

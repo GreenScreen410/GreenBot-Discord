@@ -15,7 +15,7 @@ export default {
     const seconds = Math.floor(totalSeconds % 60)
 
     const date = new Date()
-    const [result]: any = await interaction.client.mysql.query('SELECT * FROM statistics WHERE event="total_command"')
+    const [result]: any = await interaction.client.mysql.query('SELECT count FROM statistics WHERE event="total_command"')
 
     const embed = new EmbedBuilder()
       .setColor('Random')

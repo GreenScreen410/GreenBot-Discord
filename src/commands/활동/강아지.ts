@@ -15,7 +15,7 @@ export default {
 
     const embed = new EmbedBuilder()
       .setColor('Random')
-      .setImage(response.data[0].url as string)
+      .setImage(`${response.data[0].url}`)
       .setTitle('🐶')
       .setTimestamp()
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })

@@ -8,7 +8,7 @@ export default {
     .setName('국기퀴즈')
     .setDescription('256개의 국기 퀴즈를 풀어보세요!'),
 
-  async execute (interaction: ChatInputCommandInteraction) {
+  async execute (interaction: ChatInputCommandInteraction<'cached'>) {
     const countryCodes = Object.keys(country)
     const randomIndex = (): number => Math.floor(Math.random() * countryCodes.length)
 

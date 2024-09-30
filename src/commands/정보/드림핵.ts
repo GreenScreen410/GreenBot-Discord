@@ -15,7 +15,7 @@ export default {
     const server = interaction.options.getString('문제', true)
     const response = await axios.get(`https://dreamhack.io/wargame?search=${encodeURIComponent(server)}&page=1`)
 
-    const $ = load(response.data)
+    const $ = load(response.data as string)
     const embed = new EmbedBuilder()
       .setColor('Random')
       .setTitle(`${$('#wargame-challenges > div.challenges-list.challenge-list > div:nth-child(2) > div.challenge-title > a > span').text()}`)

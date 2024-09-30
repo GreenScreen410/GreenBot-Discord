@@ -14,7 +14,7 @@ export default {
   async execute (interaction: ChatInputCommandInteraction) {
     const Game = new RockPaperScissors({
       reqTimeoutTime: 30000,
-      requestMessage: '{player} 님이 가위바위보를 신청했습니다.\n1분 내 응답하지 않을 시, 취소 처리됩니다.',
+      requestMessage: '{player} 님이 가위바위보를 신청했습니다.\n30초 내 응답하지 않을 시, 취소 처리됩니다.',
       rejectMessage: '플레이어가 게임을 거절했습니다.',
       reqTimeoutMessage: '플레이어가 응답하지 않아 게임이 취소되었습니다.',
 

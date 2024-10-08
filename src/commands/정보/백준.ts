@@ -1,5 +1,6 @@
 import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, type ColorResolvable } from 'discord.js'
 import axios from 'axios'
+import { load } from 'cheerio'
 
 const tier = [
   '<:notratable:1236286879918325811>',
@@ -69,6 +70,10 @@ const tierColor = [
   '#f72664'
 ]
 
+const response = await axios.get('https://www.acmicpc.net/problem/added', { headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0' } })
+const $ = load(response.data as string)
+const maxProblemID = Number($('#problemset > tbody > tr:nth-child(1) > td.list_problem_id').text())
+
 export default {
   data: new SlashCommandBuilder()
     .setName('백준')
@@ -77,14 +82,12 @@ export default {
       .setName('문제')
       .setDescription('문제 ID를 입력해 주세요.')
       .setMinValue(1000)
+      .setMaxValue(maxProblemID)
       .setRequired(true)
     ),
 
   async execute (interaction: ChatInputCommandInteraction) {
-    const problemID = interaction.options.getInteger('문제', true)
-    const maxProblemID = (await axios.get('https://solved.ac/api/v3/site/stats')).data.problemCount
-    if (problemID > maxProblemID) return await interaction.client.error.INVALID_ARGUMENT(interaction, problemID)
-
+    const problemID = interaction.options.getInteger('문제')
     const response = await axios.get(`https://solved.ac/api/v3/problem/show?problemId=${problemID}`)
 
     const embed = new EmbedBuilder()

@@ -11,20 +11,23 @@ export default {
       .setRequired(true)
     ),
 
-  async execute (interaction: ChatInputCommandInteraction) {
-    if (!interaction.inCachedGuild()) return
-
+  async execute (interaction: ChatInputCommandInteraction<'cached'>) {
     if (interaction.member.voice.channel == null) {
       return await interaction.client.error.PLEASE_JOIN_VOICE_CHANNEL(interaction)
     }
-    if (((interaction.guild.members.me?.voice.channelId) != null) && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
+    if (interaction.guild.members.me?.voice.channelId != null && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
       return await interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction)
     }
 
     const query = interaction.options.getString('노래', true)
     const player = useMainPlayer()
-    const results = await player.search(query)
-    const track = await player.play(interaction.member.voice.channel, results, {
+    const result = await player.search(query)
+
+    if (!result.hasTracks()) {
+      return await interaction.client.error.INVALID_ARGUMENT(interaction, query)
+    }
+
+    const track = await player.play(interaction.member.voice.channel, result, {
       nodeOptions: {
         metadata: {
           interaction
@@ -38,8 +41,6 @@ export default {
       .setDescription(track.track.title)
       .setURL(track.track.url)
       .setThumbnail(track.track.thumbnail)
-      .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
     await interaction.followUp({ embeds: [embed] })
   }
 }

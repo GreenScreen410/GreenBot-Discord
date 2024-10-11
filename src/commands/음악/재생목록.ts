@@ -6,9 +6,7 @@ export default {
     .setName('재생목록')
     .setDescription('노래 재생목록을 확인합니다.'),
 
-  async execute (interaction: ChatInputCommandInteraction) {
-    if (!interaction.inCachedGuild()) return
-
+  async execute (interaction: ChatInputCommandInteraction<'cached'>) {
     const queue = useQueue(interaction.guildId)
     if (queue?.currentTrack == null) {
       return await interaction.client.error.MUSIC_QUEUE_IS_EMPTY(interaction)
@@ -37,6 +35,6 @@ export default {
       }
       embed.addFields({ name: (i + 1).toString(), value: titleArray[i] })
     }
-    return await interaction.followUp({ embeds: [embed] })
+    await interaction.followUp({ embeds: [embed] })
   }
 }

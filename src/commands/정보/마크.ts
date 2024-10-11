@@ -21,8 +21,6 @@ export default {
     const embed = new EmbedBuilder()
       .setColor('Random')
       .setDescription(`${response.data.ip}`)
-      .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
 
     if (response.data.online === true) {
       embed.setThumbnail(`https://api.mcsrvstat.us/icon/${encodeURIComponent(server)}`)

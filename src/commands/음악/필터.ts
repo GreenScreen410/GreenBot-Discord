@@ -22,9 +22,7 @@ export default {
       .setRequired(true)
     ),
 
-  async execute (interaction: ChatInputCommandInteraction) {
-    if (!interaction.inCachedGuild()) return
-
+  async execute (interaction: ChatInputCommandInteraction<'cached'>) {
     const queue = useQueue(interaction.guildId)
     if (queue?.currentTrack == null) {
       return await interaction.client.error.MUSIC_QUEUE_IS_EMPTY(interaction)
@@ -36,9 +34,7 @@ export default {
     const filter = interaction.options.getString('필터', true)
     const embed = new EmbedBuilder()
       .setColor('Random')
-      .setTimestamp()
       .setDescription(queue.currentTrack.title)
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
 
     if (filter === 'normal') {
       await queue.filters.ffmpeg.setFilters([])

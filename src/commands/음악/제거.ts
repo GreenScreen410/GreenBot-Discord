@@ -10,9 +10,7 @@ export default {
       .setDescription('제거할 음악 번호를 입력해주세요. 음악 번호는 재생목록 명령어에서 확인할 수 있습니다.')
       .setRequired(true)),
 
-  async execute (interaction: ChatInputCommandInteraction) {
-    if (!interaction.inCachedGuild()) return
-
+  async execute (interaction: ChatInputCommandInteraction<'cached'>) {
     const queue = useQueue(interaction.guildId)
     if (queue?.currentTrack == null) {
       return await interaction.client.error.MUSIC_QUEUE_IS_EMPTY(interaction)
@@ -26,16 +24,14 @@ export default {
       return await interaction.client.error.INVALID_ARGUMENT(interaction, index)
     }
 
+    queue.removeTrack(index - 1)
+
     const embed = new EmbedBuilder()
       .setColor('Random')
       .setTitle('🗑️ 정상적으로 제거되었습니다.')
       .setDescription(queue.tracks.data[index - 1].title)
       .setURL(queue.tracks.data[index - 1].url)
       .setThumbnail(queue.tracks.data[index - 1].thumbnail)
-      .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
     await interaction.followUp({ embeds: [embed] })
-
-    queue.removeTrack(index - 1)
   }
 }

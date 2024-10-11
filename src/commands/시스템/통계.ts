@@ -2,8 +2,14 @@ import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } f
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('통계')
-    .setDescription('봇의 전체적인 통계를 보여줍니다.'),
+    .setName('statistics')
+    .setNameLocalizations({
+      ko: '통계'
+    })
+    .setDescription('Shows overall statistics of the bot.')
+    .setDescriptionLocalizations({
+      ko: '봇의 전체적인 통계를 보여줍니다.'
+    }),
 
   async execute (interaction: ChatInputCommandInteraction) {
     let totalSeconds = (interaction.client.uptime / 1000)
@@ -15,7 +21,8 @@ export default {
     const seconds = Math.floor(totalSeconds % 60)
 
     const date = new Date()
-    const [result]: any = await interaction.client.mysql.query('SELECT count FROM statistics WHERE event="total_command"')
+    const totalCommand = await interaction.client.mysql.query('SELECT count FROM statistics WHERE event="total_command"')
+    const uniqueUser = await interaction.client.mysql.query('SELECT COUNT(*) FROM user')
 
     const embed = new EmbedBuilder()
       .setColor('Random')
@@ -24,23 +31,12 @@ export default {
       .addFields(
         { name: '📊 전체 서버 수', value: `${interaction.client.guilds.cache.size}개`, inline: true },
         { name: '👥 전체 유저 수', value: `${interaction.client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)}명`, inline: true },
+        { name: '👥 고유 유저 수', value: `${uniqueUser['COUNT(*)']}명`, inline: true },
         { name: '📜 전체 채널 수', value: `${interaction.client.channels.cache.size}개`, inline: true },
         { name: '🔧 전체 명령어 수', value: `${interaction.client.commands.size}개`, inline: true },
-        { name: '🔧 총 명령어 실행 횟수', value: `${result[0].count}회`, inline: true },
+        { name: '🔧 총 명령어 실행 횟수', value: `${totalCommand.count}회`, inline: true },
         { name: '🕒 가동 시간', value: `${days}일 ${hours}시간  ${minutes}분 ${seconds}초`, inline: true }
       )
-      .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
     await interaction.followUp({ embeds: [embed] })
-
-    /*
-    if (interaction.client.uptime / 1000 >= 10080) {
-      await interaction.client.achievements.get(interaction, 'uptime_1')
-
-      if (interaction.client.uptime / 1000 >= 20160) {
-        await interaction.client.achievements.get(interaction, 'uptime_2')
-      }
-    }
-    */
   }
 }

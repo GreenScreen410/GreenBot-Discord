@@ -5,9 +5,7 @@ export default {
     .setName('서버정보')
     .setDescription('현재 서버의 정보를 보여줍니다.'),
 
-  async execute (interaction: ChatInputCommandInteraction) {
-    if (!interaction.inCachedGuild()) return
-
+  async execute (interaction: ChatInputCommandInteraction<'cached'>) {
     const roles = interaction.guild.roles.cache.sort((a, b) => b.position - a.position).map((role) => role.toString())
     const channels = interaction.guild.channels.cache.map((channel: any) => channel.toString())
 
@@ -38,9 +36,6 @@ export default {
         { name: '✨ 서버 부스트 레벨', value: `${interaction.guild.premiumTier}`, inline: true },
         { name: '🌟 서버 부스트 수', value: `${interaction.guild.premiumSubscriptionCount}`, inline: true }
       )
-      .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
-
     await interaction.followUp({ embeds: [embed] })
   }
 }

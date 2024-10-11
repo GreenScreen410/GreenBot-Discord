@@ -99,8 +99,6 @@ export default {
         { name: '<:ac:1236283747045998675> 맞은 사람', value: `${response.data.acceptedUserCount}`, inline: true },
         { name: '🔁 평균 시도 횟수', value: `${response.data.averageTries}`, inline: true }
       )
-      .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     if (Object.keys(response.data.tags).length > 0) {

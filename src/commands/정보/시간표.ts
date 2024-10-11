@@ -18,10 +18,10 @@ export default {
       .setDescription('반을 적어주세요.')
       .setRequired(true)),
 
-  async execute (interaction: ChatInputCommandInteraction) {
+  async execute (interaction: ChatInputCommandInteraction<'cached'>) {
     const school = interaction.options.getString('학교', true)
-    const grade = interaction.options.getString('학년', true)
-    const classNumber = interaction.options.getString('반', true)
+    const grade = interaction.options.getString('학년')
+    const classNumber = interaction.options.getString('반')
 
     const schoolResponse = (await axios.get(`https://open.neis.go.kr/hub/schoolInfo?Type=json&SCHUL_NM=${encodeURIComponent(school)}&key=${process.env.NEIS_OPENINFO_KEY}`)).data
     if (schoolResponse.RESULT !== undefined) {
@@ -46,7 +46,6 @@ export default {
       .setColor('Random')
       .setTitle(`${response.hisTimetable[1].row[0].SCHUL_NM} ${grade}학년 ${classNumber}반 시간표`)
       .setDescription(`${response.hisTimetable[1].row[0].ALL_TI_YMD}\n과목명은 NCS 기준으로 출력되며, 실제 학교 내에서 사용하는 과목 이름과 다를 수 있습니다.`)
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
 
     for (let i = 0; i < response.hisTimetable[0].head[0].list_total_count; i++) {
       embed.addFields(

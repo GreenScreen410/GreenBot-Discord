@@ -4,16 +4,26 @@ import { lyricsExtractor } from '@discord-player/extractor'
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('가사')
-    .setDescription('노래 가사를 검색합니다.')
+    .setName('lyrics')
+    .setNameLocalizations({
+      ko: '가사'
+    })
+    .setDescription('Searches for song lyrics. If a song is currently playing, you don\'t need to enter the song title.')
+    .setDescriptionLocalizations({
+      ko: '노래 가사를 검색합니다. 재생중인 노래가 있을 경우 노래 제목을 입력하지 않아도 됩니다.'
+    })
     .addStringOption((option) => option
-      .setName('노래')
-      .setDescription('노래 제목을 입력해 주세요.')
+      .setName('song')
+      .setNameLocalizations({
+        ko: '노래'
+      })
+      .setDescription('Please enter the song title.')
+      .setDescriptionLocalizations({
+        ko: '노래 제목을 입력해 주세요.'
+      })
     ),
 
-  async execute (interaction: ChatInputCommandInteraction) {
-    if (!interaction.inCachedGuild()) return
-
+  async execute (interaction: ChatInputCommandInteraction<'cached'>) {
     let song = interaction.options.getString('노래')
     if (song == null) {
       const queue = useQueue(interaction.guildId)
@@ -39,9 +49,6 @@ export default {
       .setThumbnail(lyrics.thumbnail)
       .setAuthor({ name: lyrics.artist.name, iconURL: lyrics.artist.image, url: lyrics.artist.url })
       .setDescription(trimmedLyrics.length === 1997 ? `${trimmedLyrics}...` : trimmedLyrics)
-      .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
-
     return await interaction.followUp({ embeds: [embed] })
   }
 }

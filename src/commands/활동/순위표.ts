@@ -1,5 +1,4 @@
 import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js'
-import 'dotenv/config.js'
 
 export default {
   data: new SlashCommandBuilder()
@@ -9,6 +8,7 @@ export default {
       .setName('종목')
       .setDescription('종목을 선택해 주세요.')
       .addChoices({ name: '국기퀴즈', value: 'flag_quiz' })
+      .addChoices({ name: '가위바위보', value: 'rock_paper_scissors' })
       .setRequired(true)
     ),
 
@@ -19,11 +19,9 @@ export default {
       .setColor('Random')
       .setTitle(`🏆 ${activity} 순위표`)
       .setDescription('이 순위는 모든 서버에 반영됩니다!')
-      .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
 
-    const [result]: any = await interaction.client.mysql.query(`SELECT * FROM activity ORDER BY ${activity} DESC`)
-    for (let i = 0; i < result.length; i++) {
+    const result = await interaction.client.mysql.query(`SELECT * FROM activity ORDER BY ${activity} DESC`)
+    for (let i = 0; i < 10; i++) {
       embed.addFields({ name: `${i + 1}위`, value: `<@${result[i].id}>: ${result[i].flag_quiz}점` })
     }
     await interaction.followUp({ embeds: [embed] })

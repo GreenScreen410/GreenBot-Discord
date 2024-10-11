@@ -10,9 +10,7 @@ export default {
       .setDescription('유저를 선택해 주세요.')
       .setRequired(true)),
 
-  async execute (interaction: ChatInputCommandInteraction) {
-    if (!interaction.inCachedGuild()) return
-
+  async execute (interaction: ChatInputCommandInteraction<'cached'>) {
     const userInfo = interaction.options.getMember('유저')
     if (userInfo == null) return
 
@@ -26,8 +24,6 @@ export default {
         { name: '🎂 계정 생성일', value: userInfo.user.createdAt.toLocaleString(), inline: true },
         { name: '📅 서버 가입일', value: userInfo.joinedTimestamp != null ? new Date(userInfo.joinedTimestamp).toLocaleString() : '알 수 없음', inline: true }
       )
-      .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
 
     if (userInfo.user.id === '767371161083314236') {
       embed.addFields(

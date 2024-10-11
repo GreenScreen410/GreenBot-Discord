@@ -20,8 +20,14 @@ export default {
       return await interaction.client.error.INVALID_ARGUMENT(interaction, '봇과 가위바위보를 할 수 없습니다.')
     }
 
-    const [player1]: any = await interaction.client.mysql.query(`SELECT rock_paper_scissors FROM activity WHERE id = ${interaction.user.id}`)
-    const [player2]: any = await interaction.client.mysql.query(`SELECT rock_paper_scissors FROM activity WHERE id = ${opponent.id}`)
+    const player1 = await interaction.client.mysql.query(`SELECT rock_paper_scissors FROM activity WHERE id = ${interaction.user.id}`)
+    let player2: any = ''
+    try {
+      player2 = await interaction.client.mysql.query(`SELECT rock_paper_scissors FROM activity WHERE id = ${opponent.id}`)
+      player2 = `${opponent.username}: ${player2.rock_paper_scissors + 1}승`
+    } catch (error) {
+      player2 = `${opponent.username}: (그린Bot을 사용한 적이 없는 유저입니다.)`
+    }
 
     const Game = new RockPaperScissors({
       reqTimeoutTime: 30000,
@@ -52,8 +58,8 @@ export default {
       timeoutTime: 10000,
       buttonStyle: 'PRIMARY',
       pickMessage: '{emoji}을(를) 고르셨습니다.',
-      winMessage: `**{player}**님이(가) 승리하였습니다!\n${interaction.user.username}: ${player1[0].rock_paper_scissors + 1}승\n${opponent.username}: ${player2[0].rock_paper_scissors}승`,
-      tieMessage: `비겼습니다!\n\n${interaction.user.username}: ${player1[0].rock_paper_scissors + 1}승\n${opponent.username}: ${player2[0].rock_paper_scissors}승`,
+      winMessage: `**{player}**님이(가) 승리하였습니다!\n${interaction.user.username}: ${player1.rock_paper_scissors + 1}승\n${player2}`,
+      tieMessage: `비겼습니다!\n\n${interaction.user.username}: ${player1.rock_paper_scissors + 1}승\n${player2}`,
       timeoutMessage: '10초가 지나 게임이 자동 종료되었습니다.',
       playerOnlyMessage: '{player}님와(과) {opponent}님만 버튼을 선택할 수 있습니다.'
     })

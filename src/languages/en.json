@@ -1,0 +1,4 @@
+{
+  "ping.title": "🏓 Pong!",
+  "ping.description": "Response time: {ping}ms"
+}

@@ -5,11 +5,8 @@ import { readdir } from 'node:fs/promises'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { YoutubeiExtractor } from 'discord-player-youtubei'
-import mysql from 'mysql2/promise'
 import consoleStamp from 'console-stamp'
-consoleStamp(console, {
-  format: ':date(yyyy-mm-dd HH:MM:ss.l)'
-})
+consoleStamp(console, { format: ':date(yyyy-mm-dd HH:MM:ss.l)' })
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 declare module 'discord.js' {
@@ -17,18 +14,9 @@ declare module 'discord.js' {
     commands: Collection<string, any>
     buttons: Collection<string, any>
     error: typeof import('./handler/error.js').default
-    achievements: typeof import('./handler/achievements.js').default
-    mysql: mysql.Connection
+    mysql: typeof import('./handler/mysql.js').default
   }
 }
-
-const connection = mysql.createPool({
-  host: process.env.MYSQL_HOST,
-  user: 'ubuntu',
-  password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DATABASE,
-  enableKeepAlive: true
-})
 
 const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates]
@@ -36,18 +24,13 @@ const client = new Client({
 client.commands = new Collection()
 client.buttons = new Collection()
 client.error = (await import('./handler/error.js')).default
-client.achievements = (await import('./handler/achievements.js')).default
-client.mysql = connection
+client.mysql = (await import('./handler/mysql.js')).default
 
-const player: any = Player.singleton(client, {
-  ytdlOptions: {
-    quality: 'highestaudio',
-    filter: 'audioonly'
-  }
-})
+const player = new Player(client)
 await player.extractors.register(YoutubeiExtractor, {
   authentication: process.env.YOUTUBE_OAUTH
 })
+await player.extractors.loadDefault((ext) => !['YouTubeExtractor'].includes(ext))
 
 const commands: any = []
 const commandFiles = await readdir(join(__dirname, './commands'))

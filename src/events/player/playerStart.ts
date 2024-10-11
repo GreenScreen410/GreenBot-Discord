@@ -8,16 +8,13 @@ export default {
     console.log(`[PlayerStart] ${track.title}`)
 
     const interaction = queue.metadata.interaction
-    if (queue.repeatMode === QueueRepeatMode.TRACK) return
+    if (queue.repeatMode !== QueueRepeatMode.OFF) return
 
     const embed = new EmbedBuilder()
       .setColor('Random')
       .setTitle('🎵 지금 재생 중입니다!')
       .setDescription(`${track.title}`)
       .setThumbnail(`${track.thumbnail}`)
-      .setTimestamp()
-      .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: `${interaction.user.displayAvatarURL()}` })
-
     await interaction.channel?.send({ embeds: [embed] })
   }
 }

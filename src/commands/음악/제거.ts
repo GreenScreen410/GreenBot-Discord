@@ -19,19 +19,19 @@ export default {
       return await interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction)
     }
 
-    const index = interaction.options.getInteger('번호', true)
-    if (index < 1 || index > queue.tracks.size) {
-      return await interaction.client.error.INVALID_ARGUMENT(interaction, index)
+    const index = interaction.options.getInteger('번호', true) - 1
+    if (index < 0 || index >= queue.tracks.size) {
+      return await interaction.client.error.INVALID_ARGUMENT(interaction, '음악 번호가 잘못되었습니다.')
     }
-
-    queue.removeTrack(index - 1)
 
     const embed = new EmbedBuilder()
       .setColor('Random')
       .setTitle('🗑️ 정상적으로 제거되었습니다.')
-      .setDescription(queue.tracks.data[index - 1].title)
-      .setURL(queue.tracks.data[index - 1].url)
-      .setThumbnail(queue.tracks.data[index - 1].thumbnail)
+      .setDescription(queue.tracks.data[index].title)
+      .setURL(queue.tracks.data[index].url)
+      .setThumbnail(queue.tracks.data[index].thumbnail)
     await interaction.followUp({ embeds: [embed] })
+
+    queue.removeTrack(index)
   }
 }

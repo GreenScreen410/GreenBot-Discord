@@ -74,20 +74,5 @@ export default {
       await message.edit({ embeds: [resultEmbed], components: [] })
       collector.stop()
     })
-
-    collector.on('end', async () => {
-      if (message.components.length > 0) {
-        const resultEmbed = new EmbedBuilder()
-          .setColor('Red')
-          .setTitle('밸런스게임 결과')
-          .setDescription('시간이 초과되었습니다.')
-          .addFields(
-            { name: '1️⃣', value: `${result.option1}: ${response.data.option1Votes}표` },
-            { name: '2️⃣', value: `${result.option2}: ${response.data.option2Votes}표` }
-          )
-
-        await message.edit({ embeds: [resultEmbed], components: [] })
-      }
-    })
   }
 }

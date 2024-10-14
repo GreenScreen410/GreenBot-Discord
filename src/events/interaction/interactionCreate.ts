@@ -13,14 +13,13 @@ export default {
 
     await interaction.deferReply()
 
-    try {
-      const banned = (await interaction.client.mysql.query(`SELECT banned FROM user WHERE id = ${interaction.user.id}`)).banned
-      if (banned === 1) {
-        const reason: string = (await interaction.client.mysql.query(`SELECT banned_reason FROM user WHERE id = ${interaction.user.id}`)).banned_reason
-        return await interaction.client.error.YOU_HAVE_BEEN_BANNED(interaction, reason)
-      }
-    } catch (error) {
+    const banned = (await interaction.client.mysql.query(`SELECT banned FROM user WHERE id = ${interaction.user.id}`))
+    if (banned.banned === undefined) {
       await interaction.client.mysql.register(interaction)
+    }
+    if (banned.banned === 1) {
+      const reason = (await interaction.client.mysql.query(`SELECT banned_reason FROM user WHERE id = ${interaction.user.id}`))
+      return await interaction.client.error.YOU_HAVE_BEEN_BANNED(interaction, reason.banned_reason)
     }
 
     await command.execute(interaction)

@@ -1,6 +1,5 @@
 import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ComponentType } from 'discord.js'
 import axios from 'axios'
-import 'dotenv/config.js'
 import country from '../../country.json' assert { type: 'json' }
 
 export default {
@@ -47,17 +46,13 @@ export default {
 
     await interaction.followUp({ embeds: [embed], components: [multipleRow] })
 
-    const collector = interaction.channel?.createMessageComponentCollector({ componentType: ComponentType.Button, time: 10000 })
-    collector?.on('collect', async i => {
+    const collector: any = interaction.channel?.createMessageComponentCollector({ componentType: ComponentType.Button, time: 10000 })
+    collector.on('collect', async (i: any) => {
       await i.deferUpdate()
 
-      const result = await interaction.client.mysql.query(`SELECT * FROM activity WHERE id=${i.user.id}`)
-      if (result.length === 0) {
-        await interaction.client.mysql.query(`INSERT INTO activity(id, flag_quiz) VALUES (${i.user.id}, 0)`)
-      }
-
+      const result = await interaction.client.mysql.query(`SELECT flag_quiz FROM activity WHERE id = ${i.user.id}`)
       if (i.customId === 'correct') {
-        await interaction.client.mysql.query(`UPDATE activity SET flag_quiz=${result.flag_quiz + 1} WHERE id=${i.user.id}`)
+        await interaction.client.mysql.query(`UPDATE activity SET flag_quiz = ${result.flag_quiz + 1} WHERE id = ${i.user.id}`)
 
         const correctEmbed = new EmbedBuilder()
           .setColor('#00FF00')
@@ -72,20 +67,18 @@ export default {
           .setColor('#FF0000')
           .setTitle(`❌ ${i.user.tag}님 오답!`)
           .setDescription(`정답은 **'${correctCountryName}'** 이였습니다.\n현재 점수: **${result.flag_quiz}**점`)
-
           .setFooter({ text: `Requested by ${i.user.tag}`, iconURL: i.user.displayAvatarURL() })
         await interaction.followUp({ embeds: [wrongEmbed] })
         collector.stop()
       }
     })
 
-    collector?.on('end', async collected => {
+    collector?.on('end', async (collected: any) => {
       if (collected.size === 0) {
         const timeoutEmbed = new EmbedBuilder()
           .setColor('#FFFF00')
           .setTitle(`⏰ ${interaction.user.tag}님 시간 초과!`)
           .setDescription(`정답은 **'${correctCountryName}'** 이였습니다.`)
-
         await interaction.followUp({ embeds: [timeoutEmbed] })
       }
     })

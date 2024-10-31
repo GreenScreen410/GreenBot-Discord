@@ -27,7 +27,7 @@ client.error = (await import('./handler/error.js')).default
 client.mysql = (await import('./handler/mysql.js')).default
 client.lavalink = new LavalinkManager({
   nodes: [
-    { id: 'Local Node', host: '158.180.94.229', port: 2333, authorization: 'youshallnotpass', retryAmount: 5, retryDelay: 60000, secure: false }
+    { id: 'Local Node', host: `${process.env.SERVER_IP}`, port: 2333, authorization: `${process.env.LAVALINK_PASSWORD}`, retryAmount: 5, retryDelay: 60000, secure: false }
   ],
   sendToShard: (guildId, payload) =>
     client.guilds.cache.get(guildId)?.shard?.send(payload),

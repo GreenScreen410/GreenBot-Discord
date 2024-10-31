@@ -3,15 +3,27 @@ import os from 'os'
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('유저정보')
-    .setDescription('해당 유저의 정보를 보여줍니다. 그린Bot의 정보를 요청할 경우 특별한 정보가 추가됩니다.')
+    .setName('userinfo')
+    .setNameLocalizations({
+      ko: '유저정보'
+    })
+    .setDescription('Shows the information of the user.')
+    .setDescriptionLocalizations({
+      ko: '해당 유저의 정보를 보여줍니다. 그린Bot의 정보를 요청할 경우 특별한 정보가 추가됩니다.'
+    })
     .addUserOption((option) => option
-      .setName('유저')
-      .setDescription('유저를 선택해 주세요.')
+      .setName('user')
+      .setNameLocalizations({
+        ko: '유저'
+      })
+      .setDescription('Select the user to check the information.')
+      .setDescriptionLocalizations({
+        ko: '정보를 확인할 유저를 선택해 주세요.'
+      })
       .setRequired(true)),
 
   async execute (interaction: ChatInputCommandInteraction<'cached'>) {
-    const userInfo = interaction.options.getMember('유저')
+    const userInfo = interaction.options.getMember('user')
     if (userInfo == null) return
 
     const embed = new EmbedBuilder()

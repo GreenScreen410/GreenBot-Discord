@@ -22,7 +22,12 @@ export default {
       return await interaction.client.error.YOU_HAVE_BEEN_BANNED(interaction, reason.banned_reason)
     }
 
-    await command.execute(interaction)
+    try {
+      await command.execute(interaction)
+    } catch (error: any) {
+      console.log(error)
+      return await interaction.client.error.UNKNOWN_ERROR(interaction, error)
+    }
 
     console.log(`[InteractionCreate] ${interaction.guild.name}(${interaction.guild.id}): ${interaction.user.tag}(${interaction.user.id}) executed ${interaction.commandName}`)
     await interaction.client.mysql.query('UPDATE statistics SET count = count + 1 WHERE event = "total_command"')

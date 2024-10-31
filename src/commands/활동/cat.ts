@@ -3,8 +3,14 @@ import axios from 'axios'
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('고양이')
-    .setDescription('랜덤 고양이 사진을 불러옵니다.'),
+    .setName('cat')
+    .setNameLocalizations({
+      ko: '고양이'
+    })
+    .setDescription('Loads a random cat picture.')
+    .setDescriptionLocalizations({
+      ko: '랜덤 고양이 사진을 불러옵니다.'
+    }),
 
   async execute (interaction: ChatInputCommandInteraction) {
     const response = await axios.get('https://api.thecatapi.com/v1/images/search', {

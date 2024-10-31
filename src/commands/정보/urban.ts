@@ -3,15 +3,27 @@ import axios from 'axios'
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('어반사전')
-    .setDescription('인터넷 영어 오픈사전인 어반사전에서 단어를 검색합니다.')
+    .setName('urban')
+    .setNameLocalizations({
+      ko: '어반사전'
+    })
+    .setDescription('Searches for a word in the Urban Dictionary.')
+    .setDescriptionLocalizations({
+      ko: '인터넷 영어 오픈사전인 어반사전에서 단어를 검색합니다.'
+    })
     .addStringOption((option) => option
-      .setName('단어')
-      .setDescription('원하시는 단어를 입력해 주세요.')
+      .setName('word')
+      .setNameLocalizations({
+        ko: '단어'
+      })
+      .setDescription('Please enter a word.')
+      .setDescriptionLocalizations({
+        ko: '단어를 입력해 주세요.'
+      })
       .setRequired(true)),
 
   async execute (interaction: ChatInputCommandInteraction) {
-    const word = interaction.options.getString('단어', true)
+    const word = interaction.options.getString('word', true)
     const response = await axios.get(`https://api.urbandictionary.com/v0/define?term=${encodeURIComponent(word)}`)
     if (response.data.list[0] == null) {
       return await interaction.client.error.INVALID_ARGUMENT(interaction, word)

@@ -69,7 +69,7 @@ export default {
     const embed = new EmbedBuilder()
       .setColor('#FF0000')
       .setTitle('❌ 오류!')
-      .setDescription('재생중인 노래가 없습니다.')
+      .setDescription('재생중인 음악이 없습니다.')
       .addFields({ name: '에러 코드', value: 'MUSIC_QUEUE_IS_EMPTY' })
     return await interaction.followUp({ embeds: [embed] })
   },
@@ -78,7 +78,7 @@ export default {
     const embed = new EmbedBuilder()
       .setColor('#FF0000')
       .setTitle('❌ 오류!')
-      .setDescription('5시간 이하의 노래만 재생할 수 있습니다.')
+      .setDescription('5시간 이하의 음악만 재생할 수 있습니다.')
       .addFields({ name: '에러 코드', value: 'MUSIC_IS_TOO_LONG' })
     return await interaction.followUp({ embeds: [embed] })
   },

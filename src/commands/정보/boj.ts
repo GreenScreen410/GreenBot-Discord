@@ -70,24 +70,39 @@ const tierColor = [
   '#f72664'
 ]
 
-const response = await axios.get('https://www.acmicpc.net/problem/added', { headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0' } })
-const $ = load(response.data as string)
-const maxProblemID = Number($('#problemset > tbody > tr:nth-child(1) > td.list_problem_id').text())
-
 export default {
   data: new SlashCommandBuilder()
-    .setName('백준')
-    .setDescription('백준 문제 정보를 불러옵니다.')
+    .setName('boj')
+    .setNameLocalizations({
+      ko: '백준'
+    })
+    .setDescription('Loads information about a Baekjoon Online Judge problem.')
+    .setDescriptionLocalizations({
+      ko: '백준 문제 정보를 불러옵니다.'
+    })
     .addIntegerOption((option) => option
-      .setName('문제')
-      .setDescription('문제 ID를 입력해 주세요.')
+      .setName('id')
+      .setNameLocalizations({
+        ko: '문제'
+      })
+      .setDescription('Enter the problem ID.')
+      .setDescriptionLocalizations({
+        ko: '문제 ID를 입력해 주세요.'
+      })
       .setMinValue(1000)
-      .setMaxValue(maxProblemID)
       .setRequired(true)
     ),
 
   async execute (interaction: ChatInputCommandInteraction) {
-    const problemID = interaction.options.getInteger('문제')
+    const problemID = interaction.options.getInteger('id', true)
+
+    const maxProblemResponse = await axios.get('https://www.acmicpc.net/problem/added', { headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0' } })
+    const $ = load(maxProblemResponse.data as string)
+    const maxProblemID = Number($('#problemset > tbody > tr:nth-child(1) > td.list_problem_id').text())
+    if (problemID > maxProblemID) {
+      return await interaction.client.error.INVALID_ARGUMENT(interaction, `${maxProblemID}번 문제까지만 조회하실 수 있습니다.`)
+    }
+
     const response = await axios.get(`https://solved.ac/api/v3/problem/show?problemId=${problemID}`)
 
     const embed = new EmbedBuilder()
@@ -100,14 +115,9 @@ export default {
         { name: '🔁 평균 시도 횟수', value: `${response.data.averageTries}`, inline: true }
       )
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    if (Object.keys(response.data.tags).length > 0) {
-      let tags = ''
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      for (let i = 0; i < Object.keys(response.data.tags).length; i++) {
-        tags += response.data.tags[i].displayNames[0].name + '\n'
-      }
-      embed.addFields({ name: '📛 알고리즘 분류', value: `${tags}` })
+    if (response.data.tags.length > 0) {
+      const tags = response.data.tags.map((tag: { displayNames: Array<{ name: string }> }) => tag.displayNames[0].name).join('\n')
+      embed.addFields({ name: '📛 알고리즘 분류', value: tags })
     }
 
     await interaction.followUp({ embeds: [embed] })

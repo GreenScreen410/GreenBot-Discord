@@ -1,7 +1,7 @@
 import mysql from 'mysql2/promise'
 
 const connection = mysql.createPool({
-  host: process.env.MYSQL_HOST,
+  host: process.env.SERVER_IP,
   user: 'ubuntu',
   password: process.env.MYSQL_PASSWORD,
   database: process.env.MYSQL_DATABASE,

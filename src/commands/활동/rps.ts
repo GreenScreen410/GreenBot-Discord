@@ -4,15 +4,27 @@ import { RockPaperScissors } from 'discord-gamecord'
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('가위바위보')
-    .setDescription('가위바위보')
+    .setName('rps')
+    .setNameLocalizations({
+      ko: '가위바위보'
+    })
+    .setDescription('Play rock-paper-scissors with a user.')
+    .setDescriptionLocalizations({
+      ko: '가위바위보를 합니다.'
+    })
     .addUserOption((option) => option
-      .setName('유저')
-      .setDescription('유저를 선택해 주세요.')
+      .setName('user')
+      .setNameLocalizations({
+        ko: '유저'
+      })
+      .setDescription('Select a user to play rock-paper-scissors with.')
+      .setDescriptionLocalizations({
+        ko: '가위바위보를 할 유저를 선택해 주세요.'
+      })
       .setRequired(true)),
 
   async execute (interaction: ChatInputCommandInteraction<'cached'>) {
-    const opponent = interaction.options.getUser('유저', true)
+    const opponent = interaction.options.getUser('user', true)
     if (interaction.user.id === opponent.id) {
       return await interaction.client.error.INVALID_ARGUMENT(interaction, '자기 자신과 가위바위보를 할 수 없습니다.')
     }
@@ -20,13 +32,13 @@ export default {
       return await interaction.client.error.INVALID_ARGUMENT(interaction, '봇과 가위바위보를 할 수 없습니다.')
     }
 
-    const player1 = await interaction.client.mysql.query(`SELECT rock_paper_scissors FROM activity WHERE id = ${interaction.user.id}`)
+    const player1 = await interaction.client.mysql.query(`SELECT rps FROM activity WHERE id = ${interaction.user.id}`)
     let player2: any = ''
     try {
-      player2 = await interaction.client.mysql.query(`SELECT rock_paper_scissors FROM activity WHERE id = ${opponent.id}`)
-      player2 = `${opponent.username}: ${player2.rock_paper_scissors + 1}승`
+      player2 = await interaction.client.mysql.query(`SELECT rps FROM activity WHERE id = ${opponent.id}`)
+      player2 = `${opponent.username}: ${player2.rps + 1}승`
     } catch (error) {
-      player2 = `${opponent.username}: (그린Bot을 사용한 적이 없는 유저입니다.)`
+      player2 = `${opponent.username}: (그린Bot을 사용한 적이 없는 유저입니다. 점수가 반영되지 않습니다.)`
     }
 
     const Game = new RockPaperScissors({
@@ -58,8 +70,8 @@ export default {
       timeoutTime: 10000,
       buttonStyle: 'PRIMARY',
       pickMessage: '{emoji}을(를) 고르셨습니다.',
-      winMessage: `**{player}**님이(가) 승리하였습니다!\n${interaction.user.username}: ${player1.rock_paper_scissors + 1}승\n${player2}`,
-      tieMessage: `비겼습니다!\n\n${interaction.user.username}: ${player1.rock_paper_scissors + 1}승\n${player2}`,
+      winMessage: `**{player}**님이(가) 승리하였습니다!\n${interaction.user.username}: ${player1.rps + 1}승\n${player2}`,
+      tieMessage: `비겼습니다!\n\n${interaction.user.username}: ${player1.rps + 1}승\n${player2}`,
       timeoutMessage: '10초가 지나 게임이 자동 종료되었습니다.',
       playerOnlyMessage: '{player}님와(과) {opponent}님만 버튼을 선택할 수 있습니다.'
     })
@@ -68,7 +80,7 @@ export default {
 
     Game.on('gameOver', async (result: any) => {
       if (result.result === 'win') {
-        return await interaction.client.mysql.query(`UPDATE activity SET rock_paper_scissors = rock_paper_scissors + 1 WHERE id = ${result.winner}`)
+        return await interaction.client.mysql.query(`UPDATE activity SET rps = rps + 1 WHERE id = ${result.winner}`)
       }
     })
   }

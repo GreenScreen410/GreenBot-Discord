@@ -50,14 +50,14 @@ export default {
     collector.on('collect', async (i: any) => {
       await i.deferUpdate()
 
-      const result = await interaction.client.mysql.query(`SELECT flag_quiz FROM activity WHERE id = ${i.user.id}`)
+      const result = await interaction.client.mysql.query(`SELECT flag FROM activity WHERE id = ${i.user.id}`)
       if (i.customId === 'correct') {
-        await interaction.client.mysql.query(`UPDATE activity SET flag_quiz = ${result.flag_quiz + 1} WHERE id = ${i.user.id}`)
+        await interaction.client.mysql.query(`UPDATE activity SET flag = ${result.flag + 1} WHERE id = ${i.user.id}`)
 
         const correctEmbed = new EmbedBuilder()
           .setColor('#00FF00')
           .setTitle(`✅ ${i.user.tag}님 정답!`)
-          .setDescription(`정답은 **'${correctCountryName}'** 이였습니다.\n현재 점수: **${result.flag_quiz + 1}**점`)
+          .setDescription(`정답은 **'${correctCountryName}'** 이였습니다.\n현재 점수: **${result.flag + 1}**점`)
 
           .setFooter({ text: `Requested by ${i.user.tag}`, iconURL: i.user.displayAvatarURL() })
         await interaction.followUp({ embeds: [correctEmbed] })
@@ -66,7 +66,7 @@ export default {
         const wrongEmbed = new EmbedBuilder()
           .setColor('#FF0000')
           .setTitle(`❌ ${i.user.tag}님 오답!`)
-          .setDescription(`정답은 **'${correctCountryName}'** 이였습니다.\n현재 점수: **${result.flag_quiz}**점`)
+          .setDescription(`정답은 **'${correctCountryName}'** 이였습니다.\n현재 점수: **${result.flag}**점`)
           .setFooter({ text: `Requested by ${i.user.tag}`, iconURL: i.user.displayAvatarURL() })
         await interaction.followUp({ embeds: [wrongEmbed] })
         collector.stop()

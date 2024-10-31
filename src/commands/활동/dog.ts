@@ -3,8 +3,14 @@ import axios from 'axios'
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('강아지')
-    .setDescription('랜덤 강아지 사진을 불러옵니다.'),
+    .setName('dog')
+    .setNameLocalizations({
+      ko: '강아지'
+    })
+    .setDescription('Loads a random dog picture.')
+    .setDescriptionLocalizations({
+      ko: '랜덤 강아지 사진을 불러옵니다.'
+    }),
 
   async execute (interaction: ChatInputCommandInteraction) {
     const response = await axios.get('https://api.thedogapi.com/v1/images/search', {

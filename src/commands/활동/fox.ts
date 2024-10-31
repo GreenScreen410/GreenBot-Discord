@@ -1,21 +1,23 @@
 import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js'
+import axios from 'axios'
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('ping')
+    .setName('fox')
     .setNameLocalizations({
-      ko: '핑'
+      ko: '여우'
     })
-    .setDescription('Check the message response speed.')
+    .setDescription('Loads a random fox image.')
     .setDescriptionLocalizations({
-      ko: '메시지 반응 속도를 확인합니다.'
+      ko: '랜덤 여우 사진을 불러옵니다.'
     }),
 
   async execute (interaction: ChatInputCommandInteraction) {
+    const response = await axios.get('https://randomfox.ca/floof/')
+
     const embed = new EmbedBuilder()
-      .setColor('#FF0000')
-      .setTitle('🏓 퐁!')
-      .setDescription(`반응 속도: ${interaction.client.ws.ping}ms`)
+      .setImage(response.data.image as string)
+      .setTitle('🦊')
     await interaction.followUp({ embeds: [embed] })
   }
 }

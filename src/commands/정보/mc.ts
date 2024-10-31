@@ -3,17 +3,28 @@ import axios from 'axios'
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('마크')
-    .setDescription('마인크래프트 서버 정보를 확인합니다.')
+    .setName('mc')
+    .setNameLocalizations({
+      ko: '마크'
+    })
+    .setDescription('Check the Minecraft server information.')
+    .setDescriptionLocalizations({
+      ko: '마인크래프트 서버 정보를 확인합니다.'
+    })
     .addStringOption((option) => option
-      .setName('주소')
-      .setDescription('서버 주소를 입력해 주세요.')
+      .setName('address')
+      .setNameLocalizations({
+        ko: '주소'
+      })
+      .setDescription('Please enter the server address.')
+      .setDescriptionLocalizations({
+        ko: '서버 주소를 입력해 주세요.'
+      })
       .setRequired(true)),
 
   async execute (interaction: ChatInputCommandInteraction) {
-    const server = interaction.options.getString('주소', true)
+    const server = interaction.options.getString('address', true)
     const response = await axios.get(`https://api.mcsrvstat.us/3/${encodeURIComponent(server)}`)
-
     if (response.data.ip === '127.0.0.1') {
       return await interaction.client.error.INVALID_ARGUMENT(interaction, server)
     }

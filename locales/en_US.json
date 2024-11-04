@@ -1,0 +1,27 @@
+{
+	"command": {
+		"ping": {
+			"title": "🏓 Pong!",
+			"description": "Response time: {ping}ms"
+		},
+		"play": {
+			"title": "🎶 Added to queue"
+		},
+		"language": {
+			"title": "🌐 Language has been changed.",
+			"description": "Old language: {oldLanguage}\nNew language: {newLanguage}"
+		},
+		"activity": {
+			"leaderboard": {
+				"title": "🏆 {activity} Leaderboard",
+				"description": "This leaderboard is reflected in all servers!"
+			}
+		}
+	},
+	"error": {
+		"title": "❌ Error!",
+		"code": "Error code",
+		"no_permission": "You do not have permission.",
+		"you_have_been_banned": "You have been banned by the administrator.\nReason: {reason}"
+	}
+}

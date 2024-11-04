@@ -53,7 +53,7 @@ export default {
     const collector: any = message.createMessageComponentCollector({ time: 30000 })
     collector.on('collect', async (i: any) => {
       await i.deferUpdate()
-      let choice: string
+      let choice
       if (i.customId === 'one') {
         await axios.get(`https://api.gamecord.xyz/wyr/vote?id=${response.data.id}&option=1`)
         choice = result.option1
@@ -67,8 +67,8 @@ export default {
         .setTitle('밸런스게임 결과')
         .setDescription(`${i.user.username}님의 선택: **${choice}**`)
         .addFields(
-          { name: '1️⃣', value: `${result.option1}: ${response.data.option1Votes}표` },
-          { name: '2️⃣', value: `${result.option2}: ${response.data.option2Votes}표` }
+          { name: '1️⃣', value: `${result.option1}: ${response.data.option1Votes}` },
+          { name: '2️⃣', value: `${result.option2}: ${response.data.option2Votes}` }
         )
 
       await message.edit({ embeds: [resultEmbed], components: [] })

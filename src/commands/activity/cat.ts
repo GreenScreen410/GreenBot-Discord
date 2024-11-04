@@ -1,6 +1,13 @@
 import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js'
 import axios from 'axios'
 
+interface CatImage {
+  id: string
+  url: string
+  width: number
+  height: number
+}
+
 export default {
   data: new SlashCommandBuilder()
     .setName('cat')
@@ -13,7 +20,7 @@ export default {
     }),
 
   async execute (interaction: ChatInputCommandInteraction) {
-    const response = await axios.get('https://api.thecatapi.com/v1/images/search', {
+    const { data: [response] } = await axios.get<CatImage[]>('https://api.thecatapi.com/v1/images/search', {
       headers: {
         'x-api-key': process.env.THE_CAT_API_KEY
       }
@@ -21,8 +28,13 @@ export default {
 
     const embed = new EmbedBuilder()
       .setColor('Random')
-      .setImage(response.data[0].url as string)
+      .setImage(response.url)
       .setTitle('🐱')
+      .setDescription(`사진 ID: [${response.id}](${response.url})`)
+      .addFields(
+        { name: '가로', value: `${response.width}px`, inline: true },
+        { name: '세로', value: `${response.height}px`, inline: true }
+      )
     await interaction.followUp({ embeds: [embed] })
   }
 }

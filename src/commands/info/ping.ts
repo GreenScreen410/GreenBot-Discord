@@ -14,8 +14,8 @@ export default {
   async execute (interaction: ChatInputCommandInteraction) {
     const embed = new EmbedBuilder()
       .setColor('Random')
-      .setTitle('🏓 퐁!')
-      .setDescription(`반응 속도: ${interaction.client.ws.ping}ms`)
+      .setTitle(await interaction.client.locale(interaction, 'command.ping.title'))
+      .setDescription(await interaction.client.locale(interaction, 'command.ping.description', { ping: interaction.client.ws.ping }))
     await interaction.followUp({ embeds: [embed] })
   }
 }

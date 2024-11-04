@@ -52,7 +52,7 @@ export default {
 
     const embed = new EmbedBuilder()
       .setColor('Random')
-      .setTitle('🎵 재생목록에 추가되었습니다.')
+      .setTitle(await interaction.client.locale(interaction, 'command.play.title'))
       .setDescription(result.tracks[0].info.title)
       .setURL(result.tracks[0].info.uri ?? '')
       .setThumbnail(result.tracks[0].info.artworkUrl ?? '')

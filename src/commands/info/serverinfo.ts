@@ -14,7 +14,7 @@ export default {
   async execute (interaction: ChatInputCommandInteraction<'cached'>) {
     const embed = new EmbedBuilder()
       .setColor('Random')
-      // .setThumbnail(interaction.guild.iconURL())
+      .setThumbnail(interaction.guild.iconURL())
       .setTitle(`'${interaction.guild.name}' 정보`)
       .addFields(
         { name: '📛 이름', value: interaction.guild.name, inline: true },

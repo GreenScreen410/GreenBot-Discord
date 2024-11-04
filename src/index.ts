@@ -1,12 +1,13 @@
 import 'dotenv/config.js'
 import { Client, GatewayIntentBits, Collection } from 'discord.js'
 import { LavalinkManager } from 'lavalink-client'
-import { readdir } from 'node:fs/promises'
-import { join, dirname } from 'node:path'
-import { fileURLToPath } from 'node:url'
-import consoleStamp from 'console-stamp'
-consoleStamp(console, { format: ':date(yyyy-mm-dd HH:MM:ss.l)' })
-const __dirname = dirname(fileURLToPath(import.meta.url))
+import { readdir } from 'fs/promises'
+import { join, dirname } from 'path'
+import { fileURLToPath } from 'url'
+import Logger from './handler/logger.js'
+import { translate } from './handler/i18n.js'
+
+const logger = new Logger()
 
 declare module 'discord.js' {
   interface Client {
@@ -15,6 +16,8 @@ declare module 'discord.js' {
     error: typeof import('./handler/error.js').default
     mysql: typeof import('./handler/mysql.js').default
     lavalink: LavalinkManager
+    locale: (interaction: { locale: string, user: { id: string } }, key: string, ...args: unknown[]) => Promise<string>
+    logger: Logger
   }
 }
 
@@ -23,14 +26,13 @@ const client = new Client({
 }) as Client & { lavalink: LavalinkManager }
 client.commands = new Collection()
 client.buttons = new Collection()
+client.logger = logger
 client.error = (await import('./handler/error.js')).default
 client.mysql = (await import('./handler/mysql.js')).default
+
 client.lavalink = new LavalinkManager({
-  nodes: [
-    { id: 'Local Node', host: `${process.env.SERVER_IP}`, port: 2333, authorization: `${process.env.LAVALINK_PASSWORD}`, retryAmount: 5, retryDelay: 60000, secure: false }
-  ],
-  sendToShard: (guildId, payload) =>
-    client.guilds.cache.get(guildId)?.shard?.send(payload),
+  nodes: [{ id: 'Local Node', host: `${process.env.SERVER_IP}`, port: 2333, authorization: `${process.env.LAVALINK_PASSWORD}`, retryAmount: 5, retryDelay: 60000, secure: false }],
+  sendToShard: (guildId, payload) => client.guilds.cache.get(guildId)?.shard?.send(payload),
   // everything down below is optional
   autoSkip: true,
   playerOptions: {
@@ -52,10 +54,19 @@ client.lavalink = new LavalinkManager({
   }
 })
 
+Client.prototype.locale = async function (interaction: { locale: string, user: { id: string } }, key: string, ...args: unknown[]) {
+  const locale = await client.mysql.query('SELECT language FROM user WHERE id = ?', [interaction.user.id])
+  if (locale.language == null) {
+    return translate(interaction.locale, key, ...args)
+  } else {
+    return translate(locale.language, key, ...args)
+  }
+}
+
 const commands: any = []
-const commandFiles = await readdir(join(__dirname, './commands'))
+const commandFiles = await readdir(join(dirname(fileURLToPath(import.meta.url)), './commands'))
 for (const folders of commandFiles) {
-  const folder = await readdir(join(__dirname, `./commands/${folders}`))
+  const folder = await readdir(join(dirname(fileURLToPath(import.meta.url)), `./commands/${folders}`))
   for (const file of folder) {
     const command = (await import(`./commands/${folders}/${file}`)).default
     client.commands.set(command.data.name, command)
@@ -63,25 +74,36 @@ for (const folders of commandFiles) {
   }
 }
 
-const eventFiles = await readdir(join(__dirname, './events'))
+const eventFiles = await readdir(join(dirname(fileURLToPath(import.meta.url)), './events'))
 for (const folders of eventFiles) {
-  const folder = await readdir(join(__dirname, `./events/${folders}`))
+  const folder = await readdir(join(dirname(fileURLToPath(import.meta.url)), `./events/${folders}`))
   for (const file of folder) {
     const event = (await import(`./events/${folders}/${file}`)).default
     if (folders === 'client' || folders === 'interaction') {
-      client.on(event.name, (...args) => event.execute(...args).catch(async (error: any) => {
-        console.log(error)
-        await client.users.cache.get('332840377763758082')?.send(`${error.stack}`)
-      }
-      ))
+      client.on(event.name, (...args) =>
+        event.execute(...args).catch(async (error: any) => {
+          logger.error(error)
+          await client.users.cache.get('332840377763758082')?.send(`${error.stack}`)
+        })
+      )
     }
   }
 }
 
-client.on('raw', async d => { await client.lavalink.sendRawData(d) })
+client.on('raw', async (d) => {
+  await client.lavalink.sendRawData(d)
+})
 client.on('ready', async () => {
   await client.lavalink.init({ ...client.user!, username: 'GreenBot' })
   await client.guilds.cache.get('825741743235268639')?.commands.set(commands)
   await client.application?.commands.set(commands)
 })
 await client.login(process.env.BETA_TOKEN)
+
+process.on('uncaughtException', (error: Error) => {
+  logger.fatal(error.stack)
+})
+
+process.on('unhandledRejection', (error: Error) => {
+  logger.fatal(error.stack)
+})

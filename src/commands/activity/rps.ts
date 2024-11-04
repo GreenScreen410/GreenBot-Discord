@@ -8,7 +8,7 @@ export default {
     .setNameLocalizations({
       ko: '가위바위보'
     })
-    .setDescription('Play rock-paper-scissors with a user.')
+    .setDescription('Play rock paper scissors with a user.')
     .setDescriptionLocalizations({
       ko: '가위바위보를 합니다.'
     })
@@ -17,7 +17,7 @@ export default {
       .setNameLocalizations({
         ko: '유저'
       })
-      .setDescription('Select a user to play rock-paper-scissors with.')
+      .setDescription('Select a user to play rock paper scissors with.')
       .setDescriptionLocalizations({
         ko: '가위바위보를 할 유저를 선택해 주세요.'
       })
@@ -32,10 +32,10 @@ export default {
       return await interaction.client.error.INVALID_ARGUMENT(interaction, '봇과 가위바위보를 할 수 없습니다.')
     }
 
-    const player1 = await interaction.client.mysql.query(`SELECT rps FROM activity WHERE id = ${interaction.user.id}`)
+    const player1 = await interaction.client.mysql.query('SELECT rps FROM activity WHERE id = ?', [interaction.user.id])
     let player2: any = ''
     try {
-      player2 = await interaction.client.mysql.query(`SELECT rps FROM activity WHERE id = ${opponent.id}`)
+      player2 = await interaction.client.mysql.query('SELECT rps FROM activity WHERE id = ?', [opponent.id])
       player2 = `${opponent.username}: ${player2.rps + 1}승`
     } catch (error) {
       player2 = `${opponent.username}: (그린Bot을 사용한 적이 없는 유저입니다. 점수가 반영되지 않습니다.)`
@@ -78,9 +78,9 @@ export default {
 
     Game.startGame()
 
-    Game.on('gameOver', async (result: any) => {
+    Game.on('gameOver', async (result: Record<string, string>) => {
       if (result.result === 'win') {
-        return await interaction.client.mysql.query(`UPDATE activity SET rps = rps + 1 WHERE id = ${result.winner}`)
+        return await interaction.client.mysql.query('UPDATE activity SET rps = rps + 1 WHERE id = ?', [interaction.user.id])
       }
     })
   }

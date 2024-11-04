@@ -19,9 +19,27 @@ export default {
       .setDescriptionLocalizations({
         ko: '반복할 대상을 지정해 주세요.'
       })
-      .addChoices({ name: '끄기', value: 'off' })
-      .addChoices({ name: '트랙', value: 'track' })
-      .addChoices({ name: '재생목록', value: 'queue' })
+      .addChoices({
+        name: 'Off',
+        name_localizations: {
+          ko: '끄기'
+        },
+        value: 'off'
+      })
+      .addChoices({
+        name: 'Track',
+        name_localizations: {
+          ko: '트랙'
+        },
+        value: 'track'
+      })
+      .addChoices({
+        name: 'Queue',
+        name_localizations: {
+          ko: '재생목록'
+        },
+        value: 'queue'
+      })
       .setRequired(true)
     ),
 

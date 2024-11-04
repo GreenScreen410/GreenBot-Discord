@@ -24,7 +24,7 @@ export default {
       .setRequired(true)),
 
   async execute (interaction: ChatInputCommandInteraction) {
-    const problem = interaction.options.getString('problem', true)
+    const problem = interaction.options.getString('problem')
     const response = await axios.get(`https://dreamhack.io/wargame?search=${problem}&page=1`)
     const $ = load(response.data as string)
     const embed = new EmbedBuilder()

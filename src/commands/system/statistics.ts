@@ -21,10 +21,10 @@ export default {
     const minutes = Math.floor(totalSeconds / 60)
     const seconds = Math.floor(totalSeconds % 60)
 
-    const totalCommand = await interaction.client.mysql.query('SELECT count FROM statistics WHERE event = "total_command"')
-    const uniqueUser = await interaction.client.mysql.query('SELECT COUNT(*) FROM user')
-    const bannedUser = await interaction.client.mysql.query('SELECT COUNT(*) FROM user WHERE banned = 1')
-    const mostCommandUser = await interaction.client.mysql.query('SELECT id FROM user ORDER BY count DESC LIMIT 1')
+    const totalCommand = await interaction.client.mysql.query('SELECT count FROM statistics WHERE event = "total_command"', [])
+    const uniqueUser = await interaction.client.mysql.query('SELECT COUNT(*) FROM user', [])
+    const bannedUser = await interaction.client.mysql.query('SELECT COUNT(*) FROM user WHERE banned = 1', [])
+    const mostCommandUser = await interaction.client.mysql.query('SELECT id FROM user ORDER BY count DESC LIMIT 1', [])
 
     const embed = new EmbedBuilder()
       .setColor('Random')

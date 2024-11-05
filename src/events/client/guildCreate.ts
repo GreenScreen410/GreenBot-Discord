@@ -4,7 +4,7 @@ export default {
   name: Events.GuildCreate,
 
   async execute (guild: Guild) {
-    guild.client.logger.info(`Invited to ${guild.name}(${guild.id})`)
+    guild.client.logger.info(`Invited to ${guild.name}(${guild.id}), ${guild.memberCount} members`)
 
     const embed = new EmbedBuilder()
       .setColor('#73C55C')

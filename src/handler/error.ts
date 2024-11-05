@@ -10,7 +10,7 @@ export default {
     return await interaction.followUp({ embeds: [embed] })
   },
 
-  YOU_HAVE_BEEN_BANNED: async function (interaction: ChatInputCommandInteraction | ButtonInteraction, reason: string) {
+  YOU_HAVE_BEEN_BANNED: async function (interaction: ChatInputCommandInteraction | ButtonInteraction, reason: any) {
     const embed = new EmbedBuilder()
       .setColor('#FF0000')
       .setTitle(await interaction.client.locale(interaction, 'error.title'))

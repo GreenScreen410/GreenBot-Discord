@@ -1,61 +1,63 @@
-import pkg, { type SignaleOptions } from 'signale'
-const { Signale } = pkg
+import winston from 'winston'
+import WinstonDaily from 'winston-daily-rotate-file'
+import process from 'process'
 
-const options: SignaleOptions = {
-  config: {
-    displayTimestamp: true,
-    displayDate: true
-  },
-  disabled: false,
-  interactive: false,
-  logLevel: 'info',
-  scope: 'GreenBot',
-  types: {
-    info: {
-      badge: 'ℹ',
-      color: 'blue',
-      label: 'info'
-    },
-    warn: {
-      badge: '⚠',
-      color: 'yellow',
-      label: 'warn'
-    },
-    error: {
-      badge: '❌',
-      color: 'red',
-      label: 'error'
-    },
-    debug: {
-      badge: '🐛',
-      color: 'magenta',
-      label: 'debug'
-    },
-    success: {
-      badge: '✅',
-      color: 'green',
-      label: 'success'
-    },
-    log: {
-      badge: '📝',
-      color: 'white',
-      label: 'log'
-    },
-    pause: {
-      badge: '⏸',
-      color: 'yellow',
-      label: 'pause'
-    },
-    start: {
-      badge: '▶',
-      color: 'green',
-      label: 'start'
-    }
-  }
+const { combine, timestamp, label, printf } = winston.format
+
+const logDir = `${process.cwd()}/logs`
+
+const logFormat = printf(({ level, message, label, timestamp }) => {
+  return `${timestamp} [${label}] ${level}: ${message}`
+})
+
+const logger = winston.createLogger({
+  format: combine(
+    timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+    label({ label: '그린Bot' }),
+    logFormat
+  ),
+
+  transports: [
+    new WinstonDaily({
+      level: 'info',
+      datePattern: 'YYYY-MM-DD',
+      dirname: logDir,
+      filename: '%DATE%.log',
+      maxFiles: 30,
+      zippedArchive: true
+    }),
+
+    new WinstonDaily({
+      level: 'error',
+      datePattern: 'YYYY-MM-DD',
+      dirname: logDir + '/error',
+      filename: '%DATE%.error.log',
+      maxFiles: 30,
+      zippedArchive: true
+    })
+  ],
+
+  exceptionHandlers: [
+    new WinstonDaily({
+      level: 'error',
+      datePattern: 'YYYY-MM-DD',
+      dirname: logDir,
+      filename: '%DATE%.exception.log',
+      maxFiles: 30,
+      zippedArchive: true
+    })
+  ]
+})
+
+if (process.env.NODE_ENV !== 'production') {
+  logger.add(
+    new winston.transports.Console({
+      format: winston.format.combine(
+        winston.format.colorize(),
+        winston.format.simple()
+      )
+    })
+  )
 }
 
-export default class Logger extends Signale {
-  constructor () {
-    super(options)
-  }
-}
+export default logger

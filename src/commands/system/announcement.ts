@@ -12,7 +12,7 @@ export default {
     }),
 
   async execute (interaction: ChatInputCommandInteraction) {
-    const channel = await interaction.client.channels.fetch('1302819254629957702') as TextChannel
+    const channel = await interaction.client.channels.fetch('1104454589798957187') as TextChannel
     const messages = await channel.messages.fetch({ limit: 1 })
     const lastMessage = messages.first()
     if (lastMessage == null) {

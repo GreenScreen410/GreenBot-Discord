@@ -5,7 +5,7 @@ export default {
   once: true,
 
   async execute (client: Client) {
-    client.logger.start(`${client.user?.tag} is up and ready to go!`)
+    client.logger.info(`${client.user?.tag} is up and ready to go!`)
 
     const activities = [
       `${client.guilds.cache.size}개의 서버에서 활동`,

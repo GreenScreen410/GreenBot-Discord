@@ -4,10 +4,8 @@ import { LavalinkManager } from 'lavalink-client'
 import { readdir } from 'fs/promises'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
-import Logger from './handler/logger.js'
+import logger from './handler/logger.js'
 import { translate } from './handler/i18n.js'
-
-const logger = new Logger()
 
 declare module 'discord.js' {
   interface Client {
@@ -17,7 +15,7 @@ declare module 'discord.js' {
     mysql: typeof import('./handler/mysql.js').default
     lavalink: LavalinkManager
     locale: (interaction: { locale: string, user: { id: string } }, key: string, ...args: unknown[]) => Promise<string>
-    logger: Logger
+    logger: typeof import('./handler/logger.js').default
   }
 }
 
@@ -100,10 +98,10 @@ client.on('ready', async () => {
 })
 await client.login(process.env.BETA_TOKEN)
 
-process.on('uncaughtException', (error: Error) => {
-  logger.fatal(error.stack)
+process.on('uncaughtException', (error) => {
+  logger.error(error.stack)
 })
 
-process.on('unhandledRejection', (error: Error) => {
-  logger.fatal(error.stack)
+process.on('unhandledRejection', (error: any) => {
+  logger.error(error.stack)
 })

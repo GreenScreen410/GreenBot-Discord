@@ -1,6 +1,6 @@
 {
   "name": "greenbot-discord",
-  "version": "1.18.0",
+  "version": "1.18.1",
   "description": "",
   "exports": "./index.js",
   "type": "module",
@@ -16,9 +16,9 @@
   "license": "MIT",
   "dependencies": {
     "@types/i18n": "^0.13.12",
-    "@types/signale": "^1.4.7",
     "axios": "^1.6.2",
     "cheerio": "^1.0.0-rc.12",
+    "dayjs": "^1.11.13",
     "discord-gamecord": "^4.4.2",
     "discord.js": "^14.12.1",
     "dotenv": "^16.3.1",
@@ -26,7 +26,8 @@
     "lavalink-client": "^2.4.1",
     "mysql2": "^3.10.3",
     "openai": "^4.67.3",
-    "signale": "^1.4.0"
+    "winston": "^3.16.0",
+    "winston-daily-rotate-file": "^5.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.14.11",

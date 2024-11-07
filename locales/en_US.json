@@ -4,9 +4,6 @@
 			"title": "🏓 Pong!",
 			"description": "Response time: {ping}ms"
 		},
-		"play": {
-			"title": "🎶 Added to queue"
-		},
 		"language": {
 			"title": "🌐 Language has been changed.",
 			"description": "Old language: {oldLanguage}\nNew language: {newLanguage}"
@@ -16,6 +13,54 @@
 				"title": "🏆 {activity} Leaderboard",
 				"description": "This leaderboard is reflected in all servers!"
 			}
+		},
+		"loop": {
+			"track": "🔁 The current track is played repeatedly!",
+			"queue": "🔁 The entire queue is played repeatedly!",
+			"off": "🔁 Repeat mode is turned off!"
+		},
+		"stop": {
+			"title": "🚫 Stop!",
+			"description": "Music playback has been stopped successfully."
+		},
+		"nowplaying": {
+			"title": "🎵 Now playing",
+			"author": "Author",
+			"duration": "Duration",
+			"source_name": "Music source"
+		},
+		"play": {
+			"title": "🎵 Added to the playlist.",
+			"author": "Author",
+			"duration": "Duration",
+			"source_name": "Music source",
+			"track_count": "Count"
+		},
+		"skip": {
+			"title": "⏩ Skipped the currently playing music!"
+		},
+		"remove": {
+			"title": "🗑️ Removed from the queue"
+		},
+		"queue": {
+			"title": "🎵 Queue - {size} songs"
+		},
+		"stealemoji": {
+			"title": "🥷🏻 Steal Emoji",
+			"description": "Successfully stole the emoji!"
+		},
+		"statistics": {
+			"title": "📊 Statistics",
+			"server": "📊 Total server count",
+			"user": "👥 Total user count",
+			"unique_user": "👥 Unique user count",
+			"channel": "📜 Total channel count",
+			"command": "🔧 Command count",
+			"execute": "🔧 Total command execution count",
+			"uptime": "🕒 Uptime",
+			"banned": "🚫 Banned user count",
+			"music": "🎵 Number of music servers currently playing",
+			"most_command_user": "🏆 Most command executed user"
 		}
 	},
 	"error": {

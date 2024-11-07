@@ -1,4 +1,5 @@
 import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js'
+import { type RepeatMode } from 'lavalink-client/dist/types'
 
 export default {
   data: new SlashCommandBuilder()
@@ -52,33 +53,15 @@ export default {
       return await interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction)
     }
 
-    const option = interaction.options.getString('type')
+    const option = interaction.options.getString('type') as RepeatMode
+    await player.setRepeatMode(option)
 
-    if (option === 'track') {
-      await player.setRepeatMode('track')
-      const embed = new EmbedBuilder()
-        .setColor('Random')
-        .setTitle('🔁 현재 재생중인 음악을 반복 재생합니다!')
-        .setDescription(player.queue.tracks[0].info.title)
-      await interaction.followUp({ embeds: [embed] })
-    }
-
-    if (option === 'queue') {
-      await player.setRepeatMode('queue')
-      const embed = new EmbedBuilder()
-        .setColor('Random')
-        .setTitle('🔁 전체 대기열을 반복 재생합니다!')
-        .setDescription(`${player.queue.tracks[0].info.title} 외 ${player.queue.tracks.length}개의 음악`)
-      await interaction.followUp({ embeds: [embed] })
-    }
-
-    if (option === 'off') {
-      await player.setRepeatMode('off')
-      const embed = new EmbedBuilder()
-        .setColor('Random')
-        .setTitle('🔁 반복모드가 꺼졌습니다!')
-        .setDescription(player.queue.tracks[0].info.title)
-      await interaction.followUp({ embeds: [embed] })
-    }
+    const embed = new EmbedBuilder()
+      .setColor('Random')
+      .setTitle(await interaction.client.locale(interaction, `command.loop.${option}`))
+      .setDescription(player.queue.current?.info.title ?? '')
+      .setURL(player.queue.current?.info.uri ?? '')
+      .setThumbnail(player.queue.current?.info.artworkUrl ?? '')
+    await interaction.followUp({ embeds: [embed] })
   }
 }

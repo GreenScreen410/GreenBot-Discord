@@ -32,7 +32,7 @@ export default {
 
     const embed = new EmbedBuilder()
       .setColor('Random')
-      .setTitle('⏩ 재생중인 음악을 넘겼습니다!')
+      .setTitle(await interaction.client.locale(interaction, 'command.skip.title'))
       .setDescription(`${player.queue.current?.info.title}`)
     await interaction.followUp({ embeds: [embed] })
 

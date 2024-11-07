@@ -4,9 +4,6 @@
 			"title": "🏓 퐁!",
 			"description": "반응 속도: {ping}ms"
 		},
-		"play": {
-			"title": "🎵 재생목록에 추가되었습니다."
-		},
 		"language": {
 			"title": "🌐 언어가 변경되었습니다.",
 			"description": "기존 언어: {oldLanguage}\n변경된 언어: {newLanguage}"
@@ -16,6 +13,54 @@
 				"title": "🏆 {activity} 순위표",
 				"description": "이 순위는 모든 서버에 반영됩니다!"
 			}
+		},
+		"loop": {
+			"track": "🔁 현재 트랙을 반복 재생합니다!",
+			"queue": "🔁 전체 대기열을 반복 재생합니다!",
+			"off": "🔁 반복모드가 꺼졌습니다!"
+		},
+		"stop": {
+			"title": "🚫 정지!",
+			"description": "음악 재생을 정상적으로 종료하였습니다."
+		},
+		"nowplaying": {
+			"title": "🎵 재생중인 음악",
+			"author": "작곡가",
+			"duration": "길이",
+			"source_name": "음악 출처"
+		},
+		"play": {
+			"title": "🎵 재생목록에 추가되었습니다.",
+			"author": "작곡가",
+			"duration": "길이",
+			"source_name": "음악 출처",
+			"track_count": "개수"
+		},
+		"skip": {
+			"title": "⏩ 재생중인 음악을 넘겼습니다!"
+		},
+		"remove": {
+			"title": "🗑️ 재생목록에서 제거되었습니다."
+		},
+		"queue": {
+			"title": "🎵 재생목록 - {size}개"
+		},
+		"stealemoji": {
+			"title": "🥷🏻 이모지 훔치기",
+			"description": "이모지를 성공적으로 훔쳐왔습니다!"
+		},
+		"statistics": {
+			"title": "📊 통계",
+			"server": "📊 전체 서버 수",
+			"user": "👥 전체 유저 수",
+			"unique_user": "👥 고유 유저 수",
+			"channel": "📜 전체 채널 수",
+			"command": "🔧 명령어 개수",
+			"execute": "🔧 총 명령어 실행 횟수",
+			"uptime": "🕒 가동 시간",
+			"banned": "🚫 차단된 유저 수",
+			"music": "🎵 현재 재생중인 음악 서버 수",
+			"most_command_user": "🏆 가장 많이 명령어를 사용한 사용자"
 		}
 	},
 	"error": {

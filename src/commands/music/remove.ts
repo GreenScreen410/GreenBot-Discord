@@ -32,15 +32,13 @@ export default {
 
     const index = interaction.options.getInteger('number', true) - 1
     if (index < 0 || index >= player.queue.tracks.length) {
-      return await interaction.client.error.INVALID_ARGUMENT(interaction, '음악 번호가 잘못되었습니다.')
+      return await interaction.client.error.INVALID_ARGUMENT(interaction, index)
     }
 
     const embed = new EmbedBuilder()
       .setColor('Random')
-      .setTitle('🗑️ 정상적으로 제거되었습니다.')
+      .setTitle(await interaction.client.locale(interaction, 'command.remove.title'))
       .setDescription(player.queue.tracks[0].info.title)
-      .setURL(player.queue.tracks[0].info.uri!)
-      .setThumbnail(player.queue.tracks[0].info.artworkUrl!)
     await interaction.followUp({ embeds: [embed] })
 
     await player.queue.remove(index - 1)

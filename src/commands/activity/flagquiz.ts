@@ -1,6 +1,6 @@
 import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ComponentType } from 'discord.js'
 import axios from 'axios'
-import country from '../../country.json' assert { type: 'json' }
+import country from '../../country.json' with { type: 'json' }
 
 export default {
   data: new SlashCommandBuilder()

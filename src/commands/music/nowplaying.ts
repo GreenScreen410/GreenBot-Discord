@@ -28,13 +28,13 @@ export default {
     const embed = new EmbedBuilder()
       .setURL(player.queue.current.info.uri)
       .setColor('Random')
-      .setTitle('🎵 재생중인 음악')
+      .setTitle(await interaction.client.locale(interaction, 'command.nowplaying.title'))
       .setDescription(player.queue.current.info.title)
       .setThumbnail(player.queue.current.info.artworkUrl ?? '')
       .addFields([
-        { name: '작곡가', value: player.queue.current.info.author },
-        { name: '길이', value: msToTime(player.queue.current.info.duration) },
-        { name: '음악 출처', value: player.queue.current.info.sourceName }
+        { name: await interaction.client.locale(interaction, 'command.nowplaying.author'), value: player.queue.current.info.author },
+        { name: await interaction.client.locale(interaction, 'command.nowplaying.duration'), value: msToTime(player.queue.current.info.duration) },
+        { name: await interaction.client.locale(interaction, 'command.nowplaying.source_name'), value: player.queue.current.info.sourceName }
       ])
     await interaction.followUp({ embeds: [embed] })
   }

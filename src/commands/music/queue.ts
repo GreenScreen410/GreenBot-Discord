@@ -20,13 +20,12 @@ export default {
       return await interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction)
     }
 
-    const current = player.queue.current
     const embed = new EmbedBuilder()
       .setColor('Random')
-      .setTitle(`재생목록 - ${player.queue.tracks.length}개`)
+      .setTitle(await interaction.client.locale(interaction, 'command.queue.title', { size: player.queue.tracks.length }))
       .setDescription([
         '## 현재 음악:',
-        `> ### [\`${current?.info.title}\`](${current?.info.uri})`,
+        `> ### [\`${player.queue.current?.info.title}\`](${player.queue.current?.info.uri})`,
         `## ${player.queue.tracks.length > 20 ? 20 : player.queue.tracks.length}개의 대기열:`,
         player.queue.tracks.slice(0, 20)
           .map((t, i) => `> **${i + 1}.** [\`${t.info.title}\`](${t.info.uri})`).join('\n')

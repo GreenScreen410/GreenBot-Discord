@@ -6,11 +6,11 @@ import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import logger from './handler/logger.js'
 import { translate } from './handler/i18n.js'
+import { cli } from 'winston/lib/winston/config/index.js'
 
 declare module 'discord.js' {
   interface Client {
     commands: Collection<string, any>
-    buttons: Collection<string, any>
     error: typeof import('./handler/error.js').default
     mysql: typeof import('./handler/mysql.js').default
     lavalink: LavalinkManager
@@ -23,11 +23,9 @@ const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates]
 }) as Client & { lavalink: LavalinkManager }
 client.commands = new Collection()
-client.buttons = new Collection()
 client.logger = logger
 client.error = (await import('./handler/error.js')).default
 client.mysql = (await import('./handler/mysql.js')).default
-
 client.lavalink = new LavalinkManager({
   nodes: [{ id: 'Local Node', host: `${process.env.SERVER_IP}`, port: 2333, authorization: `${process.env.LAVALINK_PASSWORD}`, retryAmount: 5, retryDelay: 60000, secure: false }],
   sendToShard: (guildId, payload) => client.guilds.cache.get(guildId)?.shard?.send(payload),
@@ -104,4 +102,11 @@ process.on('uncaughtException', (error) => {
 
 process.on('unhandledRejection', (error: any) => {
   logger.error(error.stack)
+})
+
+process.on('SIGINT', async () => {
+  client.logger.info('Disconnecting from Discord...')
+  await client.destroy()
+  client.logger.info('Successfully disconnected from Discord!')
+  process.exit()
 })

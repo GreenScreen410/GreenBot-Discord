@@ -24,8 +24,8 @@ export default {
 
     const embed = new EmbedBuilder()
       .setColor('Random')
-      .setTitle('🚫 정지!')
-      .setDescription('음악 재생을 정상적으로 종료하였습니다.')
+      .setTitle(await interaction.client.locale(interaction, 'command.stop.title'))
+      .setDescription(await interaction.client.locale(interaction, 'command.stop.description'))
     await interaction.followUp({ embeds: [embed] })
   }
 }

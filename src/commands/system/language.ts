@@ -26,7 +26,7 @@ export default {
     ),
 
   async execute (interaction: ChatInputCommandInteraction) {
-    const oldLanguage = (await interaction.client.mysql.query('SELECT language FROM user WHERE id = ?', [interaction.user.id])).language
+    const oldLanguage = (await interaction.client.mysql.query('SELECT language FROM user WHERE id = ?', [interaction.user.id])).language ?? interaction.locale
     const newLanguage = interaction.options.getString('language')
     await interaction.client.mysql.query('UPDATE user SET language = ? WHERE id = ?', [newLanguage, interaction.user.id])
 

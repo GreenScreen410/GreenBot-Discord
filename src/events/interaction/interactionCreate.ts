@@ -36,7 +36,7 @@ export default {
 
       interaction.client.logger.info(`${interaction.guild.name}(${interaction.guild.id}): ${interaction.user.tag}(${interaction.user.id}) executed ${interaction.commandName}${(interaction.options.data.length > 0) ? ` (${interaction.options.data.map((option) => `${option.name}: ${option.value}`).join(', ')})` : ''}`)
       await interaction.client.mysql.query('UPDATE statistics SET count = count + 1 WHERE event = "total_command"', [])
-      await interaction.client.mysql.query(`UPDATE user SET count = count + 1 WHERE id = "${interaction.user.id}"`, [])
+      await interaction.client.mysql.query('UPDATE user SET count = count + 1 WHERE id = ?', [interaction.user.id])
     } else if (interaction.isModalSubmit()) {
       const command = interaction.client.commands.get(interaction.customId)
       command.modal(interaction)

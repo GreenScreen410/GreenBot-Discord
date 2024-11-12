@@ -42,8 +42,8 @@ export default {
 
     const embed = new EmbedBuilder()
       .setColor('Random')
-      .setTitle(await interaction.client.locale(interaction, 'command.activity.leaderboard.title', { activity }))
-      .setDescription(await interaction.client.locale(interaction, 'command.activity.leaderboard.description'))
+      .setTitle(await interaction.client.locale(interaction, 'command.leaderboard.title', { activity }))
+      .setDescription(await interaction.client.locale(interaction, 'command.leaderboard.description'))
 
     const result = await interaction.client.mysql.query('SELECT * FROM activity ORDER BY ?? DESC LIMIT 10', [activity])
     for (let i = 0; i < 10; i++) {

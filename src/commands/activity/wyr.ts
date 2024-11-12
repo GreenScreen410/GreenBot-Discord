@@ -19,12 +19,12 @@ export default {
     const completion: any = await client.chat.completions.create({
       model: 'hf:meta-llama/Meta-Llama-3.1-405B-Instruct',
       messages: [
-        { role: 'system', content: '자연스러운 한국어로 번역하여, 한국어로 대답해 줘. 최대한 "~기"로 끝내 줘.' },
-        { role: 'user', content: `${response.data.option1} / ${response.data.option2}. Please translate to Korean each of the two sentences and return them to JSON with items option1 and option2. DO NOT add any descriptions. 마크다운 형태가 아닌, 순수 텍스트 형태의 오직 완벽한 JSON 형태만 반환해 줘.` }
+        { role: 'system', content: '자연스러운 언어 코드로 번역하여 대답해 줘.' },
+        { role: 'user', content: `${response.data.option1} / ${response.data.option2}. Please translate to ${(await interaction.client.mysql.query('SELECT language FROM user WHERE id = ?', [interaction.user.id])).language} language code each of the two sentences and return them to JSON with items option1 and option2. DO NOT add any descriptions. 마크다운 형태가 아닌, 순수 텍스트 형태의 오직 완벽한 JSON 형태만 반환해 줘.` }
       ],
       temperature: 0
     })
-    const result = JSON.parse(completion.choices[0].message.content)
+    const result = JSON.parse(completion.choices[0].message.content as string)
 
     const embed = new EmbedBuilder()
       .setColor('Random')

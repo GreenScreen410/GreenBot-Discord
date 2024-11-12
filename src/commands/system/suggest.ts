@@ -14,14 +14,14 @@ export default {
   async execute (interaction: ChatInputCommandInteraction) {
     const modal = new ModalBuilder()
       .setCustomId('suggest')
-      .setTitle('어떤 도움이 필요하신가요?')
+      .setTitle(await interaction.client.locale(interaction, 'command.suggest.title'))
 
     const suggestInput = new TextInputBuilder()
       .setCustomId('suggestInput')
-      .setLabel('문의 내용')
+      .setLabel(await interaction.client.locale(interaction, 'command.suggest.label'))
       .setStyle(TextInputStyle.Paragraph)
       .setMaxLength(1024)
-      .setPlaceholder('어떠한 질문이든 환영합니다!')
+      .setPlaceholder(await interaction.client.locale(interaction, 'command.suggest.placeholder'))
 
     const firstActionRow = new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(suggestInput)
 
@@ -35,9 +35,9 @@ export default {
     const suggest = interaction.fields.getTextInputValue('suggestInput')
 
     const embed = new EmbedBuilder()
-      .setTitle('✉️ 성공적으로 문의가 접수되었습니다.')
-      .setDescription('답장은 DM으로 전송될 예정입니다. 빠른 시일 내에 답변드리겠습니다.')
       .setColor('Random')
+      .setTitle(await interaction.client.locale(interaction, 'command.suggest.title'))
+      .setDescription(await interaction.client.locale(interaction, 'command.suggest.description'))
     await interaction.followUp({ embeds: [embed] })
 
     const suggestEmbed = new EmbedBuilder()

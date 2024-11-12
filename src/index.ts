@@ -79,7 +79,7 @@ for (const folders of eventFiles) {
       client.on(event.name, (...args) =>
         event.execute(...args).catch(async (error: any) => {
           logger.error(error)
-          await client.users.cache.get('332840377763758082')?.send(`${error.stack}`)
+          await client.users.cache.get(process.env.ADMIN_ID)!.send(`${error.stack}`)
         })
       )
     }
@@ -95,14 +95,6 @@ client.on('ready', async () => {
   await client.application?.commands.set(commands)
 })
 await client.login(process.env.BETA_TOKEN)
-
-process.on('uncaughtException', (error) => {
-  logger.error(error.stack)
-})
-
-process.on('unhandledRejection', (error: any) => {
-  logger.error(error.stack)
-})
 
 process.on('SIGINT', async () => {
   client.logger.info('Disconnecting from Discord...')

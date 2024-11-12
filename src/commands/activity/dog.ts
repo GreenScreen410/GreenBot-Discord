@@ -30,10 +30,10 @@ export default {
       .setColor('Random')
       .setImage(response.url)
       .setTitle('🐶')
-      .setDescription(`사진 ID: [${response.id}](${response.url})`)
+      .setDescription(`${await interaction.client.locale(interaction, 'command.dog.description')}: [${response.id}](${response.url})`)
       .addFields(
-        { name: '가로', value: `${response.width}px`, inline: true },
-        { name: '세로', value: `${response.height}px`, inline: true }
+        { name: await interaction.client.locale(interaction, 'command.dog.width'), value: `${response.width}px`, inline: true },
+        { name: await interaction.client.locale(interaction, 'command.dog.height'), value: `${response.height}px`, inline: true }
       )
     await interaction.followUp({ embeds: [embed] })
   }

@@ -25,7 +25,7 @@ export default {
       .setTitle(await interaction.client.locale(interaction, 'error.title'))
       .setDescription(`알 수 없는 오류가 발생하였습니다.\n\`\`\`ts\n${error.message}\`\`\``)
       .addFields({ name: await interaction.client.locale(interaction, 'error.code'), value: 'UNKNOWN_ERROR' })
-    await interaction.client.users.cache.get('332840377763758082')?.send(`${error.stack}`)
+    await interaction.client.users.cache.get(process.env.ADMIN_ID)!.send(`${error.stack}`)
     return await interaction.followUp({ embeds: [embed] })
   },
 
@@ -89,6 +89,24 @@ export default {
       .setTitle(await interaction.client.locale(interaction, 'error.title'))
       .setDescription('DM에서는 사용하실 수 없는 명령어입니다.')
       .addFields({ name: await interaction.client.locale(interaction, 'error.code'), value: 'CAN_NOT_USE_IN_DM' })
+    return await interaction.followUp({ embeds: [embed] })
+  },
+
+  ALLOWANCE_ONCE_A_DAY: async function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
+    const embed = new EmbedBuilder()
+      .setColor('#FF0000')
+      .setTitle(await interaction.client.locale(interaction, 'error.title'))
+      .setDescription('하루에 한 번만 받을 수 있습니다.')
+      .addFields({ name: await interaction.client.locale(interaction, 'error.code'), value: 'ALLOWANCE_ONCE_A_DAY' })
+    return await interaction.followUp({ embeds: [embed] })
+  },
+
+  CAN_NOT_AFFORD: async function (interaction: ChatInputCommandInteraction | ButtonInteraction) {
+    const embed = new EmbedBuilder()
+      .setColor('#FF0000')
+      .setTitle(await interaction.client.locale(interaction, 'error.title'))
+      .setDescription('가지고 있는 돈보다 많은 금액을 걸 수 없습니다.\n한국도박문제예방치유원: 📞 1336')
+      .addFields({ name: await interaction.client.locale(interaction, 'error.code'), value: 'CAN_NOT_AFFORD' })
     return await interaction.followUp({ embeds: [embed] })
   }
 }

@@ -4,9 +4,9 @@ import country from '../../country.json' with { type: 'json' }
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('flagquiz')
+    .setName('guesstheflag')
     .setNameLocalizations({
-      ko: '국기퀴즈'
+      ko: '국기맞추기'
     })
     .setDescription('Guess the flag of 256 random countries! Some non-country flags are included.')
     .setDescriptionLocalizations({
@@ -48,8 +48,7 @@ export default {
     const embed = new EmbedBuilder()
       .setColor('Random')
       .setImage(image.request.res.responseUrl as string)
-      .setTitle('아래 국기는 어디 국기일까요?')
-
+      .setTitle(await interaction.client.locale(interaction, 'command.guesstheflag.title'))
     await interaction.followUp({ embeds: [embed], components: [multipleRow] })
 
     const collector: any = interaction.channel?.createMessageComponentCollector({ componentType: ComponentType.Button, time: 10000 })
@@ -62,29 +61,26 @@ export default {
 
         const correctEmbed = new EmbedBuilder()
           .setColor('#00FF00')
-          .setTitle(`✅ ${i.user.tag}님 정답!`)
-          .setDescription(`정답은 **'${correctCountryName}'** 이였습니다.\n현재 점수: **${result.flag + 1}**점`)
-
-          .setFooter({ text: `Requested by ${i.user.tag}`, iconURL: i.user.displayAvatarURL() })
+          .setTitle(await interaction.client.locale(interaction, 'command.guesstheflag.correct', { user: i.user.tag }))
+          .setDescription(await interaction.client.locale(interaction, 'command.guesstheflag.description', { country: correctCountryName, score: result.flag + 1 }))
         await interaction.followUp({ embeds: [correctEmbed] })
         collector.stop()
       } else {
         const wrongEmbed = new EmbedBuilder()
           .setColor('#FF0000')
-          .setTitle(`❌ ${i.user.tag}님 오답!`)
-          .setDescription(`정답은 **'${correctCountryName}'** 이였습니다.\n현재 점수: **${result.flag}**점`)
-          .setFooter({ text: `Requested by ${i.user.tag}`, iconURL: i.user.displayAvatarURL() })
+          .setTitle(await interaction.client.locale(interaction, 'command.guesstheflag.wrong', { user: i.user.tag }))
+          .setDescription(await interaction.client.locale(interaction, 'command.guesstheflag.description', { country: correctCountryName, score: result.flag }))
         await interaction.followUp({ embeds: [wrongEmbed] })
         collector.stop()
       }
     })
 
-    collector?.on('end', async (collected: any) => {
+    collector.on('end', async (collected: any) => {
       if (collected.size === 0) {
         const timeoutEmbed = new EmbedBuilder()
           .setColor('#FFFF00')
-          .setTitle(`⏰ ${interaction.user.tag}님 시간 초과!`)
-          .setDescription(`정답은 **'${correctCountryName}'** 이였습니다.`)
+          .setTitle(await interaction.client.locale(interaction, 'command.guesstheflag.timeout'))
+          .setDescription(await interaction.client.locale(interaction, 'command.guesstheflag.timeout_description', { country: correctCountryName }))
         await interaction.followUp({ embeds: [timeoutEmbed] })
       }
     })

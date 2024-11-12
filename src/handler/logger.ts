@@ -55,6 +55,17 @@ const logger = winston.createLogger({
       maxFiles: 30,
       zippedArchive: true
     })
+  ],
+
+  rejectionHandlers: [
+    new WinstonDaily({
+      level: 'error',
+      datePattern: 'YYYY-MM-DD',
+      dirname: logDir,
+      filename: '%DATE%.rejection.log',
+      maxFiles: 30,
+      zippedArchive: true
+    })
   ]
 })
 

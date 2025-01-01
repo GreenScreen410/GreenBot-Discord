@@ -38,9 +38,9 @@ export default {
     const embed = new EmbedBuilder()
       .setColor('Random')
       .setTitle(await interaction.client.locale(interaction, 'command.remove.title'))
-      .setDescription(player.queue.tracks[0].info.title)
+      .setDescription(player.queue.tracks[index].info.title)
     await interaction.followUp({ embeds: [embed] })
 
-    await player.queue.remove(index - 1)
+    await player.queue.remove(index)
   }
 }

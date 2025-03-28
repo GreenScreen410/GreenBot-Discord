@@ -38,49 +38,64 @@ export default {
     }
 
     const query = interaction.options.getString('query', true)
-    const player = interaction.client.lavalink.createPlayer({
+    const player = interaction.client.lavalink.getPlayer(interaction.guildId) ?? interaction.client.lavalink.createPlayer({
       guildId: interaction.guildId,
       voiceChannelId: interaction.member.voice.channelId,
+      textChannelId: interaction.channelId,
       selfDeaf: true,
       selfMute: false,
-      volume: 100
+      volume: 100,
+      instaUpdateFiltersFix: true,
+      applyVolumeAsFilter: false
     })
 
-    await player.connect()
-    const result = await player.search({ query }, interaction.user)
+    if (player.connected === false) await player.connect()
 
-    if (result.tracks == null) {
+    const result = await player.search({ query }, interaction.user)
+    if (result.tracks.length === 0) {
       return await interaction.client.error.INVALID_ARGUMENT(interaction, query)
     }
 
     await player.queue.add(result.loadType === 'playlist' ? result.tracks : result.tracks[0])
-    if (!player.playing) await player.play()
-
     if (result.loadType === 'playlist' && result.playlist != null) {
       const embed = new EmbedBuilder()
         .setColor('Random')
         .setTitle(await interaction.client.locale(interaction, 'command.play.title'))
         .setDescription(result.playlist.name)
-        .setURL(result.tracks[0].info.uri ?? '')
-        .setThumbnail(result.tracks[0].info.artworkUrl ?? '')
         .addFields([
           { name: await interaction.client.locale(interaction, 'command.play.track_count'), value: `${result.tracks.length}` },
           { name: await interaction.client.locale(interaction, 'command.play.duration'), value: msToTime(result.playlist.duration) }
         ])
+
+      if (result.playlist.uri != null) {
+        embed.setURL(result.playlist.uri)
+      }
+      if (result.playlist.thumbnail != null) {
+        embed.setThumbnail(result.playlist.thumbnail)
+      }
+
       await interaction.followUp({ embeds: [embed] })
     } else {
       const embed = new EmbedBuilder()
         .setColor('Random')
         .setTitle(await interaction.client.locale(interaction, 'command.play.title'))
         .setDescription(result.tracks[0].info.title)
-        .setURL(result.tracks[0].info.uri ?? '')
-        .setThumbnail(result.tracks[0].info.artworkUrl ?? '')
         .addFields([
           { name: await interaction.client.locale(interaction, 'command.play.author'), value: result.tracks[0].info.author ?? 'N/A' },
           { name: await interaction.client.locale(interaction, 'command.play.source_name'), value: result.tracks[0].info.sourceName ?? 'N/A' },
           { name: await interaction.client.locale(interaction, 'command.play.duration'), value: result.tracks[0].info.duration != null ? (result.tracks[0].info.isStream === true ? 'Live' : msToTime(result.tracks[0].info.duration)) : 'N/A' }
         ])
+
+      if (result.tracks[0].info.uri != null) {
+        embed.setURL(result.tracks[0].info.uri)
+      }
+      if (result.tracks[0].info.artworkUrl != null) {
+        embed.setThumbnail(result.tracks[0].info.artworkUrl)
+      }
+
       await interaction.followUp({ embeds: [embed] })
     }
+
+    if (!player.playing) await player.play()
   }
 }

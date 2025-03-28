@@ -13,7 +13,7 @@ export default {
       ko: '두 가지 선택지 중 하나를 골라주세요.'
     }),
 
-  async execute (interaction: ChatInputCommandInteraction<'cached'>) {
+  async execute (interaction: ChatInputCommandInteraction) {
     const response: any = (await axios.get('https://api.gamecord.xyz/wyr')).data
     const client = new OpenAI({ baseURL: 'https://glhf.chat/api/openai/v1', apiKey: process.env.GLHF_API_KEY })
     const completion: any = await client.chat.completions.create({

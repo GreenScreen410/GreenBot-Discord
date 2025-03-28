@@ -48,6 +48,6 @@ export default {
       ])
       .setColor('Random')
       .setTimestamp()
-    await interaction.client.users.cache.get(process.env.ADMIN_ID)!.send({ embeds: [suggestEmbed] })
+    await interaction.client.users.cache.get(process.env.ADMIN_ID)?.send({ embeds: [suggestEmbed] })
   }
 }

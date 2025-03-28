@@ -5,7 +5,7 @@
   "exports": "./index.js",
   "type": "module",
   "scripts": {
-    "start": "rmdir /s /q dist && tsc && node dist/index.js",
+    "dev": "rmdir /s /q dist && tsc && node --require dotenv/config dist/index.js",
     "build": "tsc && pm2 start dist/index.js"
   },
   "engines": {
@@ -20,7 +20,7 @@
     "cheerio": "^1.0.0",
     "dayjs": "^1.11.13",
     "discord-gamecord": "^4.4.2",
-    "discord.js": "^14.12.1",
+    "discord.js": "^14.18.0",
     "dotenv": "^16.3.1",
     "i18n": "^0.15.1",
     "lavalink-client": "^2.4.1",

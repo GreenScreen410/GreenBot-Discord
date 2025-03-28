@@ -23,7 +23,7 @@ export default {
       .addChoices({
         name: 'Guess the Flag',
         name_localizations: {
-          ko: '국기퀴즈'
+          ko: '국기맞추기'
         },
         value: 'flag'
       })
@@ -33,6 +33,13 @@ export default {
           ko: '가위바위보'
         },
         value: 'rps'
+      })
+      .addChoices({
+        name: 'Money',
+        name_localizations: {
+          ko: '돈'
+        },
+        value: 'money'
       })
       .setRequired(true)
     ),

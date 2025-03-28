@@ -20,7 +20,8 @@ export default {
       .setDescriptionLocalizations({
         ko: '단어를 입력해 주세요.'
       })
-      .setRequired(true)),
+      .setRequired(true)
+    ),
 
   async execute (interaction: ChatInputCommandInteraction) {
     const word = interaction.options.getString('word', true)

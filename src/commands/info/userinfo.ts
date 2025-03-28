@@ -20,7 +20,8 @@ export default {
       .setDescriptionLocalizations({
         ko: '정보를 확인할 유저를 선택해 주세요.'
       })
-      .setRequired(true)),
+      .setRequired(true)
+    ),
 
   async execute (interaction: ChatInputCommandInteraction<'cached'>) {
     const userInfo = interaction.options.getMember('user')

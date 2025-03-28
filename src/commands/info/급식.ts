@@ -8,7 +8,8 @@ export default {
     .addStringOption((option) => option
       .setName('학교')
       .setDescription('정식 명칭을 적어주세요. 정식 명칭이 아닐 시 결과가 나오지 않을 수 있습니다.')
-      .setRequired(true)),
+      .setRequired(true)
+    ),
 
   async execute (interaction: ChatInputCommandInteraction) {
     const school = interaction.options.getString('학교', true)

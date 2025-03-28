@@ -32,8 +32,8 @@ export default {
     const url = emoji.animated ? `https://cdn.discordapp.com/emojis/${emoji.id}.gif?quality=lossless` : `https://cdn.discordapp.com/emojis/${emoji.id}.png?quality=lossless`
     const embed = new EmbedBuilder()
       .setColor('Random')
-      .setTitle(await interaction.client.locale(interaction, 'commmand.stealemoji.title'))
-      .setDescription(await interaction.client.locale(interaction, 'commmand.stealemoji.description'))
+      .setTitle(await interaction.client.locale(interaction, 'command.stealemoji.title'))
+      .setDescription(await interaction.client.locale(interaction, 'command.stealemoji.description'))
       .setThumbnail(url)
     await interaction.followUp({ embeds: [embed] })
 

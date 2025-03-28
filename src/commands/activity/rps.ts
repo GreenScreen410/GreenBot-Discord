@@ -21,7 +21,8 @@ export default {
       .setDescriptionLocalizations({
         ko: '가위바위보를 할 유저를 선택해 주세요.'
       })
-      .setRequired(true)),
+      .setRequired(true)
+    ),
 
   async execute (interaction: ChatInputCommandInteraction<'cached'>) {
     const opponent = interaction.options.getUser('user', true)

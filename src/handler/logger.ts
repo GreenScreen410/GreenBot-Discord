@@ -6,7 +6,7 @@ const { combine, timestamp, label, printf } = winston.format
 
 const logDir = `${process.cwd()}/logs`
 
-const logFormat = printf(({ level, message, label, timestamp }) => {
+const logFormat = printf(({ level, message, label, timestamp }: any) => {
   return `${timestamp} [${label}] ${level}: ${message}`
 })
 

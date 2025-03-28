@@ -13,7 +13,7 @@ export default {
 
   async execute (interaction: ChatInputCommandInteraction<'cached'>) {
     const player = interaction.client.lavalink.players.get(interaction.guildId)
-    if (player == null) {
+    if (player?.queue.current == null) {
       return await interaction.client.error.MUSIC_QUEUE_IS_EMPTY(interaction)
     }
     if (interaction.guild.members.me?.voice.channelId != null && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {

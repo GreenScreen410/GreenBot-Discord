@@ -1,5 +1,4 @@
 import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js'
-import axios from 'axios'
 
 export default {
   data: new SlashCommandBuilder()
@@ -49,14 +48,21 @@ export default {
 
     const embed = new EmbedBuilder()
       .setColor('Random')
-      .setTitle(await interaction.client.locale(interaction, 'command.leaderboard.title', { activity }))
-      .setDescription(await interaction.client.locale(interaction, 'command.leaderboard.description'))
+      .setTitle(await interaction.client.i18n(interaction, 'command.leaderboard.title', { activity }))
+      .setDescription(await interaction.client.i18n(interaction, 'command.leaderboard.description'))
 
-    const result = await interaction.client.mysql.query('SELECT * FROM activity ORDER BY ?? DESC LIMIT 10', [activity])
-    for (let i = 0; i < 10; i++) {
-      const { data: response } = await axios.get(`https://canary.discord.com/api/v10/users/${result[i].id}`, { headers: { 'Content-Type': 'application/json', Authorization: `Bot ${interaction.client.token}` } })
-      if (i === 0) embed.setThumbnail(`https://cdn.discordapp.com/avatars/${result[i].id}/${response.avatar}.png`)
-      embed.addFields({ name: `${i + 1}`, value: `${response.global_name}(${response.username}): **${result[i][activity]}**` })
+    const result = await interaction.client.prisma.activity.findMany({
+      orderBy: { [activity]: 'desc' },
+      take: 10
+    })
+    for (let i = 0; i < result.length; i++) {
+      const user = await interaction.client.users.fetch(result[i].id as string)
+      const avatarUrl = user.displayAvatarURL({ extension: 'png', size: 512 })
+
+      if (i === 0) embed.setThumbnail(avatarUrl)
+      embed.addFields(
+        { name: `${i + 1}`, value: `${user.globalName ?? user.username}: **${(result[i][activity]).toLocaleString()}**` }
+      )
     }
     await interaction.followUp({ embeds: [embed] })
   }

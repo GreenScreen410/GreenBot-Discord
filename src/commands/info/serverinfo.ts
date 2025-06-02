@@ -1,4 +1,4 @@
-import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js'
+import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, time } from 'discord.js'
 
 export default {
   data: new SlashCommandBuilder()
@@ -21,7 +21,7 @@ export default {
         { name: '📝 서버 설명', value: interaction.guild.description ?? '없음', inline: true },
         { name: '🆔 서버 ID', value: interaction.guild.id, inline: true },
         { name: '👑 서버 소유자', value: `<@${interaction.guild.ownerId}>`, inline: true },
-        { name: '🎂 서버 생성일', value: interaction.guild.createdAt.toLocaleString(), inline: true },
+        { name: '🎂 서버 생성일', value: `${time(interaction.guild.createdAt)}`, inline: true },
         { name: '👤 유저 수', value: `${interaction.guild.memberCount}명`, inline: true },
         { name: '🎭 역할 및 권한', value: `${interaction.guild.roles.cache.sort((a, b) => b.position - a.position).map((role) => role).length}개`, inline: true },
         { name: '📺 채널 (카테고리 포함)', value: `${interaction.guild.channels.cache.map((channel: any) => channel).length}개`, inline: true },

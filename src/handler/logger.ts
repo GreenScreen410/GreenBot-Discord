@@ -22,49 +22,21 @@ const logger = winston.createLogger({
       level: 'info',
       datePattern: 'YYYY-MM-DD',
       dirname: logDir,
-      filename: '%DATE%.log',
-      maxFiles: 30,
-      zippedArchive: true
+      filename: '%DATE%.log'
     }),
 
     new WinstonDaily({
       level: 'warn',
       datePattern: 'YYYY-MM-DD',
       dirname: logDir + '/warn',
-      filename: '%DATE%.warn.log',
-      maxFiles: 30,
-      zippedArchive: true
+      filename: '%DATE%.warn.log'
     }),
 
     new WinstonDaily({
       level: 'error',
       datePattern: 'YYYY-MM-DD',
       dirname: logDir + '/error',
-      filename: '%DATE%.error.log',
-      maxFiles: 30,
-      zippedArchive: true
-    })
-  ],
-
-  exceptionHandlers: [
-    new WinstonDaily({
-      level: 'error',
-      datePattern: 'YYYY-MM-DD',
-      dirname: logDir,
-      filename: '%DATE%.exception.log',
-      maxFiles: 30,
-      zippedArchive: true
-    })
-  ],
-
-  rejectionHandlers: [
-    new WinstonDaily({
-      level: 'error',
-      datePattern: 'YYYY-MM-DD',
-      dirname: logDir,
-      filename: '%DATE%.rejection.log',
-      maxFiles: 30,
-      zippedArchive: true
+      filename: '%DATE%.error.log'
     })
   ]
 })
@@ -72,10 +44,7 @@ const logger = winston.createLogger({
 if (process.env.NODE_ENV !== 'production') {
   logger.add(
     new winston.transports.Console({
-      format: winston.format.combine(
-        winston.format.colorize(),
-        winston.format.simple()
-      )
+      format: winston.format.combine(winston.format.colorize(), winston.format.simple())
     })
   )
 }

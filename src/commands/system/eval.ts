@@ -4,9 +4,9 @@ import { createRequire } from 'module'
 export default {
   data: new SlashCommandBuilder()
     .setName('eval')
-    .setDescription('Evaluate the JavaScript code.')
+    .setDescription('[Developer] Evaluate the JavaScript code.')
     .setDescriptionLocalizations({
-      ko: 'JavaScript 코드를 실행합니다.'
+      ko: '[개발자] JavaScript 코드를 실행합니다.'
     })
     .addStringOption(option => option
       .setName('code')
@@ -22,7 +22,7 @@ export default {
 
   async execute (interaction: ChatInputCommandInteraction<'cached'>) {
     if (interaction.user.id !== process.env.ADMIN_ID) {
-      return await interaction.client.error.NO_PERMISSION(interaction)
+      return interaction.client.error.NO_PERMISSION(interaction)
     }
 
     const code = interaction.options.getString('code', true)

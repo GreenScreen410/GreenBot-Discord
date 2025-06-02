@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id            String  @id @unique
+  banned        Boolean
+  banned_reason String
+  count         BigInt
+  language      String
+}
+
+model activity {
+  id          String   @id @unique
+  flag        Int
+  rps         Int
+  money       Int
+  last_claim  DateTime
+  win_money   Int
+  lose_money  Int
+}

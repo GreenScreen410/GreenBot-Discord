@@ -27,7 +27,7 @@ export default {
     const word = interaction.options.getString('word', true)
     const response = await axios.get(`https://api.urbandictionary.com/v0/define?term=${encodeURIComponent(word)}`)
     if (response.data.list[0] == null) {
-      return await interaction.client.error.INVALID_ARGUMENT(interaction, word)
+      return interaction.client.error.INVALID_ARGUMENT(interaction, word)
     }
 
     const embed = new EmbedBuilder()

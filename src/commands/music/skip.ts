@@ -24,15 +24,15 @@ export default {
   async execute (interaction: ChatInputCommandInteraction<'cached'>) {
     const player = interaction.client.lavalink.getPlayer(interaction.guildId)
     if (player?.queue.current == null) {
-      return await interaction.client.error.MUSIC_QUEUE_IS_EMPTY(interaction)
+      return interaction.client.error.MUSIC_QUEUE_IS_EMPTY(interaction)
     }
     if (interaction.guild.members.me?.voice.channelId != null && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
-      return await interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction)
+      return interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction)
     }
 
     const embed = new EmbedBuilder()
       .setColor('Random')
-      .setTitle(await interaction.client.locale(interaction, 'command.skip.title'))
+      .setTitle(await interaction.client.i18n(interaction, 'command.skip.title'))
       .setDescription(`${player.queue.current.info.title}`)
     await interaction.followUp({ embeds: [embed] })
 
@@ -41,7 +41,7 @@ export default {
     } else {
       const skipto = interaction.options.getInteger('skipto') ?? 0
       if (skipto < 0 || skipto >= player.queue.tracks.length) {
-        return await interaction.client.error.INVALID_ARGUMENT(interaction, skipto)
+        return interaction.client.error.INVALID_ARGUMENT(interaction, skipto)
       }
       await player.skip(skipto)
     }

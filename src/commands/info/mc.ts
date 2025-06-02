@@ -40,7 +40,7 @@ export default {
     const server = interaction.options.getString('address', true)
     const response = await axios.get<MCSrvStatResponse>(`https://api.mcsrvstat.us/3/${encodeURIComponent(server)}`)
     if (response.data.ip === '127.0.0.1') {
-      return await interaction.client.error.INVALID_ARGUMENT(interaction, server)
+      return interaction.client.error.INVALID_ARGUMENT(interaction, server)
     }
 
     const embed = new EmbedBuilder()

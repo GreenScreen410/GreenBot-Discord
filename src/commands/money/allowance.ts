@@ -17,7 +17,7 @@ export default {
     const currentDate = new Date()
 
     if (lastClaimDate.getTime() + 86400000 > currentDate.getTime()) {
-      return await interaction.client.error.ALLOWANCE_ONCE_A_DAY(interaction)
+      return interaction.client.error.ALLOWANCE_ONCE_A_DAY(interaction)
     }
 
     await interaction.client.mysql.query('UPDATE activity SET money = money + 1000 WHERE id = ?', [interaction.user.id])
@@ -28,6 +28,6 @@ export default {
       .setColor('Random')
       .setTitle('🏦 용돈')
       .setDescription(`1,000₩을 받았습니다.\n현재 잔액: ${money.toLocaleString()}₩`)
-    return await interaction.followUp({ embeds: [embed] })
+    await interaction.followUp({ embeds: [embed] })
   }
 }

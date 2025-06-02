@@ -30,10 +30,10 @@ export default {
       .setColor('Random')
       .setImage(response.url)
       .setTitle('🐱')
-      .setDescription(`${await interaction.client.locale(interaction, 'command.cat.description')}: [${response.id}](${response.url})`)
+      .setDescription(`${await interaction.client.i18n(interaction, 'command.cat.description')}: [${response.id}](${response.url})`)
       .addFields(
-        { name: await interaction.client.locale(interaction, 'command.cat.width'), value: `${response.width}px`, inline: true },
-        { name: await interaction.client.locale(interaction, 'command.cat.height'), value: `${response.height}px`, inline: true }
+        { name: await interaction.client.i18n(interaction, 'command.cat.width'), value: `${response.width}px`, inline: true },
+        { name: await interaction.client.i18n(interaction, 'command.cat.height'), value: `${response.height}px`, inline: true }
       )
     await interaction.followUp({ embeds: [embed] })
   }

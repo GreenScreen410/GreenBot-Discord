@@ -14,14 +14,14 @@ export default {
   async execute (interaction: ChatInputCommandInteraction) {
     const modal = new ModalBuilder()
       .setCustomId('suggest')
-      .setTitle(await interaction.client.locale(interaction, 'command.suggest.title'))
+      .setTitle(await interaction.client.i18n(interaction, 'command.suggest.title'))
 
     const suggestInput = new TextInputBuilder()
       .setCustomId('suggestInput')
-      .setLabel(await interaction.client.locale(interaction, 'command.suggest.label'))
+      .setLabel(await interaction.client.i18n(interaction, 'command.suggest.label'))
       .setStyle(TextInputStyle.Paragraph)
       .setMaxLength(1024)
-      .setPlaceholder(await interaction.client.locale(interaction, 'command.suggest.placeholder'))
+      .setPlaceholder(await interaction.client.i18n(interaction, 'command.suggest.placeholder'))
 
     const firstActionRow = new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(suggestInput)
 
@@ -36,8 +36,8 @@ export default {
 
     const embed = new EmbedBuilder()
       .setColor('Random')
-      .setTitle(await interaction.client.locale(interaction, 'command.suggest.title'))
-      .setDescription(await interaction.client.locale(interaction, 'command.suggest.description'))
+      .setTitle(await interaction.client.i18n(interaction, 'command.suggest.title'))
+      .setDescription(await interaction.client.i18n(interaction, 'command.suggest.description'))
     await interaction.followUp({ embeds: [embed] })
 
     const suggestEmbed = new EmbedBuilder()

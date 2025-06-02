@@ -24,13 +24,13 @@ export default {
       .setRequired(true)
     ),
 
-  async execute (interaction: ChatInputCommandInteraction<'cached'>) {
+  async execute (interaction: ChatInputCommandInteraction) {
     const opponent = interaction.options.getUser('user', true)
     if (interaction.user.id === opponent.id) {
-      return await interaction.client.error.INVALID_ARGUMENT(interaction, '자기 자신과 가위바위보를 할 수 없습니다.')
+      return interaction.client.error.INVALID_ARGUMENT(interaction, '자기 자신과 가위바위보를 할 수 없습니다.')
     }
     if (opponent.bot) {
-      return await interaction.client.error.INVALID_ARGUMENT(interaction, '봇과 가위바위보를 할 수 없습니다.')
+      return interaction.client.error.INVALID_ARGUMENT(interaction, '봇과 가위바위보를 할 수 없습니다.')
     }
 
     const player1 = await interaction.client.mysql.query('SELECT rps FROM activity WHERE id = ?', [interaction.user.id])
@@ -39,7 +39,7 @@ export default {
       player2 = await interaction.client.mysql.query('SELECT rps FROM activity WHERE id = ?', [opponent.id])
       player2 = `${opponent.username}: ${player2.rps + 1}승`
     } catch (error) {
-      player2 = `${opponent.username}: (그린Bot을 사용한 적이 없는 유저입니다. 점수가 반영되지 않습니다.)`
+      player2 = `${opponent.username}: (데이터베이스에 없는 유저입니다. 점수가 반영되지 않습니다.)`
     }
 
     const Game = new RockPaperScissors({
@@ -81,7 +81,7 @@ export default {
 
     Game.on('gameOver', async (result: Record<string, string>) => {
       if (result.result === 'win') {
-        return await interaction.client.mysql.query('UPDATE activity SET rps = rps + 1 WHERE id = ?', [interaction.user.id])
+        return interaction.client.mysql.query('UPDATE activity SET rps = rps + 1 WHERE id = ?', [interaction.user.id])
       }
     })
   }

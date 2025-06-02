@@ -1,4 +1,4 @@
-import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js'
+import { type ChatInputCommandInteraction, SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } from 'discord.js'
 
 export default {
   data: new SlashCommandBuilder()
@@ -19,21 +19,37 @@ export default {
       .setDescriptionLocalizations({
         ko: '언어를 선택해 주세요.'
       })
-      .setRequired(true)
       .addChoices({ name: '한국어', value: 'ko' })
       .addChoices({ name: 'English', value: 'en_US' })
       .setRequired(true)
+    )
+    .addBooleanOption(option => option
+      .setName('server')
+      .setDescription('Do you want to change the language of all users in the server?')
+      .setDescriptionLocalizations({
+        ko: '서버에 있는 모든 사용자의 언어를 변경하시겠습니까?'
+      })
     ),
 
   async execute (interaction: ChatInputCommandInteraction) {
     const oldLanguage = (await interaction.client.mysql.query('SELECT language FROM user WHERE id = ?', [interaction.user.id])).language ?? interaction.locale
     const newLanguage = interaction.options.getString('language')
-    await interaction.client.mysql.query('UPDATE user SET language = ? WHERE id = ?', [newLanguage, interaction.user.id])
+    const isGuild = interaction.options.getBoolean('server') ?? false
+
+    if (isGuild) {
+      if (interaction.memberPermissions?.has(PermissionFlagsBits.ManageGuild) === false) {
+        return interaction.client.error.NO_PERMISSION(interaction, 'ManageGuild')
+      }
+      await interaction.client.mysql.query('INSERT INTO guild (id, locale) VALUES (?, ?) ON DUPLICATE KEY UPDATE locale = ?', [interaction.guildId, newLanguage, newLanguage]
+      )
+    } else {
+      await interaction.client.mysql.query('INSERT INTO user (id, language) VALUES (?, ?) ON DUPLICATE KEY UPDATE language = ?', [interaction.user.id, oldLanguage, newLanguage])
+    }
 
     const embed = new EmbedBuilder()
       .setColor('Random')
-      .setTitle(await interaction.client.locale(interaction, 'command.language.title'))
-      .setDescription(await interaction.client.locale(interaction, 'command.language.description', { oldLanguage, newLanguage }))
+      .setTitle(await interaction.client.i18n(interaction, 'command.language.title'))
+      .setDescription(await interaction.client.i18n(interaction, 'command.language.description', { oldLanguage, newLanguage }))
     await interaction.followUp({ embeds: [embed] })
   }
 }

@@ -2,7 +2,7 @@ import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, ti
 import axios from 'axios'
 import dayjs from 'dayjs'
 
-interface HanRiverTemperature {
+interface HangangResponse {
   DATAs: {
     CACHE_META: {
       CREATED_AT: number
@@ -31,7 +31,7 @@ export default {
     }),
 
   async execute (interaction: ChatInputCommandInteraction) {
-    const { data: response } = await axios.get<HanRiverTemperature>('https://api.hangang.life/')
+    const { data: response } = await axios.get<HangangResponse>('https://api.hangang.life/')
 
     const embed = new EmbedBuilder()
       .setColor('Random')

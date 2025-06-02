@@ -6,9 +6,9 @@ export default function (client: Client): LavalinkManager {
     nodes: [
       {
         id: 'Local Node',
-        host: `${process.env.SERVER_IP}`,
+        host: process.env.SERVER_IP,
         port: 2333,
-        authorization: `${process.env.LAVALINK_PASSWORD}`,
+        authorization: process.env.LAVALINK_PASSWORD,
         retryAmount: 5,
         retryDelay: 60000,
         secure: false

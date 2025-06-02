@@ -24,6 +24,6 @@ export default {
         { name: '💰 얻은 돈', value: `${winMoney.toLocaleString()}₩`, inline: true },
         { name: '💸 잃은 돈', value: `${loseMoney.toLocaleString()}₩`, inline: true }
       )
-    return await interaction.followUp({ embeds: [embed] })
+    await interaction.followUp({ embeds: [embed] })
   }
 }

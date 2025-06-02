@@ -26,17 +26,17 @@ export default {
     const emoji = parseEmoji(input)
 
     if (emoji === null) {
-      return await interaction.client.error.INVALID_ARGUMENT(interaction, input)
+      return interaction.client.error.INVALID_ARGUMENT(interaction, input)
     }
 
-    const url = emoji.animated ? `https://cdn.discordapp.com/emojis/${emoji.id}.gif?quality=lossless` : `https://cdn.discordapp.com/emojis/${emoji.id}.png?quality=lossless`
+    const url = `https://cdn.discordapp.com/emojis/${emoji.id}.${emoji.animated ? 'gif' : 'png'}?quality=lossless`
+    await interaction.guild.emojis.create({ attachment: url, name: emoji.name })
+
     const embed = new EmbedBuilder()
       .setColor('Random')
-      .setTitle(await interaction.client.locale(interaction, 'command.stealemoji.title'))
-      .setDescription(await interaction.client.locale(interaction, 'command.stealemoji.description'))
+      .setTitle(await interaction.client.i18n(interaction, 'command.stealemoji.title'))
+      .setDescription(await interaction.client.i18n(interaction, 'command.stealemoji.description'))
       .setThumbnail(url)
     await interaction.followUp({ embeds: [embed] })
-
-    await interaction.guild.emojis.create({ attachment: url, name: emoji.name })
   }
 }

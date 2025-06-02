@@ -15,7 +15,7 @@ export default {
     const school = interaction.options.getString('학교', true)
     const schoolResponse = (await axios.get(`https://open.neis.go.kr/hub/schoolInfo?Type=json&SCHUL_NM=${encodeURIComponent(school)}&key=${process.env.NEIS_OPENINFO_KEY}`)).data
     if (schoolResponse.RESULT !== undefined) {
-      return await interaction.client.error.INVALID_ARGUMENT(interaction, school)
+      return interaction.client.error.INVALID_ARGUMENT(interaction, school)
     }
 
     const date = new Date()
@@ -29,7 +29,7 @@ export default {
       // 아무 의미 없는 코드, 오류 발생용
       console.log(response.mealServiceDietInfo[0].head[1].RESULT.CODE === 'INFO-000')
     } catch (error) {
-      return await interaction.client.error.INVALID_ARGUMENT(interaction, '학년, 반 정보가 잘못되었습니다.\n또는 나이스 시간표 미지원 학교입니다.')
+      return interaction.client.error.INVALID_ARGUMENT(interaction, '학년, 반 정보가 잘못되었습니다.\n또는 나이스 시간표 미지원 학교입니다.')
     }
 
     const embed = new EmbedBuilder()

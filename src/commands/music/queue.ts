@@ -14,15 +14,15 @@ export default {
   async execute (interaction: ChatInputCommandInteraction<'cached'>) {
     const player = interaction.client.lavalink.players.get(interaction.guildId)
     if (player?.queue.current == null) {
-      return await interaction.client.error.MUSIC_QUEUE_IS_EMPTY(interaction)
+      return interaction.client.error.MUSIC_QUEUE_IS_EMPTY(interaction)
     }
     if (interaction.guild.members.me?.voice.channelId != null && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
-      return await interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction)
+      return interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction)
     }
 
     const embed = new EmbedBuilder()
       .setColor('Random')
-      .setTitle(await interaction.client.locale(interaction, 'command.queue.title', { size: player.queue.tracks.length }))
+      .setTitle(await interaction.client.i18n(interaction, 'command.queue.title', { size: player.queue.tracks.length }))
       .setDescription([
         '## 현재 음악:',
         `> ### [\`${player.queue.current?.info.title}\`](${player.queue.current?.info.uri})`,

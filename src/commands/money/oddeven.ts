@@ -54,7 +54,7 @@ export default {
     const userChoice = interaction.options.getString('result')
 
     if (money < betting) {
-      return await interaction.client.error.CAN_NOT_AFFORD(interaction)
+      return interaction.client.error.CAN_NOT_AFFORD(interaction)
     }
 
     const randomNumber = Math.floor(Math.random() * 100) + 1
@@ -70,12 +70,12 @@ export default {
 
     const embed = new EmbedBuilder()
       .setColor(isWin ? 'Green' : 'Red')
-      .setTitle(await interaction.client.locale(interaction, 'command.oddeven.title'))
-      .setDescription(await interaction.client.locale(interaction, 'command.oddeven.description', { betting: betting.toLocaleString(), choice: userChoice === 'odd' ? await interaction.client.locale(interaction, 'command.oddeven.odd') : await interaction.client.locale(interaction, 'command.oddeven.even') }))
+      .setTitle(await interaction.client.i18n(interaction, 'command.oddeven.title'))
+      .setDescription(await interaction.client.i18n(interaction, 'command.oddeven.description', { betting: betting.toLocaleString(), choice: userChoice === 'odd' ? await interaction.client.i18n(interaction, 'command.oddeven.odd') : await interaction.client.i18n(interaction, 'command.oddeven.even') }))
       .addFields(
-        { name: await interaction.client.locale(interaction, 'command.oddeven.number'), value: `${randomNumber} (${gameResult === 'odd' ? await interaction.client.locale(interaction, 'command.oddeven.odd') : await interaction.client.locale(interaction, 'command.oddeven.even')})`, inline: true },
-        { name: await interaction.client.locale(interaction, 'command.oddeven.result'), value: isWin ? await interaction.client.locale(interaction, 'command.oddeven.win') : await interaction.client.locale(interaction, 'command.oddeven.lose'), inline: true },
-        { name: await interaction.client.locale(interaction, 'command.oddeven.balance'), value: `${newBalance.toLocaleString()}₩ (${isWin ? '+' : '-'} ${betting.toLocaleString()}₩)`, inline: true }
+        { name: await interaction.client.i18n(interaction, 'command.oddeven.number'), value: `${randomNumber} (${gameResult === 'odd' ? await interaction.client.i18n(interaction, 'command.oddeven.odd') : await interaction.client.i18n(interaction, 'command.oddeven.even')})`, inline: true },
+        { name: await interaction.client.i18n(interaction, 'command.oddeven.result'), value: isWin ? await interaction.client.i18n(interaction, 'command.oddeven.win') : await interaction.client.i18n(interaction, 'command.oddeven.lose'), inline: true },
+        { name: await interaction.client.i18n(interaction, 'command.oddeven.balance'), value: `${newBalance.toLocaleString()}₩ (${isWin ? '+' : '-'} ${betting.toLocaleString()}₩)`, inline: true }
       )
     await interaction.followUp({ embeds: [embed] })
   }

@@ -31,10 +31,10 @@ export default {
 
   async execute (interaction: ChatInputCommandInteraction<'cached'>) {
     if (interaction.member.voice.channel == null || interaction.member.voice.channelId == null) {
-      return await interaction.client.error.PLEASE_JOIN_VOICE_CHANNEL(interaction)
+      return interaction.client.error.PLEASE_JOIN_VOICE_CHANNEL(interaction)
     }
     if (interaction.guild.members.me?.voice.channelId != null && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
-      return await interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction)
+      return interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction)
     }
 
     const query = interaction.options.getString('query', true)
@@ -53,18 +53,18 @@ export default {
 
     const result = await player.search({ query }, interaction.user)
     if (result.tracks.length === 0) {
-      return await interaction.client.error.INVALID_ARGUMENT(interaction, query)
+      return interaction.client.error.INVALID_ARGUMENT(interaction, query)
     }
 
     await player.queue.add(result.loadType === 'playlist' ? result.tracks : result.tracks[0])
     if (result.loadType === 'playlist' && result.playlist != null) {
       const embed = new EmbedBuilder()
         .setColor('Random')
-        .setTitle(await interaction.client.locale(interaction, 'command.play.title'))
+        .setTitle(await interaction.client.i18n(interaction, 'command.play.title'))
         .setDescription(result.playlist.name)
         .addFields([
-          { name: await interaction.client.locale(interaction, 'command.play.track_count'), value: `${result.tracks.length}` },
-          { name: await interaction.client.locale(interaction, 'command.play.duration'), value: msToTime(result.playlist.duration) }
+          { name: await interaction.client.i18n(interaction, 'command.play.track_count'), value: `${result.tracks.length}` },
+          { name: await interaction.client.i18n(interaction, 'command.play.duration'), value: msToTime(result.playlist.duration) }
         ])
 
       if (result.playlist.uri != null) {
@@ -78,12 +78,12 @@ export default {
     } else {
       const embed = new EmbedBuilder()
         .setColor('Random')
-        .setTitle(await interaction.client.locale(interaction, 'command.play.title'))
+        .setTitle(await interaction.client.i18n(interaction, 'command.play.title'))
         .setDescription(result.tracks[0].info.title)
         .addFields([
-          { name: await interaction.client.locale(interaction, 'command.play.author'), value: result.tracks[0].info.author ?? 'N/A' },
-          { name: await interaction.client.locale(interaction, 'command.play.source_name'), value: result.tracks[0].info.sourceName ?? 'N/A' },
-          { name: await interaction.client.locale(interaction, 'command.play.duration'), value: result.tracks[0].info.duration != null ? (result.tracks[0].info.isStream === true ? 'Live' : msToTime(result.tracks[0].info.duration)) : 'N/A' }
+          { name: await interaction.client.i18n(interaction, 'command.play.author'), value: result.tracks[0].info.author ?? 'N/A' },
+          { name: await interaction.client.i18n(interaction, 'command.play.source_name'), value: result.tracks[0].info.sourceName ?? 'N/A' },
+          { name: await interaction.client.i18n(interaction, 'command.play.duration'), value: result.tracks[0].info.duration != null ? (result.tracks[0].info.isStream === true ? 'Live' : msToTime(result.tracks[0].info.duration)) : 'N/A' }
         ])
 
       if (result.tracks[0].info.uri != null) {

@@ -1,6 +1,17 @@
 import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } from 'discord.js'
 import axios from 'axios'
-import OpenAI from 'openai'
+import Together from 'together-ai'
+
+interface WYRResponse {
+  success: boolean
+  data: {
+    id: number
+    option1: string
+    option2: string
+    option1Votes: number
+    option2Votes: number
+  }
+}
 
 export default {
   data: new SlashCommandBuilder()
@@ -14,10 +25,10 @@ export default {
     }),
 
   async execute (interaction: ChatInputCommandInteraction) {
-    const response: any = (await axios.get('https://api.gamecord.xyz/wyr')).data
-    const client = new OpenAI({ baseURL: 'https://glhf.chat/api/openai/v1', apiKey: process.env.GLHF_API_KEY })
-    const completion: any = await client.chat.completions.create({
-      model: 'hf:meta-llama/Meta-Llama-3.1-405B-Instruct',
+    const response = (await axios.get<WYRResponse>('https://api.gamecord.xyz/wyr')).data
+    const together = new Together({ apiKey: process.env.TOGETHER_API_KEY })
+    const completion: any = await together.chat.completions.create({
+      model: 'meta-llama/Llama-3.3-70B-Instruct-Turbo-Free',
       messages: [
         { role: 'system', content: '자연스러운 언어 코드로 번역하여 대답해 줘.' },
         { role: 'user', content: `${response.data.option1} / ${response.data.option2}. Please translate to ${(await interaction.client.mysql.query('SELECT language FROM user WHERE id = ?', [interaction.user.id])).language} language code each of the two sentences and return them to JSON with items option1 and option2. DO NOT add any descriptions. 마크다운 형태가 아닌, 순수 텍스트 형태의 오직 완벽한 JSON 형태만 반환해 줘.` }
@@ -67,8 +78,8 @@ export default {
         .setTitle('밸런스게임 결과')
         .setDescription(`${i.user.username}님의 선택: **${choice}**`)
         .addFields(
-          { name: '1️⃣', value: `${result.option1}: ${response.data.option1Votes}` },
-          { name: '2️⃣', value: `${result.option2}: ${response.data.option2Votes}` }
+          { name: '1️⃣', value: `${result.option1}: ${response.data.option1Votes.toLocaleString()}` },
+          { name: '2️⃣', value: `${result.option2}: ${response.data.option2Votes.toLocaleString()}` }
         )
 
       await message.edit({ embeds: [resultEmbed], components: [] })

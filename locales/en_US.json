@@ -24,7 +24,7 @@
 		},
 		"ping": {
 			"title": "🏓 Pong!",
-			"description": "Response time: {ping}ms"
+			"description": "Response time"
 		},
 		"loop": {
 			"track": "🔁 The current track is played repeatedly!",
@@ -38,8 +38,8 @@
 		"nowplaying": {
 			"title": "🎵 Now playing",
 			"author": "Author",
-			"duration": "Duration",
-			"source_name": "Music source"
+			"source_name": "Music source",
+			"progress": "Progress: {percent}%"
 		},
 		"play": {
 			"title": "🎵 Added to the playlist.",

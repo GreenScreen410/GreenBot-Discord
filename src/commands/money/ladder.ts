@@ -42,7 +42,7 @@ export default {
     const level = interaction.options.getInteger('level', true)
 
     if (currentMoney < betting) {
-      return await interaction.client.error.CAN_NOT_AFFORD(interaction)
+      return interaction.client.error.CAN_NOT_AFFORD(interaction)
     }
 
     const multipliers: Record<number, { rate: number, chance: number }> = {

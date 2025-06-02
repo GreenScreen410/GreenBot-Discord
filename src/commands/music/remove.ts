@@ -24,20 +24,20 @@ export default {
   async execute (interaction: ChatInputCommandInteraction<'cached'>) {
     const player = interaction.client.lavalink.getPlayer(interaction.guildId)
     if (player?.queue.current == null) {
-      return await interaction.client.error.MUSIC_QUEUE_IS_EMPTY(interaction)
+      return interaction.client.error.MUSIC_QUEUE_IS_EMPTY(interaction)
     }
     if (interaction.guild.members.me?.voice.channelId != null && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
-      return await interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction)
+      return interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction)
     }
 
     const index = interaction.options.getInteger('number', true) - 1
     if (index < 0 || index >= player.queue.tracks.length) {
-      return await interaction.client.error.INVALID_ARGUMENT(interaction, index)
+      return interaction.client.error.INVALID_ARGUMENT(interaction, index)
     }
 
     const embed = new EmbedBuilder()
       .setColor('Random')
-      .setTitle(await interaction.client.locale(interaction, 'command.remove.title'))
+      .setTitle(await interaction.client.i18n(interaction, 'command.remove.title'))
       .setDescription(player.queue.tracks[index].info.title)
     await interaction.followUp({ embeds: [embed] })
 

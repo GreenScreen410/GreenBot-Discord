@@ -17,8 +17,8 @@ export default {
 
     const embed = new EmbedBuilder()
       .setColor('Random')
-      .setTitle(await interaction.client.locale(interaction, 'command.ping.title'))
-      .setDescription(await interaction.client.locale(interaction, 'command.ping.description'))
+      .setTitle(await interaction.client.i18n(interaction, 'command.ping.title'))
+      .setDescription(await interaction.client.i18n(interaction, 'command.ping.description'))
       .addFields(
         { name: 'API', value: `${interaction.client.ws.ping}ms`, inline: true },
         { name: 'RTT', value: `${Math.round(performance.now() - start)}ms`, inline: true }

@@ -24,7 +24,7 @@
 		},
 		"ping": {
 			"title": "🏓 퐁!",
-			"description": "반응 속도: {ping}ms"
+			"description": "반응 속도"
 		},
 		"loop": {
 			"track": "🔁 현재 트랙을 반복 재생합니다!",
@@ -34,7 +34,7 @@
 		"nowplaying": {
 			"title": "🎵 재생중인 음악",
 			"author": "작곡가",
-			"duration": "길이",
+			"progress": "진행도: {percent}%",
 			"source_name": "음악 출처"
 		},
 		"play": {

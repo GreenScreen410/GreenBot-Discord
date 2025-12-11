@@ -1,17 +1,17 @@
-import dayjs from 'dayjs';
-import { type ChatInputCommandInteraction, Colors, EmbedBuilder, TimestampStyles, time } from 'discord.js';
-import country from '../../country.json' with { type: 'json' };
-import type { QuaverQPVMUser, QuaverUser } from '../../types/quaver';
+import dayjs from 'dayjs'
+import { type ChatInputCommandInteraction, Colors, EmbedBuilder, TimestampStyles, time } from 'discord.js'
+import country from '../../country.json' with { type: 'json' }
+import type { QuaverQPVMUser, QuaverUser } from '../../types/quaver'
 
-function getCountryName(code: string): string {
-  if (!code) return '알 수 없음';
-  const lowerCode = code.toLowerCase();
-  const name = (country as Record<string, string>)[lowerCode];
-  return name || code;
+function getCountryName (code: string): string {
+  if (!code) return '알 수 없음'
+  const lowerCode = code.toLowerCase()
+  const name = (country as Record<string, string>)[lowerCode]
+  return name || code
 }
 
-export async function subcommand(interaction: ChatInputCommandInteraction<'cached'>, user: QuaverUser) {
-  const s4 = user.stats_keys4;
+export async function subcommand (interaction: ChatInputCommandInteraction<'cached'>, user: QuaverUser) {
+  const s4 = user.stats_keys4
 
   const grades = [
     `**X:** ${s4.count_grade_x}`,
@@ -21,21 +21,21 @@ export async function subcommand(interaction: ChatInputCommandInteraction<'cache
     `**B:** ${s4.count_grade_b}`,
     `**C:** ${s4.count_grade_c}`,
     `**D:** ${s4.count_grade_d}`
-  ].join(' | ');
+  ].join(' | ')
 
-  let rankData: QuaverQPVMUser | null = null;
-  let tierDisplay = 'Unranked';
-  let ratingDisplay = '-';
-  let winRateDisplay = '-';
+  let rankData: QuaverQPVMUser | null = null
+  let tierDisplay = 'Unranked'
+  let ratingDisplay = '-'
+  let winRateDisplay = '-'
 
-  const qpvmRes = await fetch(`https://qpvmapi.icedynamix.moe/user?id=${user.id}`);
-  const qpvmText = await qpvmRes.text();
+  const qpvmRes = await fetch(`https://qpvmapi.icedynamix.moe/user?id=${user.id}`)
+  const qpvmText = await qpvmRes.text()
   if (qpvmText !== 'null') {
-    rankData = JSON.parse(qpvmText) as QuaverQPVMUser;
-    const winRate = rankData.matchesPlayed > 0 ? ((rankData.wins / rankData.matchesPlayed) * 100).toFixed(1) : '0.0';
-    winRateDisplay = `${winRate}% (${rankData.matchesPlayed}전 ${rankData.wins}승)`;
-    tierDisplay = `**${rankData.letterRank.toUpperCase()}** (#${rankData.rank})`;
-    ratingDisplay = `**${rankData.rating.toFixed(2)}** ± ${rankData.sigma.toFixed(2)}`;
+    rankData = JSON.parse(qpvmText) as QuaverQPVMUser
+    const winRate = rankData.matchesPlayed > 0 ? ((rankData.wins / rankData.matchesPlayed) * 100).toFixed(1) : '0.0'
+    winRateDisplay = `${winRate}% (${rankData.matchesPlayed}전 ${rankData.wins}승)`
+    tierDisplay = `**${rankData.letterRank.toUpperCase()}** (#${rankData.rank})`
+    ratingDisplay = `**${rankData.rating.toFixed(2)}** ± ${rankData.sigma.toFixed(2)}`
   }
 
   const embed = new EmbedBuilder()
@@ -61,7 +61,7 @@ export async function subcommand(interaction: ChatInputCommandInteraction<'cache
       { name: '🏅 티어 (Tier)', value: tierDisplay, inline: true },
       { name: '⭐ 레이팅', value: ratingDisplay, inline: true },
       { name: '📈 승률', value: winRateDisplay, inline: true }
-    );
+    )
 
-  await interaction.editReply({ embeds: [embed] });
+  await interaction.editReply({ embeds: [embed] })
 }

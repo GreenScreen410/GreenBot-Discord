@@ -1,8 +1,8 @@
-import { type ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
-import type { QuaverUser } from '../../types/quaver';
+import { type ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js'
+import type { QuaverUser } from '../../types/quaver'
 
 interface QuaverSearchResponse {
-  users: QuaverUser[];
+  users: QuaverUser[]
 }
 
 export default {
@@ -36,16 +36,16 @@ export default {
         )
     ),
 
-  async execute(interaction: ChatInputCommandInteraction<'cached'>) {
-    const nickname = interaction.options.getString('nickname', true);
-    const subcommand = interaction.options.getSubcommand();
+  async execute (interaction: ChatInputCommandInteraction<'cached'>) {
+    const nickname = interaction.options.getString('nickname', true)
+    const subcommand = interaction.options.getSubcommand()
 
-    const response = await fetch(`https://api.quavergame.com/v2/user/search/${encodeURIComponent(nickname)}`);
-    const data = (await response.json()) as QuaverSearchResponse;
-    const user: QuaverUser = data.users[0];
-    if (data.users.length === 0) return interaction.error.invalidArgument();
+    const response = await fetch(`https://api.quavergame.com/v2/user/search/${encodeURIComponent(nickname)}`)
+    const data = (await response.json()) as QuaverSearchResponse
+    const user: QuaverUser = data.users[0]
+    if (data.users.length === 0) return interaction.error.invalidArgument()
 
-    const module = await import(`./quaver_${subcommand}.js`);
-    await module.subcommand(interaction, user);
+    const module = await import(`./quaver_${subcommand}.js`)
+    await module.subcommand(interaction, user)
   }
-};
+}

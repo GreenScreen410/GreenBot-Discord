@@ -28,6 +28,7 @@
 		"module": "esnext" /* Specify what module code is generated. */,
 		"rootDir": "./src" /* Specify the root folder within your source files. */,
 		"moduleResolution": "node" /* Specify how TypeScript looks up a file from a given module specifier. */,
+		"ignoreDeprecations": "6.0" /* Silence TS 6.0 deprecation errors for moduleResolution=node10 and baseUrl. TODO: migrate to bundler/nodenext. */,
 		"baseUrl": "./",                                  /* Specify the base directory to resolve non-relative module names. */
 		"paths": {
 			"@/*": ["src/*"]

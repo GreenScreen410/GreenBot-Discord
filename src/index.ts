@@ -1,8 +1,9 @@
-import path from 'node:path';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { ShardingManager } from 'discord.js';
 import { logger } from './handler/logger.js';
 
-const botFile = path.join(import.meta.dir, 'bot.ts');
+const botFile = join(dirname(fileURLToPath(import.meta.url)), 'bot.ts');
 
 const manager = new ShardingManager(botFile, {
   token: process.env.TOKEN

@@ -42,7 +42,7 @@ export default {
     const embed = new EmbedBuilder()
       .setColor('Random')
       .setTitle('🏦 용돈')
-      .setDescription(`200,000₩을 받았습니다.\n현재 잔액: ${updated.money.toLocaleString()}₩`);
+      .setDescription(`200,000₩을 받았습니다.\n현재 잔액: ${(updated?.money ?? 0n).toLocaleString()}₩`);
     await interaction.editReply({ embeds: [embed] });
   }
 };

@@ -1,50 +1,43 @@
 {
-  "name": "greenbot-discord",
-  "version": "1.21.0",
-  "description": "",
-  "exports": "./index.js",
-  "type": "module",
-  "scripts": {
-    "prisma": "prisma generate",
-    "deploy-commands": "node --require dotenv/config dist/deploy-commands.js",
-    "dev": "rmdir /s /q dist && tsc && npm run prisma && npm run deploy-commands && node --require dotenv/config dist/index.js",
-    "build": "tsc && npm run prisma && npm run deploy-commands && pm2 start dist/index.js"
-  },
-  "engines": {
-    "node": ">=18.0"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
-  "dependencies": {
-    "@prisma/client": "^6.6.0",
-    "@types/i18n": "^0.13.12",
-    "axios": "^1.6.2",
-    "bufferutil": "^4.0.9",
-    "cheerio": "^1.0.0",
-    "dayjs": "^1.11.13",
-    "discord-gamecord": "^4.4.2",
-    "discord.js": "^14.19.3",
-    "dotenv": "^16.3.1",
-    "genius-lyrics": "^4.4.7",
-    "i18n": "^0.15.1",
-    "lavalink-client": "^2.4.1",
-    "mysql2": "^3.10.3",
-    "node-schedule": "^2.1.1",
-    "together-ai": "^0.14.0",
-    "winston": "^3.16.0",
-    "winston-daily-rotate-file": "^5.0.0",
-    "zlib-sync": "^0.1.10"
-  },
-  "devDependencies": {
-    "@types/node": "^20.14.11",
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^6.21.0",
-    "eslint": "^8.57.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-config-standard-with-typescript": "^43.0.1",
-    "prettier": "^3.3.3",
-    "prisma": "^6.6.0",
-    "typescript": "^5.4.5"
-  }
+	"name": "greenbot-discord",
+	"version": "1.22.0",
+	"description": "A Discord bot with music, games, and utilities",
+	"exports": "./src/index.ts",
+	"type": "module",
+	"scripts": {
+		"dev": "bun --watch src/index.ts",
+		"start": "bun src/index.ts",
+		"db:push": "bunx drizzle-kit push",
+		"db:studio": "bunx drizzle-kit studio",
+		"db:generate": "bunx drizzle-kit generate"
+	},
+	"engines": {
+		"node": ">=18.0"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "MIT",
+	"dependencies": {
+		"@discordjs/opus": "^0.10.0",
+		"axios": "^1.16.0",
+		"colorette": "^2.0.20",
+		"dayjs": "^1.11.20",
+		"discord.js": "^14.26.4",
+		"drizzle-orm": "^0.45.2",
+		"i18n-iso-countries": "^7.14.0",
+		"i18next": "^26.0.10",
+		"lavalink-client": "^2.10.1",
+		"pg": "^8.20.0",
+		"pino": "^10.3.1",
+		"prism-media": "^1.3.5"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.4.14",
+		"@types/bun": "^1.3.13",
+		"@types/node": "^25.6.2",
+		"@types/pg": "^8.20.0",
+		"drizzle-kit": "^0.31.10",
+		"pino-pretty": "^13.1.3",
+		"typescript": "^6.0.3"
+	}
 }

@@ -1,12 +1,18 @@
-import { ShardingManager } from 'discord.js'
-import 'dotenv/config'
+import path from 'node:path';
+import { ShardingManager } from 'discord.js';
+import { logger } from './handler/logger.js';
 
-const manager = new ShardingManager('./dist/bot.js', {
-  token: process.env.BETA_TOKEN
-})
+const botFile = path.join(import.meta.dir, 'bot.ts');
 
-manager.on('shardCreate', shard => {
-  console.log(`Launched shard ${shard.id}`)
-})
+const manager = new ShardingManager(botFile, {
+  token: process.env.TOKEN
+});
 
-manager.spawn()
+manager.on('shardCreate', (shard) => {
+  logger.info(`Launched shard ${shard.id}`);
+});
+
+manager.spawn({
+  delay: 5000,
+  timeout: 60000
+});

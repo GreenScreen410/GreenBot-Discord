@@ -1,4 +1,5 @@
-import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js'
+import { type ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
+import { isInSameVoiceChannel } from '@/utils/voice.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -10,40 +11,33 @@ export default {
     .setDescriptionLocalizations({
       ko: '재생중인 음악을 넘깁니다.'
     })
-    .addIntegerOption(option => option
-      .setName('skipto')
-      .setNameLocalizations({
-        ko: '순서'
-      })
-      .setDescription('Skip to the specified track.')
-      .setDescriptionLocalizations({
-        ko: '지정한 곡으로 넘깁니다.'
-      })
+    .addIntegerOption((option) =>
+      option
+        .setName('skipto')
+        .setNameLocalizations({
+          ko: '순서'
+        })
+        .setDescription('Skip to the specified track.')
+        .setDescriptionLocalizations({
+          ko: '지정한 곡으로 넘깁니다.'
+        })
     ),
 
-  async execute (interaction: ChatInputCommandInteraction<'cached'>) {
-    const player = interaction.client.lavalink.getPlayer(interaction.guildId)
-    if (player?.queue.current == null) {
-      return interaction.client.error.MUSIC_QUEUE_IS_EMPTY(interaction)
-    }
-    if (interaction.guild.members.me?.voice.channelId != null && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
-      return interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction)
+  async execute(interaction: ChatInputCommandInteraction<'cached'>) {
+    const player = interaction.client.lavalink.getPlayer(interaction.guildId);
+    const currentTrack = player?.queue.current;
+    if (!currentTrack) return interaction.error.musicQueueIsEmpty();
+    if (!isInSameVoiceChannel(interaction)) return interaction.error.pleaseJoinSameVoiceChannel();
+
+    const skipto = interaction.options.getInteger('skipto') ?? 0;
+    if (skipto < 0 || (skipto > 0 && skipto >= player.queue.tracks.length)) {
+      return interaction.error.invalidArgument();
     }
 
-    const embed = new EmbedBuilder()
-      .setColor('Random')
-      .setTitle(await interaction.client.i18n(interaction, 'command.skip.title'))
-      .setDescription(`${player.queue.current.info.title}`)
-    await interaction.followUp({ embeds: [embed] })
+    const embed = new EmbedBuilder().setColor('Random').setTitle(interaction.i18n('command.skip.title')).setDescription(currentTrack.info.title);
+    await interaction.reply({ embeds: [embed] });
 
-    if (player.queue.tracks.length === 0) {
-      return await player.stopPlaying()
-    } else {
-      const skipto = interaction.options.getInteger('skipto') ?? 0
-      if (skipto < 0 || skipto >= player.queue.tracks.length) {
-        return interaction.client.error.INVALID_ARGUMENT(interaction, skipto)
-      }
-      await player.skip(skipto)
-    }
+    if (player.queue.tracks.length === 0) await player.stopPlaying();
+    else await player.skip(skipto);
   }
-}
+};

@@ -1,7 +1,9 @@
-import { LavalinkManager } from 'lavalink-client'
-import type { Client } from 'discord.js'
+import type { Client } from 'discord.js';
+import { LavalinkManager } from 'lavalink-client';
+import { logger } from './logger.js';
 
 export default function (client: Client): LavalinkManager {
+  logger.info('Initializing Lavalink manager');
   return new LavalinkManager({
     nodes: [
       {
@@ -23,8 +25,8 @@ export default function (client: Client): LavalinkManager {
       volumeDecrementer: 0.75,
       // requesterTransformer: requesterTransformer,
       onDisconnect: {
-        autoReconnect: true,
-        destroyPlayer: false
+        autoReconnect: false,
+        destroyPlayer: true
       },
       onEmptyQueue: {
         destroyAfterMs: 0
@@ -34,5 +36,5 @@ export default function (client: Client): LavalinkManager {
     queueOptions: {
       maxPreviousTracks: 25
     }
-  })
+  });
 }

@@ -1,4 +1,5 @@
-import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js'
+import { type ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
+import { isInSameVoiceChannel } from '@/utils/voice.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -11,21 +12,17 @@ export default {
       ko: '모든 음악 대기열을 초기화하고, 종료합니다.'
     }),
 
-  async execute (interaction: ChatInputCommandInteraction<'cached'>) {
-    const player = interaction.client.lavalink.getPlayer(interaction.guildId)
-    if (player == null) {
-      return interaction.client.error.MUSIC_QUEUE_IS_EMPTY(interaction)
-    }
-    if (interaction.guild.members.me?.voice.channelId != null && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
-      return interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction)
-    }
+  async execute(interaction: ChatInputCommandInteraction<'cached'>) {
+    const player = interaction.client.lavalink.getPlayer(interaction.guildId);
+    if (!player) return interaction.error.musicQueueIsEmpty();
+    if (!isInSameVoiceChannel(interaction)) return interaction.error.pleaseJoinSameVoiceChannel();
 
-    await player.destroy()
+    await player.destroy();
 
     const embed = new EmbedBuilder()
       .setColor('Random')
-      .setTitle(await interaction.client.i18n(interaction, 'command.stop.title'))
-      .setDescription(await interaction.client.i18n(interaction, 'command.stop.description'))
-    await interaction.followUp({ embeds: [embed] })
+      .setTitle(`🚫 ${interaction.i18n('command.stop.title')}`)
+      .setDescription(interaction.i18n('command.stop.description'));
+    await interaction.reply({ embeds: [embed] });
   }
-}
+};

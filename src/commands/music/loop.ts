@@ -1,5 +1,6 @@
-import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js'
-import { type RepeatMode } from 'lavalink-client/dist/types'
+import { type ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
+import type { RepeatMode } from 'lavalink-client';
+import { isInSameVoiceChannel } from '@/utils/voice.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -11,57 +12,59 @@ export default {
     .setDescriptionLocalizations({
       ko: '재생중인 음악을 반복합니다.'
     })
-    .addStringOption(option => option
-      .setName('type')
-      .setNameLocalizations({
-        ko: '유형'
-      })
-      .setDescription('Specify the target to repeat.')
-      .setDescriptionLocalizations({
-        ko: '반복할 대상을 지정해 주세요.'
-      })
-      .addChoices({
-        name: 'Off',
-        name_localizations: {
-          ko: '끄기'
-        },
-        value: 'off'
-      })
-      .addChoices({
-        name: 'Track',
-        name_localizations: {
-          ko: '트랙'
-        },
-        value: 'track'
-      })
-      .addChoices({
-        name: 'Queue',
-        name_localizations: {
-          ko: '재생목록'
-        },
-        value: 'queue'
-      })
-      .setRequired(true)
+    .addStringOption((option) =>
+      option
+        .setName('type')
+        .setNameLocalizations({
+          ko: '유형'
+        })
+        .setDescription('Specify the target to repeat.')
+        .setDescriptionLocalizations({
+          ko: '반복할 대상을 지정해 주세요.'
+        })
+        .addChoices(
+          {
+            name: 'Off',
+            name_localizations: {
+              ko: '끄기'
+            },
+            value: 'off'
+          },
+          {
+            name: 'Track',
+            name_localizations: {
+              ko: '트랙'
+            },
+            value: 'track'
+          },
+          {
+            name: 'Queue',
+            name_localizations: {
+              ko: '재생목록'
+            },
+            value: 'queue'
+          }
+        )
+        .setRequired(true)
     ),
 
-  async execute (interaction: ChatInputCommandInteraction<'cached'>) {
-    const player = interaction.client.lavalink.getPlayer(interaction.guildId)
-    if (player?.queue.current == null) {
-      return interaction.client.error.MUSIC_QUEUE_IS_EMPTY(interaction)
-    }
-    if (interaction.guild.members.me?.voice.channelId != null && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
-      return interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction)
-    }
+  async execute(interaction: ChatInputCommandInteraction<'cached'>) {
+    const player = interaction.client.lavalink.getPlayer(interaction.guildId);
+    const currentTrack = player?.queue.current;
+    if (!currentTrack) return interaction.error.musicQueueIsEmpty();
+    if (!isInSameVoiceChannel(interaction)) return interaction.error.pleaseJoinSameVoiceChannel();
 
-    const option = interaction.options.getString('type') as RepeatMode
-    await player.setRepeatMode(option)
+    const option = interaction.options.getString('type', true) as RepeatMode;
+    await player.setRepeatMode(option);
 
+    const { info } = currentTrack;
     const embed = new EmbedBuilder()
       .setColor('Random')
-      .setTitle(await interaction.client.i18n(interaction, `command.loop.${option}`))
-      .setDescription(player.queue.current.info.title ?? '')
-      .setURL(player.queue.current.info.uri ?? '')
-      .setThumbnail(player.queue.current.info.artworkUrl ?? '')
-    await interaction.followUp({ embeds: [embed] })
+      .setTitle(interaction.i18n(`command.loop.${option}`))
+      .setDescription(info.title)
+      .setURL(info.uri);
+    if (info.artworkUrl) embed.setThumbnail(info.artworkUrl);
+
+    await interaction.reply({ embeds: [embed] });
   }
-}
+};

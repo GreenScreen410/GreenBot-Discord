@@ -1,5 +1,4 @@
-import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js'
-import axios from 'axios'
+import { type ChatInputCommandInteraction, ContainerBuilder, MessageFlags, SlashCommandBuilder, time } from 'discord.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -11,31 +10,43 @@ export default {
     .setDescriptionLocalizations({
       ko: '인터넷 영어 오픈사전인 어반사전에서 단어를 검색합니다.'
     })
-    .addStringOption((option) => option
-      .setName('word')
-      .setNameLocalizations({
-        ko: '단어'
-      })
-      .setDescription('Please enter a word.')
-      .setDescriptionLocalizations({
-        ko: '단어를 입력해 주세요.'
-      })
-      .setRequired(true)
+    .addStringOption((option) =>
+      option
+        .setName('word')
+        .setNameLocalizations({
+          ko: '단어'
+        })
+        .setDescription('Please enter a word.')
+        .setDescriptionLocalizations({
+          ko: '단어를 입력해 주세요.'
+        })
+        .setRequired(true)
     ),
 
-  async execute (interaction: ChatInputCommandInteraction) {
-    const word = interaction.options.getString('word', true)
-    const response = await axios.get(`https://api.urbandictionary.com/v0/define?term=${encodeURIComponent(word)}`)
-    if (response.data.list[0] == null) {
-      return interaction.client.error.INVALID_ARGUMENT(interaction, word)
-    }
+  async execute(interaction: ChatInputCommandInteraction) {
+    await interaction.deferReply();
 
-    const embed = new EmbedBuilder()
-      .setColor('Random')
-      .setTitle(`${response.data.list[0].word}`)
-      .setURL(`${response.data.list[0].permalink}`)
-      .setDescription(`${response.data.list[0].definition.slice(0, 1021)}...`)
-      .addFields({ name: '예문', value: `${response.data.list[0].example.slice(0, 1021)}...`, inline: true })
-    await interaction.followUp({ embeds: [embed] })
+    const word = interaction.options.getString('word', true);
+    const res = await fetch(`https://api.urbandictionary.com/v0/define?term=${encodeURIComponent(word)}`);
+    if (!res.ok) return interaction.error.unknownError();
+
+    const response = await res.json();
+    const data = response.list?.[0];
+    if (!data) return interaction.error.invalidArgument();
+
+    const definition = data.definition ? (data.definition.length > 1024 ? `${data.definition.slice(0, 1021)}...` : data.definition) : '정의 없음';
+    const example = data.example ? (data.example.length > 1024 ? `${data.example.slice(0, 1021)}...` : data.example) : '예문 없음';
+
+    const container = new ContainerBuilder()
+      .addTextDisplayComponents(
+        (textDisplay) => textDisplay.setContent(`## [${data.word}](${data.permalink})`),
+        (textDisplay) => textDisplay.setContent(definition)
+      )
+      .addTextDisplayComponents(
+        (textDisplay) => textDisplay.setContent(`## 예문`),
+        (textDisplay) => textDisplay.setContent(example)
+      )
+      .addTextDisplayComponents((textDisplay) => textDisplay.setContent(`-# 작성자: ${data.author} · 작성일: ${time(new Date(data.written_on))}`));
+    await interaction.editReply({ components: [container], flags: MessageFlags.IsComponentsV2 });
   }
-}
+};

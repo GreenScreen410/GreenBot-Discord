@@ -1,0 +1,73 @@
+{
+	"Navbar": {
+		"features": "기능",
+		"commands": "명령어",
+		"music": "음악",
+		"games": "게임",
+		"addToDiscord": "디스코드에 추가"
+	},
+	"Hero": {
+		"version": "v1.21.0 업데이트 완료",
+		"title": "디스코드를\n더 쉽고 즐겁게",
+		"description": "고품질 음악, 국기 퀴즈 같은 재밌는 게임, 그리고 강력한 관리 도구들로 서버를 업그레이드하세요. 이 모든 것이 하나의 봇에.",
+		"addToDiscord": "디스코드에 추가",
+		"viewFeatures": "기능 살펴보기",
+		"status": {
+			"command": "/재생 노래:lofi_beats",
+			"searching": "\"lofi_beats\" 검색 중...",
+			"playing": "▶️ 재생 중: 공부할 때 듣기 좋은 로파이"
+		}
+	},
+	"Features": {
+		"title": "필요한 모든 기능",
+		"description": "GreenBot은 디스코드 서버 경험을 향상시키기 위한 완벽한 기능 모음을 제공합니다.",
+		"list": {
+			"music": {
+				"title": "고음질 음악",
+				"description": "다양한 소스, 재생목록, 필터를 지원하는 맑고 깨끗한 오디오를 경험하세요."
+			},
+			"games": {
+				"title": "재밌는 게임",
+				"description": "국기 퀴즈, 상식 퀴즈 등 다양한 미니게임으로 서버원들과 대결해보세요."
+			},
+			"utilities": {
+				"title": "강력한 유틸리티",
+				"description": "관리 도구, 자동 역할 등 서버 관리를 손쉽게 할 수 있습니다."
+			},
+			"setup": {
+				"title": "즉시 설정",
+				"description": "몇 초 만에 시작할 수 있습니다. 복잡한 설정이 필요 없습니다."
+			},
+			"uptime": {
+				"title": "24/7 가동",
+				"description": "음악과 게임이 멈추지 않도록 안정적으로 운영됩니다."
+			},
+			"secure": {
+				"title": "안전과 보안",
+				"description": "커뮤니티를 안전하게 지키기 위해 보안을 최우선으로 설계되었습니다."
+			}
+		}
+	},
+	"Music": {
+		"title": "멈추지 않는 음악",
+		"description": "고급 음악 플레이어로 완벽한 분위기를 조성하세요. 가사 지원, 베이스 부스트, 커스텀 재생목록을 지원합니다.",
+		"tags": {
+			"quality": "고음질",
+			"noLag": "렉 없음",
+			"lyrics": "가사 지원",
+			"filters": "필터"
+		}
+	},
+	"Commands": {
+		"title": "명령어",
+		"description": "GreenBot의 모든 기능을 살펴보세요. 음악부터 관리까지 모두 준비되어 있습니다.",
+		"count": "{count}개 명령어",
+		"empty": "명령어를 찾을 수 없습니다. 봇 소스코드를 확인해주세요."
+	},
+	"Footer": {
+		"terms": "이용약관",
+		"privacy": "개인정보처리방침",
+		"support": "지원",
+		"copyright": "© {year} GreenBot. All rights reserved."
+	}
+}

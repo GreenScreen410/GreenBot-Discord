@@ -1,17 +1,20 @@
-import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js'
-import dayjs from 'dayjs'
-import duration from 'dayjs/plugin/duration.js'
-dayjs.extend(duration)
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration.js';
+import { type ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
+import { isInSameVoiceChannel } from '@/utils/voice.js';
 
-function progressBar (current: number, total: number, size = 14): string {
-  if (current > total) current = total
-  const currentPosition = Math.round((size * current) / total)
-  const bar = '▬'.repeat(currentPosition) + '🔘' + '▬'.repeat(size - currentPosition)
-  const currentTimeFormattedRaw = dayjs.duration(current).format('HH:mm:ss')
-  const totalTimeFormattedRaw = dayjs.duration(total).format('HH:mm:ss')
-  const currentTimeFormatted = currentTimeFormattedRaw.startsWith('00:') ? currentTimeFormattedRaw.substring(3) : currentTimeFormattedRaw
-  const totalTimeFormatted = totalTimeFormattedRaw.startsWith('00:') ? totalTimeFormattedRaw.substring(3) : totalTimeFormattedRaw
-  return `${currentTimeFormatted} ┃ ${bar} ┃ ${totalTimeFormatted}`
+dayjs.extend(duration);
+
+function progressBar(current: number, total: number, size = 14): string {
+  const position = Math.round((size * Math.min(current, total)) / total);
+  const bar = `${'▬'.repeat(position)}🔘${'▬'.repeat(size - position)}`;
+
+  const formatTime = (ms: number) => {
+    const formatted = dayjs.duration(ms).format('HH:mm:ss');
+    return formatted.startsWith('00:') ? formatted.substring(3) : formatted;
+  };
+
+  return `${formatTime(current)} ┃ ${bar} ┃ ${formatTime(total)}`;
 }
 
 export default {
@@ -25,28 +28,28 @@ export default {
       ko: '현재 재생중인 음악 정보를 알려줍니다.'
     }),
 
-  async execute (interaction: ChatInputCommandInteraction<'cached'>) {
-    const player = interaction.client.lavalink.getPlayer(interaction.guildId)
-    if (player?.queue.current == null) {
-      return interaction.client.error.MUSIC_QUEUE_IS_EMPTY(interaction)
-    }
-    if (interaction.guild.members.me?.voice.channelId != null && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
-      return interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction)
-    }
+  async execute(interaction: ChatInputCommandInteraction<'cached'>) {
+    const player = interaction.client.lavalink.getPlayer(interaction.guildId);
+    const currentTrack = player?.queue.current;
+    if (!currentTrack) return interaction.error.musicQueueIsEmpty();
+    if (!isInSameVoiceChannel(interaction)) return interaction.error.pleaseJoinSameVoiceChannel();
 
-    const bar = progressBar(player.position, player.queue.current.info.duration)
-    const percent = Math.round((player.position / player.queue.current.info.duration) * 100)
+    const { info } = currentTrack;
+    const bar = progressBar(player.position, info.duration);
+    const percent = Math.round((player.position / info.duration) * 100);
+
     const embed = new EmbedBuilder()
-      .setURL(player.queue.current.info.uri)
       .setColor('Random')
-      .setTitle(await interaction.client.i18n(interaction, 'command.nowplaying.title'))
-      .setDescription(player.queue.current.info.title)
-      .setThumbnail(player.queue.current.info.artworkUrl ?? '')
-      .addFields([
-        { name: await interaction.client.i18n(interaction, 'command.nowplaying.author'), value: player.queue.current.info.author },
-        { name: await interaction.client.i18n(interaction, 'command.nowplaying.progress', { percent }), value: bar },
-        { name: await interaction.client.i18n(interaction, 'command.nowplaying.source_name'), value: player.queue.current.info.sourceName }
-      ])
-    await interaction.followUp({ embeds: [embed] })
+      .setTitle(interaction.i18n('command.nowplaying.title'))
+      .setDescription(info.title)
+      .setURL(info.uri)
+      .addFields(
+        { name: interaction.i18n('command.nowplaying.author'), value: info.author, inline: true },
+        { name: interaction.i18n('command.nowplaying.source'), value: info.sourceName, inline: true },
+        { name: interaction.i18n('command.nowplaying.progress', { percent }), value: bar }
+      );
+    if (info.artworkUrl) embed.setThumbnail(info.artworkUrl);
+
+    await interaction.reply({ embeds: [embed] });
   }
-}
+};

@@ -1,4 +1,7 @@
-import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js'
+import { type ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
+import { eq, sql } from 'drizzle-orm';
+import { activities } from '@/db/schema/users.js';
+import { db } from '@/db/index.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -11,23 +14,35 @@ export default {
       ko: '용돈을 받습니다. 하루에 한 번 받을 수 있습니다.'
     }),
 
-  async execute (interaction: ChatInputCommandInteraction) {
-    const { last_claim: lastClaim } = await interaction.client.mysql.query('SELECT last_claim FROM activity WHERE id = ?', [interaction.user.id])
-    const lastClaimDate = new Date(lastClaim as Date)
-    const currentDate = new Date()
+  async execute(interaction: ChatInputCommandInteraction) {
+    await interaction.deferReply();
+    const [activity] = await db.select({ lastClaim: activities.lastClaim }).from(activities).where(eq(activities.id, interaction.user.id));
 
-    if (lastClaimDate.getTime() + 86400000 > currentDate.getTime()) {
-      return interaction.client.error.ALLOWANCE_ONCE_A_DAY(interaction)
-    }
+    const lastClaimDate = activity?.lastClaim ?? new Date(0);
+    const currentDate = new Date();
 
-    await interaction.client.mysql.query('UPDATE activity SET money = money + 1000 WHERE id = ?', [interaction.user.id])
-    await interaction.client.mysql.query('UPDATE activity SET last_claim = ? WHERE id = ?', [currentDate, interaction.user.id])
+    if (lastClaimDate.getTime() + 86400000 > currentDate.getTime()) return interaction.error.allowanceOnceADay();
 
-    const { money } = await interaction.client.mysql.query('SELECT money FROM activity WHERE id = ?', [interaction.user.id])
+    const [updated] = await db
+      .insert(activities)
+      .values({
+        id: interaction.user.id,
+        money: 200000n,
+        lastClaim: currentDate
+      })
+      .onConflictDoUpdate({
+        target: activities.id,
+        set: {
+          money: sql`${activities.money} + 200000`,
+          lastClaim: currentDate
+        }
+      })
+      .returning({ money: activities.money });
+
     const embed = new EmbedBuilder()
       .setColor('Random')
       .setTitle('🏦 용돈')
-      .setDescription(`1,000₩을 받았습니다.\n현재 잔액: ${money.toLocaleString()}₩`)
-    await interaction.followUp({ embeds: [embed] })
+      .setDescription(`200,000₩을 받았습니다.\n현재 잔액: ${updated.money.toLocaleString()}₩`);
+    await interaction.editReply({ embeds: [embed] });
   }
-}
+};

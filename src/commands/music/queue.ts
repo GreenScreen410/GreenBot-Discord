@@ -1,4 +1,5 @@
-import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js'
+import { type ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
+import { isInSameVoiceChannel } from '@/utils/voice.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -11,25 +12,40 @@ export default {
       ko: '음악 재생목록을 확인합니다.'
     }),
 
-  async execute (interaction: ChatInputCommandInteraction<'cached'>) {
-    const player = interaction.client.lavalink.players.get(interaction.guildId)
-    if (player?.queue.current == null) {
-      return interaction.client.error.MUSIC_QUEUE_IS_EMPTY(interaction)
-    }
-    if (interaction.guild.members.me?.voice.channelId != null && interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId) {
-      return interaction.client.error.PLEASE_JOIN_SAME_VOICE_CHANNEL(interaction)
-    }
+  async execute(interaction: ChatInputCommandInteraction<'cached'>) {
+    const player = interaction.client.lavalink.players.get(interaction.guildId);
+    const currentTrack = player?.queue.current;
+    if (!currentTrack) return interaction.error.musicQueueIsEmpty();
+    if (!isInSameVoiceChannel(interaction)) return interaction.error.pleaseJoinSameVoiceChannel();
+
+    const { tracks } = player.queue;
+    const { info } = currentTrack;
 
     const embed = new EmbedBuilder()
       .setColor('Random')
-      .setTitle(await interaction.client.i18n(interaction, 'command.queue.title', { size: player.queue.tracks.length }))
-      .setDescription([
-        '## 현재 음악:',
-        `> ### [\`${player.queue.current?.info.title}\`](${player.queue.current?.info.uri})`,
-        `## ${player.queue.tracks.length > 20 ? 20 : player.queue.tracks.length}개의 대기열:`,
-        player.queue.tracks.slice(0, 20)
-          .map((t, i) => `> **${i + 1}.** [\`${t.info.title}\`](${t.info.uri})`).join('\n')
-      ].join('\n'))
-    await interaction.followUp({ embeds: [embed] })
+      .setTitle(info.title)
+      .setURL(info.uri)
+      .addFields({ name: '🎤 아티스트', value: info.author, inline: true }, { name: '📀 소스', value: info.sourceName, inline: true })
+      .setTimestamp();
+    if (info.artworkUrl) embed.setThumbnail(info.artworkUrl);
+
+    if (tracks.length > 0) {
+      const displayCount = Math.min(tracks.length, 10);
+      let trackList = tracks
+        .slice(0, displayCount)
+        .map((t, i) => `\`${i + 1}.\` ${t.info.title} • ${t.info.author}`)
+        .join('\n');
+
+      if (trackList.length > 1000) {
+        trackList = `${trackList.slice(0, 1000)}...`;
+      }
+
+      embed.addFields({ name: `📋 대기열 (${tracks.length}곡)`, value: trackList });
+      embed.setFooter({ text: `${displayCount}곡 표시 중 • 총 ${tracks.length}곡` });
+    } else {
+      embed.setFooter({ text: '대기열이 비어있습니다' });
+    }
+
+    await interaction.reply({ embeds: [embed] });
   }
-}
+};

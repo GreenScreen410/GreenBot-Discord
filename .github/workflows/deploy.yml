@@ -1,0 +1,73 @@
+name: Deploy to Production
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Type check
+        run: bunx tsc --noEmit
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.1
+        with:
+          ssh-private-key: ${{ secrets.ORACLE_SSH_KEY }}
+
+      - name: Add Oracle to known hosts
+        run: ssh-keyscan -H ${{ secrets.ORACLE_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Sync source to Oracle
+        run: |
+          rsync -avz --delete \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='node_modules' \
+            --exclude='.env' \
+            --exclude='dist' \
+            --exclude='logs' \
+            ./ ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }}:${{ secrets.ORACLE_DEPLOY_PATH }}/
+
+      - name: Install deps & restart bot on Oracle
+        env:
+          DEPLOY_PATH: ${{ secrets.ORACLE_DEPLOY_PATH }}
+          PM2_NAME: ${{ secrets.ORACLE_PM2_NAME }}
+        run: |
+          ssh ${{ secrets.ORACLE_USER }}@${{ secrets.ORACLE_HOST }} \
+            DEPLOY_PATH="$DEPLOY_PATH" PM2_NAME="$PM2_NAME" bash <<'EOF'
+            set -euo pipefail
+            export PATH="$HOME/.bun/bin:$PATH"
+            cd "$DEPLOY_PATH"
+
+            bun install --frozen-lockfile
+
+            # First-run migration: switch PM2 from `node dist/index.js` to `bun src/index.ts`.
+            # `pm2 show` exits 1 if process doesn't exist, so don't fail on the grep.
+            if pm2 show "$PM2_NAME" 2>/dev/null | grep -q 'dist/index.js'; then
+              pm2 delete "$PM2_NAME"
+              pm2 start src/index.ts --name "$PM2_NAME" --interpreter "$HOME/.bun/bin/bun"
+            else
+              pm2 restart "$PM2_NAME" --update-env
+            fi
+            pm2 save
+          EOF

@@ -1,12 +1,4 @@
-import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js'
-import axios from 'axios'
-
-interface CatImage {
-  id: string
-  url: string
-  width: number
-  height: number
-}
+import { type ChatInputCommandInteraction, ContainerBuilder, MessageFlags, SlashCommandBuilder } from 'discord.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -19,22 +11,26 @@ export default {
       ko: '랜덤 고양이 사진을 불러옵니다.'
     }),
 
-  async execute (interaction: ChatInputCommandInteraction) {
-    const { data: [response] } = await axios.get<CatImage[]>('https://api.thecatapi.com/v1/images/search', {
-      headers: {
-        'x-api-key': process.env.THE_CAT_API_KEY
-      }
-    })
+  async execute(interaction: ChatInputCommandInteraction) {
+    await interaction.deferReply();
 
-    const embed = new EmbedBuilder()
-      .setColor('Random')
-      .setImage(response.url)
-      .setTitle('🐱')
-      .setDescription(`${await interaction.client.i18n(interaction, 'command.cat.description')}: [${response.id}](${response.url})`)
-      .addFields(
-        { name: await interaction.client.i18n(interaction, 'command.cat.width'), value: `${response.width}px`, inline: true },
-        { name: await interaction.client.i18n(interaction, 'command.cat.height'), value: `${response.height}px`, inline: true }
-      )
-    await interaction.followUp({ embeds: [embed] })
+    const response = await fetch('https://api.thecatapi.com/v1/images/search', {
+      headers: { 'x-api-key': process.env.THE_CAT_API_KEY }
+    });
+    if (!response.ok) return interaction.error.unknownError();
+
+    const [data] = await response.json();
+    if (!data) return interaction.error.unknownError();
+
+    const container = new ContainerBuilder()
+      .addMediaGalleryComponents((gallery) => gallery.addItems((item) => item.setURL(data.url)))
+      .addSeparatorComponents((separator) => separator.setDivider(true))
+      .addTextDisplayComponents((text) =>
+        text.setContent(
+          `${interaction.i18n('command.cat.description')}: [${data.id}](${data.url})\n${interaction.i18n('command.cat.width')}: ${data.width}px · ${interaction.i18n('command.cat.height')}: ${data.height}px`
+        )
+      );
+
+    await interaction.editReply({ components: [container], flags: MessageFlags.IsComponentsV2 });
   }
-}
+};

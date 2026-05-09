@@ -1,4 +1,65 @@
-import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } from 'discord.js'
+import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  type ButtonInteraction,
+  ButtonStyle,
+  type ChatInputCommandInteraction,
+  Colors,
+  ComponentType,
+  ContainerBuilder,
+  MessageFlags,
+  ModalBuilder,
+  type ModalSubmitInteraction,
+  SeparatorSpacingSize,
+  SlashCommandBuilder,
+  TextInputBuilder,
+  TextInputStyle
+} from 'discord.js';
+import { eq, sql } from 'drizzle-orm';
+import { activities } from '@/db/schema/users.js';
+import { db } from '@/db/index.js';
+
+function parseBetting(value: string): bigint | null {
+  const normalized = value.replaceAll(',', '').trim();
+  if (!/^[0-9]+$/.test(normalized)) return null;
+
+  try {
+    return BigInt(normalized);
+  } catch {
+    return null;
+  }
+}
+
+function resolveChoiceFromCustomId(customId: string): 'odd' | 'even' | null {
+  if (customId.endsWith('_odd')) return 'odd';
+  if (customId.endsWith('_even')) return 'even';
+
+  return null;
+}
+
+function buildChoiceRow(baseId: string) {
+  return new ActionRowBuilder<ButtonBuilder>().addComponents(
+    new ButtonBuilder().setCustomId(`${baseId}_odd`).setLabel('홀').setStyle(ButtonStyle.Primary),
+    new ButtonBuilder().setCustomId(`${baseId}_even`).setLabel('짝').setStyle(ButtonStyle.Secondary)
+  );
+}
+
+function buildChoiceContainer(betting: bigint) {
+  const container = new ContainerBuilder().setAccentColor(Colors.Blurple);
+  container.addTextDisplayComponents(
+    (text) => text.setContent('## 🎲 홀짝'),
+    (text) => text.setContent(`도박할 금액: **${betting.toLocaleString()}₩**`),
+    (text) => text.setContent('아래 버튼으로 홀 또는 짝을 선택하세요.')
+  );
+  container.addSeparatorComponents((separator) => separator.setSpacing(SeparatorSpacingSize.Small).setDivider(true));
+  return container;
+}
+
+function buildTimeoutContainer() {
+  const container = new ContainerBuilder().setAccentColor(Colors.Grey);
+  container.addTextDisplayComponents((text) => text.setContent('시간 초과로 게임이 취소되었습니다.'));
+  return container;
+}
 
 export default {
   data: new SlashCommandBuilder()
@@ -6,77 +67,145 @@ export default {
     .setNameLocalizations({
       ko: '홀짝'
     })
-    .setDescription('Randomly pick a number between 1 and 100. If you guess odd/even, you will get double the amount.')
+    .setDescription('Open a modal to play odd/even.')
     .setDescriptionLocalizations({
-      ko: '1부터 100까지의 랜덤한 숫자를 뽑습니다. 홀/짝을 맞추면 2배의 금액을 얻습니다.'
-    })
-    .addIntegerOption(option => option
-      .setName('money')
-      .setNameLocalizations({
-        ko: '금액'
-      })
-      .setDescription('The amount of money you want to gamble.')
-      .setDescriptionLocalizations({
-        ko: '도박할 금액을 입력하세요.'
-      })
-      .setMinValue(1)
-      .setRequired(true)
-    )
-    .addStringOption(option => option
-      .setName('result')
-      .setNameLocalizations({
-        ko: '결과'
-      })
-      .setDescription('Choose between odd and even.')
-      .setDescriptionLocalizations({
-        ko: '홀/짝을 선택하세요.'
-      })
-      .addChoices({
-        name: 'Odd',
-        name_localizations: {
-          ko: '홀'
-        },
-        value: 'odd'
-      })
-      .addChoices({
-        name: 'Even',
-        name_localizations: {
-          ko: '짝'
-        },
-        value: 'even'
-      })
-      .setRequired(true)
-    ),
+      ko: '모달에서 금액을 입력하고 버튼으로 홀/짝을 선택합니다.'
+    }),
 
-  async execute (interaction: ChatInputCommandInteraction) {
-    const { money } = await interaction.client.mysql.query('SELECT money FROM activity WHERE id = ?', [interaction.user.id])
-    const betting = interaction.options.getInteger('money', true)
-    const userChoice = interaction.options.getString('result')
+  async execute(interaction: ChatInputCommandInteraction) {
+    const modal = new ModalBuilder().setCustomId('oddeven').setTitle('홀짝');
 
-    if (money < betting) {
-      return interaction.client.error.CAN_NOT_AFFORD(interaction)
-    }
+    const moneyInput = new TextInputBuilder()
+      .setCustomId('money')
+      .setLabel('도박할 금액')
+      .setPlaceholder('예: 10000')
+      .setStyle(TextInputStyle.Short)
+      .setRequired(true);
 
-    const randomNumber = Math.floor(Math.random() * 100) + 1
-    const gameResult = randomNumber % 2 === 0 ? 'even' : 'odd'
-    const isWin = gameResult === userChoice
+    modal.addComponents(new ActionRowBuilder<TextInputBuilder>().addComponents(moneyInput));
 
-    const reward = isWin ? betting : -betting
-    const newBalance = money + reward
+    await interaction.showModal(modal);
+  },
 
-    await interaction.client.mysql.query('UPDATE activity SET money = ? WHERE id = ?', [newBalance, interaction.user.id])
-    await interaction.client.mysql.query('UPDATE activity SET win_money = win_money + ? WHERE id = ?', [isWin ? betting : 0, interaction.user.id])
-    await interaction.client.mysql.query('UPDATE activity SET lose_money = lose_money + ? WHERE id = ?', [isWin ? 0 : betting, interaction.user.id])
-
-    const embed = new EmbedBuilder()
-      .setColor(isWin ? 'Green' : 'Red')
-      .setTitle(await interaction.client.i18n(interaction, 'command.oddeven.title'))
-      .setDescription(await interaction.client.i18n(interaction, 'command.oddeven.description', { betting: betting.toLocaleString(), choice: userChoice === 'odd' ? await interaction.client.i18n(interaction, 'command.oddeven.odd') : await interaction.client.i18n(interaction, 'command.oddeven.even') }))
-      .addFields(
-        { name: await interaction.client.i18n(interaction, 'command.oddeven.number'), value: `${randomNumber} (${gameResult === 'odd' ? await interaction.client.i18n(interaction, 'command.oddeven.odd') : await interaction.client.i18n(interaction, 'command.oddeven.even')})`, inline: true },
-        { name: await interaction.client.i18n(interaction, 'command.oddeven.result'), value: isWin ? await interaction.client.i18n(interaction, 'command.oddeven.win') : await interaction.client.i18n(interaction, 'command.oddeven.lose'), inline: true },
-        { name: await interaction.client.i18n(interaction, 'command.oddeven.balance'), value: `${newBalance.toLocaleString()}₩ (${isWin ? '+' : '-'} ${betting.toLocaleString()}₩)`, inline: true }
-      )
-    await interaction.followUp({ embeds: [embed] })
+  async modal(interaction: ModalSubmitInteraction) {
+    return handleModalSubmit(interaction);
   }
+};
+
+function resolveGame(money: bigint, betting: bigint, userChoice: 'odd' | 'even') {
+  const randomNumber = Math.floor(Math.random() * 100) + 1;
+  const gameResult: 'odd' | 'even' = randomNumber % 2 === 0 ? 'even' : 'odd';
+  const isWin = gameResult === userChoice;
+  const reward = isWin ? betting : -betting;
+
+  return {
+    isWin,
+    newBalance: money + reward,
+    randomNumber,
+    gameResult
+  };
+}
+
+function buildResultContainer(
+  interaction: ModalSubmitInteraction,
+  betting: bigint,
+  userChoice: 'odd' | 'even',
+  newBalance: bigint,
+  isWin: boolean,
+  randomNumber: number,
+  gameResult: 'odd' | 'even'
+) {
+  const container = new ContainerBuilder().setAccentColor(isWin ? Colors.Green : Colors.Red);
+  container.addTextDisplayComponents(
+    (text) => text.setContent(`## ${isWin ? '✅' : '❌'} ${interaction.i18n('command.oddeven.title')}`),
+    (text) =>
+      text.setContent(
+        interaction.i18n('command.oddeven.description', {
+          betting: betting.toLocaleString(),
+          choice: userChoice === 'odd' ? interaction.i18n('command.oddeven.odd') : interaction.i18n('command.oddeven.even')
+        })
+      )
+  );
+  container.addSeparatorComponents((separator) => separator.setSpacing(SeparatorSpacingSize.Small).setDivider(true));
+  container.addTextDisplayComponents(
+    (text) =>
+      text.setContent(
+        `**${interaction.i18n('command.oddeven.number')}** ${randomNumber} (${gameResult === 'odd' ? interaction.i18n('command.oddeven.odd') : interaction.i18n('command.oddeven.even')})`
+      ),
+    (text) =>
+      text.setContent(
+        `**${interaction.i18n('command.oddeven.result')}** ${isWin ? interaction.i18n('command.oddeven.win') : interaction.i18n('command.oddeven.lose')}`
+      ),
+    (text) =>
+      text.setContent(`**${interaction.i18n('command.oddeven.balance')}** ${newBalance.toLocaleString()}₩ (${isWin ? '+' : '-'} ${betting.toLocaleString()}₩)`)
+  );
+
+  return container;
+}
+
+async function handleModalSubmit(interaction: ModalSubmitInteraction) {
+  const betting = parseBetting(interaction.fields.getTextInputValue('money'));
+
+  if (betting == null || betting <= 0n) {
+    return interaction.error.invalidArgument();
+  }
+
+  await interaction.deferReply();
+
+  const [activity] = await db.select({ money: activities.money }).from(activities).where(eq(activities.id, interaction.user.id));
+  const money = activity?.money ?? 0n;
+
+  if (money < betting) {
+    return interaction.error.canNotAfford();
+  }
+
+  const baseId = `oddeven:${interaction.id}`;
+  const choiceMessage = await interaction.followUp({
+    components: [buildChoiceContainer(betting), buildChoiceRow(baseId)],
+    flags: MessageFlags.IsComponentsV2
+  });
+
+  const collector = choiceMessage.createMessageComponentCollector({
+    componentType: ComponentType.Button,
+    time: 15000,
+    filter: (buttonInteraction: ButtonInteraction) => buttonInteraction.user.id === interaction.user.id
+  });
+
+  collector.on('collect', async (buttonInteraction) => {
+    const userChoice = resolveChoiceFromCustomId(buttonInteraction.customId);
+    if (userChoice == null) return;
+
+    await buttonInteraction.deferUpdate();
+
+    const { isWin, newBalance, randomNumber, gameResult } = resolveGame(money, betting, userChoice);
+
+    await db
+      .insert(activities)
+      .values({
+        id: interaction.user.id,
+        money: newBalance,
+        winMoney: isWin ? betting : 0n,
+        loseMoney: isWin ? 0n : betting
+      })
+      .onConflictDoUpdate({
+        target: activities.id,
+        set: {
+          money: newBalance,
+          winMoney: sql`${activities.winMoney} + ${isWin ? betting : 0n}`,
+          loseMoney: sql`${activities.loseMoney} + ${isWin ? 0n : betting}`
+        }
+      });
+
+    await choiceMessage.edit({
+      components: [buildResultContainer(interaction, betting, userChoice, newBalance, isWin, randomNumber, gameResult)]
+    });
+
+    collector.stop('selected');
+  });
+
+  collector.on('end', async (_, reason) => {
+    if (reason === 'selected') return;
+
+    await choiceMessage.edit({ components: [buildTimeoutContainer()] }).catch(() => null);
+  });
 }

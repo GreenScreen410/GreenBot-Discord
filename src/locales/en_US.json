@@ -1,0 +1,131 @@
+{
+	"command": {
+		"boj": {
+			"acceptedUsers": "Accepted users",
+			"averageTries": "Average tries",
+			"difficulty": "Difficulty",
+			"noTags": "No tags",
+			"revealButton": "Show difficulty/tags",
+			"tags": "Tags"
+		},
+		"cat": {
+			"description": "Photo ID",
+			"height": "Height",
+			"width": "Width"
+		},
+		"dog": {
+			"description": "Photo ID",
+			"height": "Height",
+			"width": "Width"
+		},
+		"guesstheflag": {
+			"correct": "{{user}} was correct!",
+			"description": "The answer was **{{country}}**.\nCurrent score: **{{score}}**",
+			"timeout": "Time's up!",
+			"timeout_description": "The answer was **{{country}}**.",
+			"title": "Which country does the flag below belong to?",
+			"wrong": "{{user}} was wrong!"
+		},
+		"language": {
+			"description": "Old language: {{oldLanguage}}\nNew language: {{newLanguage}}",
+			"title": "🌐 Language has been changed."
+		},
+		"leaderboard": {
+			"description": "This leaderboard is reflected in all servers!",
+			"title": "🏆 {{activity}} Leaderboard"
+		},
+		"loop": {
+			"off": "🔁 Repeat mode is turned off!",
+			"queue": "🔁 The entire queue is played repeatedly!",
+			"track": "🔁 The current track is played repeatedly!"
+		},
+		"nowplaying": {
+			"author": "Artist",
+			"progress": "Progress: {{percent}}%",
+			"source": "Music source",
+			"title": "🎵 Now playing"
+		},
+		"oddeven": {
+			"balance": "Balance",
+			"description": "You bet **{{betting}}**₩ and chose **{{choice}}**.",
+			"even": "Even",
+			"lose": "❌ Failed...",
+			"number": "Number",
+			"odd": "Odd",
+			"result": "Result",
+			"title": "🎲 Odd or Even",
+			"win": "✅ Success!"
+		},
+		"ping": {
+			"description": "Response time",
+			"title": "🏓 Pong!"
+		},
+		"play": {
+			"author": "Artist",
+			"duration": "Duration",
+			"source": "Music source",
+			"source_name": "command.play.source_name",
+			"title": "🎵 Added to the playlist.",
+			"track_count": "Count"
+		},
+		"queue": {
+			"title": "🎵 Queue - {{size}} songs"
+		},
+		"remove": {
+			"title": "🗑️ Removed from the queue"
+		},
+		"skip": {
+			"title": "⏩ Skipped the currently playing music!"
+		},
+		"statistics": {
+			"banned": "🚫 Banned user count",
+			"channel": "📜 Total channel count",
+			"command": "🔧 Command count",
+			"execute": "🔧 Total command execution count",
+			"most_command_user": "🏆 Most command executed user",
+			"music": "🎵 Number of music servers currently playing",
+			"server": "📊 Total server count",
+			"title": "📊 Statistics",
+			"unique_user": "👥 Unique user count",
+			"uptime": "🕒 Uptime",
+			"user": "👥 Total user count"
+		},
+		"uptime": {
+			"startedAt": "Started at",
+			"title": "Bot Uptime",
+			"uptime": "Uptime"
+		},
+		"stealemoji": {
+			"description": "Successfully stole the emoji!",
+			"title": "🥷🏻 Steal Emoji"
+		},
+		"stop": {
+			"description": "Music playback has been stopped successfully.",
+			"title": "🚫 Stop!"
+		},
+		"suggest": {
+			"label": "Suggestion",
+			"placeholder": "Please enter your suggestion. Any questions are welcome!",
+			"receive_description": "Thank you for your suggestion! We will review it as soon as possible.",
+			"receive_title": "Suggestion has been successfully sent.",
+			"title": "What do you want to suggest?"
+		}
+	},
+	"error": {
+		"allowanceOnceADay": "You can only receive allowance once a day.",
+		"canNotAfford": "You don't have enough balance.",
+		"canNotUseInDm": "This command cannot be used in DMs.",
+		"code": "Error code",
+		"invalidArgument": "Invalid argument.",
+		"invalidInteraction": "Invalid interaction.",
+		"musicIsTooLong": "The music is too long.",
+		"musicQueueIsEmpty": "The music queue is empty.",
+		"musicServerRestarted": "The music server has been restarted.",
+		"noPermission": "You do not have permission.",
+		"pleaseJoinSameVoiceChannel": "Please join the same voice channel.",
+		"pleaseJoinVoiceChannel": "Please join a voice channel first.",
+		"title": "❌ Error!",
+		"unknownError": "An unknown error has occurred.",
+		"youHaveBeenBanned": "You have been banned by the administrator.\nReason: {{reason}}"
+	}
+}

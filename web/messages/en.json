@@ -1,0 +1,73 @@
+{
+	"Navbar": {
+		"features": "Features",
+		"commands": "Commands",
+		"music": "Music",
+		"games": "Games",
+		"addToDiscord": "Add to Discord"
+	},
+	"Hero": {
+		"version": "v1.21.0 is now live",
+		"title": "The Ultimate Discord\nExperience",
+		"description": "Level up your server with high-quality music, engaging games like Flag Quiz, and powerful management utilities. All in one bot.",
+		"addToDiscord": "Add to Discord",
+		"viewFeatures": "View Features",
+		"status": {
+			"command": "/play song:lofi_beats",
+			"searching": "Searching for \"lofi_beats\"...",
+			"playing": "▶️ Now Playing: Lofi Beats to Relax/Study to"
+		}
+	},
+	"Features": {
+		"title": "Everything you need",
+		"description": "GreenBot brings a complete suite of features to enhance your Discord server's experience.",
+		"list": {
+			"music": {
+				"title": "High-Fidelity Music",
+				"description": "Experience crystal clear audio with support for multiple sources, playlists, and filters."
+			},
+			"games": {
+				"title": "Fun & Games",
+				"description": "Challenge your server with Flag Quiz, trivia, and other engaging minigames."
+			},
+			"utilities": {
+				"title": "Powerful Utilities",
+				"description": "Manage your server effortlessly with moderation tools, auto-roles, and more."
+			},
+			"setup": {
+				"title": "Instant Setup",
+				"description": "Get started in seconds. No complex configurations required."
+			},
+			"uptime": {
+				"title": "24/7 Uptime",
+				"description": "Rock-solid stability ensures your music and games never stop."
+			},
+			"secure": {
+				"title": "Safe & Secure",
+				"description": "Built with security in mind to keep your community safe."
+			}
+		}
+	},
+	"Music": {
+		"title": "Music that never stops",
+		"description": "Create the perfect atmosphere with our advanced music player. Support for lyrics, bass boost, and custom playlists.",
+		"tags": {
+			"quality": "High Quality",
+			"noLag": "No Lag",
+			"lyrics": "Lyrics Support",
+			"filters": "Filters"
+		}
+	},
+	"Commands": {
+		"title": "Commands",
+		"description": "Explore the full capabilities of GreenBot. From music to moderation, we've got you covered.",
+		"count": "{count} commands",
+		"empty": "No commands found. Check the bot source code."
+	},
+	"Footer": {
+		"terms": "Terms",
+		"privacy": "Privacy",
+		"support": "Support",
+		"copyright": "© {year} GreenBot. All rights reserved."
+	}
+}

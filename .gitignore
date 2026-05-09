@@ -3,3 +3,6 @@ dist/
 .env
 .dpy/
 logs/
+.vscode/
+drizzle/
+display-components.mdx

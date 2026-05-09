@@ -12,15 +12,16 @@ export default {
     }),
 
   async execute(interaction: ChatInputCommandInteraction) {
+    await interaction.deferReply();
     const startedAt = new Date(Date.now() - process.uptime() * 1000);
 
-    const container = new ContainerBuilder();
-    container.addTextDisplayComponents((text) => text.setContent('## ⏱️ 봇 업타임'));
-    container.addTextDisplayComponents(
-      (text) => text.setContent(`**가동 시간:** ${time(startedAt, TimestampStyles.RelativeTime)}`),
-      (text) => text.setContent(`**실행 시작:** ${time(startedAt)}`)
-    );
+    const container = new ContainerBuilder()
+      .addTextDisplayComponents((text) => text.setContent(`## ⏱️ ${interaction.i18n('command.uptime.title')}`))
+      .addTextDisplayComponents(
+        (text) => text.setContent(`**${interaction.i18n('command.uptime.uptime')}:** ${time(startedAt, TimestampStyles.RelativeTime)}`),
+        (text) => text.setContent(`**${interaction.i18n('command.uptime.startedAt')}:** ${time(startedAt)}`)
+      );
 
-    await interaction.followUp({ components: [container], flags: MessageFlags.IsComponentsV2 });
+    await interaction.editReply({ components: [container], flags: MessageFlags.IsComponentsV2 });
   }
 };

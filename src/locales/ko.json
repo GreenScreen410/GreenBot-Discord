@@ -1,0 +1,131 @@
+{
+	"command": {
+		"boj": {
+			"acceptedUsers": "맞은 사람",
+			"averageTries": "평균 시도 횟수",
+			"difficulty": "난이도",
+			"noTags": "태그 정보 없음",
+			"revealButton": "난이도/태그 보기",
+			"tags": "태그"
+		},
+		"cat": {
+			"description": "사진 ID",
+			"height": "세로",
+			"width": "가로"
+		},
+		"dog": {
+			"description": "사진 ID",
+			"height": "세로",
+			"width": "가로"
+		},
+		"guesstheflag": {
+			"correct": "{{user}} 정답!",
+			"description": "정답: **{{country}}**\n현재 점수: **{{score}}**점",
+			"timeout": "시간 초과!",
+			"timeout_description": "정답: **{{country}}**",
+			"title": "아래 국기는 어디 국기일까요?",
+			"wrong": "{{user}} 오답!"
+		},
+		"language": {
+			"description": "기존 언어: {{oldLanguage}}\n변경된 언어: {{newLanguage}}",
+			"title": "🌐 언어가 변경되었습니다."
+		},
+		"leaderboard": {
+			"description": "이 순위는 모든 서버에 반영됩니다!",
+			"title": "🏆 {{activity}} 순위표"
+		},
+		"loop": {
+			"off": "🔁 반복모드가 꺼졌습니다!",
+			"queue": "🔁 전체 대기열을 반복 재생합니다!",
+			"track": "🔁 현재 트랙을 반복 재생합니다!"
+		},
+		"nowplaying": {
+			"author": "아티스트",
+			"progress": "진행도: {{percent}}%",
+			"source": "음악 출처",
+			"title": "🎵 재생중인 음악"
+		},
+		"oddeven": {
+			"balance": "잔액",
+			"description": "**{{betting}}**₩을 걸고 **{{choice}}**을 선택했습니다.",
+			"even": "Even",
+			"lose": "❌ 실패...",
+			"number": "나온 숫자",
+			"odd": "Odd",
+			"result": "결과",
+			"title": "🎲 홀짝",
+			"win": "✅ 성공!"
+		},
+		"ping": {
+			"description": "반응 속도",
+			"title": "🏓 퐁!"
+		},
+		"play": {
+			"author": "아티스트",
+			"duration": "길이",
+			"source": "음악 출처",
+			"source_name": "command.play.source_name",
+			"title": "🎵 재생목록에 추가되었습니다.",
+			"track_count": "개수"
+		},
+		"queue": {
+			"title": "🎵 재생목록 - {{size}}개"
+		},
+		"remove": {
+			"title": "🗑️ 재생목록에서 제거되었습니다."
+		},
+		"skip": {
+			"title": "⏩ 재생중인 음악을 넘겼습니다!"
+		},
+		"statistics": {
+			"banned": "🚫 차단된 유저 수",
+			"channel": "📜 전체 채널 수",
+			"command": "🔧 명령어 개수",
+			"execute": "🔧 총 명령어 실행 횟수",
+			"most_command_user": "🏆 가장 많이 명령어를 사용한 사용자",
+			"music": "🎵 현재 재생중인 음악 서버 수",
+			"server": "📊 전체 서버 수",
+			"title": "📊 통계",
+			"unique_user": "👥 고유 유저 수",
+			"uptime": "🕒 가동 시간",
+			"user": "👥 전체 유저 수"
+		},
+		"uptime": {
+			"startedAt": "실행 시작",
+			"title": "봇 업타임",
+			"uptime": "가동 시간"
+		},
+		"stealemoji": {
+			"description": "이모지를 성공적으로 훔쳐왔습니다!",
+			"title": "🥷🏻 이모지 훔치기"
+		},
+		"stop": {
+			"description": "음악 재생을 정상적으로 종료하였습니다.",
+			"title": "🚫 정지!"
+		},
+		"suggest": {
+			"label": "문의 내용",
+			"placeholder": "문의 내용을 입력해주세요. 어떠한 질문이든 환영합니다!",
+			"receive_description": "답장은 DM으로 전송될 예정입니다. 빠른 시일 내에 답변드리겠습니다.",
+			"receive_title": "✉️ 성공적으로 문의가 접수되었습니다.",
+			"title": "어떤 도움이 필요하신가요?"
+		}
+	},
+	"error": {
+		"allowanceOnceADay": "용돈은 하루에 한 번만 받을 수 있습니다.",
+		"canNotAfford": "잔액이 부족합니다.",
+		"canNotUseInDm": "DM에서는 사용할 수 없습니다.",
+		"code": "에러 코드",
+		"invalidArgument": "잘못된 입력값입니다.",
+		"invalidInteraction": "잘못된 상호작용입니다.",
+		"musicIsTooLong": "음악이 너무 깁니다.",
+		"musicQueueIsEmpty": "재생목록이 비어있습니다.",
+		"musicServerRestarted": "음악 서버가 재시작되었습니다.",
+		"noPermission": "권한이 없습니다.",
+		"pleaseJoinSameVoiceChannel": "같은 음성 채널에 참가해주세요.",
+		"pleaseJoinVoiceChannel": "음성 채널에 먼저 참가해주세요.",
+		"title": "❌ 오류!",
+		"unknownError": "알 수 없는 오류가 발생했습니다.",
+		"youHaveBeenBanned": "관리자로부터 차단당하였습니다.\n사유: {{reason}}"
+	}
+}

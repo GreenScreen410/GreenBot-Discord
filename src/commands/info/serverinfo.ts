@@ -1,43 +1,54 @@
-import { type ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, time } from 'discord.js'
+import { type ChatInputCommandInteraction, EmbedBuilder, GuildPremiumTier, GuildVerificationLevel, SlashCommandBuilder, time } from 'discord.js';
+
+const verificationLevels: Record<GuildVerificationLevel, string> = {
+  [GuildVerificationLevel.None]: '🟢 없음',
+  [GuildVerificationLevel.Low]: '🟡 낮음 (이메일 인증)',
+  [GuildVerificationLevel.Medium]: '🟠 중간 (가입 5분 대기)',
+  [GuildVerificationLevel.High]: '🔴 높음 (가입 10분 대기)',
+  [GuildVerificationLevel.VeryHigh]: '🟣 매우 높음 (핸드폰 인증)'
+};
+
+const boostTiers: Record<GuildPremiumTier, string> = {
+  [GuildPremiumTier.None]: '0레벨',
+  [GuildPremiumTier.Tier1]: '1레벨',
+  [GuildPremiumTier.Tier2]: '2레벨',
+  [GuildPremiumTier.Tier3]: '3레벨'
+};
 
 export default {
   data: new SlashCommandBuilder()
     .setName('serverinfo')
-    .setNameLocalizations({
-      ko: '서버정보'
-    })
+    .setNameLocalizations({ ko: '서버정보' })
     .setDescription('Shows the current server information.')
-    .setDescriptionLocalizations({
-      ko: '현재 서버의 정보를 보여줍니다.'
-    }),
+    .setDescriptionLocalizations({ ko: '현재 서버의 정보를 보여줍니다.' }),
 
-  async execute (interaction: ChatInputCommandInteraction<'cached'>) {
+  async execute(interaction: ChatInputCommandInteraction<'cached'>) {
+    const { guild } = interaction;
+
     const embed = new EmbedBuilder()
       .setColor('Random')
-      .setThumbnail(interaction.guild.iconURL())
-      .setTitle(`'${interaction.guild.name}' 정보`)
+      .setThumbnail(guild.iconURL({ size: 4096 }))
+      .setTitle(`'${guild.name}' 정보`)
+      .setImage(guild.bannerURL({ size: 4096 }))
       .addFields(
-        { name: '📛 이름', value: interaction.guild.name, inline: true },
-        { name: '📝 서버 설명', value: interaction.guild.description ?? '없음', inline: true },
-        { name: '🆔 서버 ID', value: interaction.guild.id, inline: true },
-        { name: '👑 서버 소유자', value: `<@${interaction.guild.ownerId}>`, inline: true },
-        { name: '🎂 서버 생성일', value: `${time(interaction.guild.createdAt)}`, inline: true },
-        { name: '👤 유저 수', value: `${interaction.guild.memberCount}명`, inline: true },
-        { name: '🎭 역할 및 권한', value: `${interaction.guild.roles.cache.sort((a, b) => b.position - a.position).map((role) => role).length}개`, inline: true },
-        { name: '📺 채널 (카테고리 포함)', value: `${interaction.guild.channels.cache.map((channel: any) => channel).length}개`, inline: true },
-        { name: '🕮 서버 규칙 채널', value: interaction.guild.rulesChannelId ?? '없음', inline: true },
-        { name: '🌐 서버 지역', value: interaction.guild.preferredLocale, inline: true },
-        { name: '🔒 서버 보안 수준', value: `${interaction.guild.verificationLevel}`, inline: true },
-        { name: '📢 업데이트 채널', value: `${(interaction.guild.publicUpdatesChannel != null) || '없음'}`, inline: true },
-        { name: '⚙️ 시스템 채널', value: `${(interaction.guild.systemChannel != null) || '없음'}`, inline: true },
-        { name: '💤 AFK 채널', value: `${(interaction.guild.afkChannel != null) || '없음'}`, inline: true },
-        { name: '⏰ AFK 시간', value: `${interaction.guild.afkTimeout / 60}분`, inline: true },
-        { name: '🔄 AFK 이동', value: `${(interaction.guild.afkChannelId != null) ? 'O' : 'X'}`, inline: true },
-        { name: '🖼️ 서버 아이콘', value: `[링크](${interaction.guild.iconURL() ?? '없음'})`, inline: true },
-        { name: '🚩 서버 배너', value: `[링크](${interaction.guild.bannerURL() ?? '없음'})`, inline: true },
-        { name: '✨ 서버 부스트 레벨', value: `${interaction.guild.premiumTier}`, inline: true },
-        { name: '🌟 서버 부스트 수', value: `${interaction.guild.premiumSubscriptionCount}`, inline: true }
-      )
-    await interaction.followUp({ embeds: [embed] })
+        { name: '📛 이름', value: guild.name, inline: true },
+        { name: '📝 서버 설명', value: guild.description ?? '없음', inline: true },
+        { name: '🆔 서버 ID', value: guild.id, inline: true },
+        { name: '👑 서버 소유자', value: `<@${guild.ownerId}>`, inline: true },
+        { name: '🎂 서버 생성일', value: time(guild.createdAt), inline: true },
+        { name: '👤 유저 수', value: `${guild.memberCount}명`, inline: true },
+        { name: '🎭 역할 수', value: `${guild.roles.cache.size}개`, inline: true },
+        { name: '📺 채널 수', value: `${guild.channels.cache.size}개`, inline: true },
+        { name: '🕮 규칙 채널', value: guild.rulesChannelId ? `<#${guild.rulesChannelId}>` : '없음', inline: true },
+        { name: '🌐 서버 지역', value: guild.preferredLocale, inline: true },
+        { name: '🔒 보안 수준', value: verificationLevels[guild.verificationLevel], inline: true },
+        { name: '📢 업데이트 채널', value: guild.publicUpdatesChannel ? `<#${guild.publicUpdatesChannelId}>` : '없음', inline: true },
+        { name: '⚙️ 시스템 채널', value: guild.systemChannel ? `<#${guild.systemChannelId}>` : '없음', inline: true },
+        { name: '💤 AFK 채널', value: guild.afkChannel ? `<#${guild.afkChannelId}>` : '없음', inline: true },
+        { name: '⏰ AFK 시간', value: `${guild.afkTimeout / 60}분`, inline: true },
+        { name: '✨ 부스트 레벨', value: boostTiers[guild.premiumTier], inline: true },
+        { name: '🌟 부스트 수', value: `${guild.premiumSubscriptionCount ?? 0}개`, inline: true }
+      );
+    await interaction.reply({ embeds: [embed] });
   }
-}
+};

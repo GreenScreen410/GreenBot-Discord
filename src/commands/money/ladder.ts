@@ -75,7 +75,8 @@ export default {
         winMoney: isWin ? betting : 0n,
         loseMoney: isWin ? 0n : betting
       })
-      .onDuplicateKeyUpdate({
+      .onConflictDoUpdate({
+        target: activities.id,
         set: {
           money: newBalance,
           winMoney: sql`${activities.winMoney} + ${isWin ? betting : 0n}`,

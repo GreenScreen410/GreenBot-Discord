@@ -26,6 +26,20 @@
 			"title": "Which country does the flag below belong to?",
 			"wrong": "{{user}} was wrong!"
 		},
+		"hangang": {
+			"avgTemp": "Average temperature",
+			"coldest": "Coldest spot",
+			"hottest": "Hottest spot",
+			"lastUpdate": "Last update",
+			"notMeasurable": "N/A",
+			"overview": "📊 At a glance",
+			"ph": "PH",
+			"stations": "Measurement stations",
+			"stationsCount": "{{count}}",
+			"temperature": "Temperature",
+			"timestamp": "Measured at",
+			"title": "🌊 Han River temperature"
+		},
 		"language": {
 			"description": "Old language: {{oldLanguage}}\nNew language: {{newLanguage}}",
 			"title": "🌐 Language has been changed."
@@ -68,11 +82,74 @@
 			"title": "🎵 Added to the playlist.",
 			"track_count": "Count"
 		},
+		"quaver": {
+			"user": {
+				"accuracy": "🎯 Accuracy",
+				"countryRanking": "🏁 Country ranking ({{country}})",
+				"errorTitle": "⚠️ Error",
+				"failCount": "☠️ Fail count",
+				"globalRanking": "🌍 Global ranking",
+				"grades": "📈 Grades",
+				"latestActivity": "🕒 Last active",
+				"maxCombo": "🔥 Max combo",
+				"playCount": "🕹️ Play count",
+				"playCountValue": "{{count}}",
+				"qpvmHeader": "**[QuaverPvM (unofficial rank)](https://qpvm.icedynamix.moe/)**",
+				"qpvmUnavailable": "Could not load QuaverPvM rank.",
+				"rankedScore": "🏆 Ranked score",
+				"rating": "📊 Rating",
+				"registeredAt": "📅 Registered",
+				"tier": "🏅 Tier",
+				"tierRating": "⭐ Rating",
+				"title": "{{username}}'s info (4K)",
+				"totalScore": "💯 Total score",
+				"unknown": "Unknown",
+				"userId": "🆔 User ID",
+				"winRate": "📈 Win rate",
+				"winRateValue": "{{rate}}% ({{played}} games, {{wins}} wins)"
+			}
+		},
 		"queue": {
+			"author": "🎤 Artist",
+			"empty": "The queue is empty",
+			"footer": "Showing {{shown}} • Total {{total}}",
+			"queueTitle": "📋 Queue ({{count}})",
+			"source": "📀 Source",
 			"title": "🎵 Queue - {{size}} songs"
 		},
 		"remove": {
 			"title": "🗑️ Removed from the queue"
+		},
+		"serverinfo": {
+			"afkChannel": "💤 AFK channel",
+			"afkTimeout": "⏰ AFK timeout",
+			"boostCount": "🌟 Boost count",
+			"boostLevel": "✨ Boost level",
+			"channelCount": "📺 Channels",
+			"countSuffix": "{{count}}",
+			"createdAt": "🎂 Created at",
+			"description": "📝 Description",
+			"id": "🆔 Server ID",
+			"locale": "🌐 Region",
+			"memberCount": "👤 Members",
+			"memberCountValue": "{{count}}",
+			"minutes": "{{count}} min",
+			"name": "📛 Name",
+			"none": "None",
+			"owner": "👑 Owner",
+			"roleCount": "🎭 Roles",
+			"rulesChannel": "🕮 Rules channel",
+			"systemChannel": "⚙️ System channel",
+			"title": "'{{name}}' info",
+			"updatesChannel": "📢 Updates channel",
+			"verification": {
+				"high": "🔴 High (10 min wait)",
+				"label": "🔒 Verification level",
+				"low": "🟡 Low (email)",
+				"medium": "🟠 Medium (5 min wait)",
+				"none": "🟢 None",
+				"veryHigh": "🟣 Very high (phone)"
+			}
 		},
 		"skip": {
 			"title": "⏩ Skipped the currently playing music!"
@@ -90,11 +167,6 @@
 			"uptime": "🕒 Uptime",
 			"user": "👥 Total user count"
 		},
-		"uptime": {
-			"startedAt": "Started at",
-			"title": "Bot Uptime",
-			"uptime": "Uptime"
-		},
 		"stealemoji": {
 			"description": "Successfully stole the emoji!",
 			"title": "🥷🏻 Steal Emoji"
@@ -109,6 +181,45 @@
 			"receive_description": "Thank you for your suggestion! We will review it as soon as possible.",
 			"receive_title": "Suggestion has been successfully sent.",
 			"title": "What do you want to suggest?"
+		},
+		"uptime": {
+			"startedAt": "Started at",
+			"title": "Bot Uptime",
+			"uptime": "Uptime"
+		},
+		"urban": {
+			"author": "Author",
+			"example": "## Example",
+			"noDefinition": "No definition",
+			"noExample": "No example",
+			"writtenOn": "Written on"
+		},
+		"userinfo": {
+			"badges": "🏅 Badges",
+			"botInfo": "🤖 Bot info",
+			"botMemory": "💾 Memory",
+			"botOs": "🖥️ OS",
+			"createdAt": "🎂 Account created",
+			"flags": {
+				"ActiveDeveloper": "🔨 Active Developer",
+				"BugHunterLevel1": "🐛 Bug Hunter Lv.1",
+				"BugHunterLevel2": "🐛 Bug Hunter Lv.2",
+				"CertifiedModerator": "🛡️ Moderator Programs Alumni",
+				"HypeSquadOnlineHouse1": "🟣 HypeSquad Bravery",
+				"HypeSquadOnlineHouse2": "🟠 HypeSquad Brilliance",
+				"HypeSquadOnlineHouse3": "🟢 HypeSquad Balance",
+				"Hypesquad": "🏠 HypeSquad Events",
+				"Partner": "🤝 Partner",
+				"PremiumEarlySupporter": "💎 Early Nitro Supporter",
+				"Staff": "👨‍💼 Discord Staff",
+				"VerifiedDeveloper": "✅ Early Verified Bot Developer"
+			},
+			"id": "🆔 ID",
+			"joinedAt": "📅 Joined server",
+			"name": "📛 Name",
+			"premiumSince": "🚀 Boosting since",
+			"roles": "🏷️ Roles ({{count}})",
+			"unknown": "Unknown"
 		}
 	},
 	"error": {

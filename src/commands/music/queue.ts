@@ -21,11 +21,12 @@ export default {
     const { tracks } = player.queue;
     const { info } = currentTrack;
 
+    const i18n = interaction.i18n;
     const embed = new EmbedBuilder()
       .setColor('Random')
       .setTitle(info.title)
       .setURL(info.uri)
-      .addFields({ name: '🎤 아티스트', value: info.author, inline: true }, { name: '📀 소스', value: info.sourceName, inline: true })
+      .addFields({ name: i18n('command.queue.author'), value: info.author, inline: true }, { name: i18n('command.queue.source'), value: info.sourceName, inline: true })
       .setTimestamp();
     if (info.artworkUrl) embed.setThumbnail(info.artworkUrl);
 
@@ -40,10 +41,10 @@ export default {
         trackList = `${trackList.slice(0, 1000)}...`;
       }
 
-      embed.addFields({ name: `📋 대기열 (${tracks.length}곡)`, value: trackList });
-      embed.setFooter({ text: `${displayCount}곡 표시 중 • 총 ${tracks.length}곡` });
+      embed.addFields({ name: i18n('command.queue.queueTitle', { count: tracks.length }), value: trackList });
+      embed.setFooter({ text: i18n('command.queue.footer', { shown: displayCount, total: tracks.length }) });
     } else {
-      embed.setFooter({ text: '대기열이 비어있습니다' });
+      embed.setFooter({ text: i18n('command.queue.empty') });
     }
 
     await interaction.reply({ embeds: [embed] });

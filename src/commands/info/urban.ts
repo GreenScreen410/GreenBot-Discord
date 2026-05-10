@@ -34,8 +34,13 @@ export default {
     const data = response.list?.[0];
     if (!data) return interaction.error.invalidArgument();
 
-    const definition = data.definition ? (data.definition.length > 1024 ? `${data.definition.slice(0, 1021)}...` : data.definition) : '정의 없음';
-    const example = data.example ? (data.example.length > 1024 ? `${data.example.slice(0, 1021)}...` : data.example) : '예문 없음';
+    const t = interaction.i18n;
+    const definition = data.definition
+      ? data.definition.length > 1024
+        ? `${data.definition.slice(0, 1021)}...`
+        : data.definition
+      : t('command.urban.noDefinition');
+    const example = data.example ? (data.example.length > 1024 ? `${data.example.slice(0, 1021)}...` : data.example) : t('command.urban.noExample');
 
     const container = new ContainerBuilder()
       .addTextDisplayComponents(
@@ -43,10 +48,12 @@ export default {
         (textDisplay) => textDisplay.setContent(definition)
       )
       .addTextDisplayComponents(
-        (textDisplay) => textDisplay.setContent(`## 예문`),
+        (textDisplay) => textDisplay.setContent(t('command.urban.example')),
         (textDisplay) => textDisplay.setContent(example)
       )
-      .addTextDisplayComponents((textDisplay) => textDisplay.setContent(`-# 작성자: ${data.author} · 작성일: ${time(new Date(data.written_on))}`));
+      .addTextDisplayComponents((textDisplay) =>
+        textDisplay.setContent(`-# ${t('command.urban.author')}: ${data.author} · ${t('command.urban.writtenOn')}: ${time(new Date(data.written_on))}`)
+      );
     await interaction.editReply({ components: [container], flags: MessageFlags.IsComponentsV2 });
   }
 };

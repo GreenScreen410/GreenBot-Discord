@@ -6,7 +6,7 @@ export const users = pgTable('users', {
   banned: boolean(),
   bannedReason: varchar({ length: 255 }),
   count: bigint({ mode: 'bigint' }).default(sql`0`),
-  language: varchar({ length: 10 }).default('ko'),
+  language: varchar({ length: 10 }).notNull().default('ko'),
   createdAt: timestamp().defaultNow(),
   updatedAt: timestamp()
     .defaultNow()

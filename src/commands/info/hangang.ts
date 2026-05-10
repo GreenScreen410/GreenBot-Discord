@@ -56,21 +56,24 @@ export default {
     const hottestStation = validStations.reduce((previous, current) => (current.TEMP > previous.TEMP ? current : previous));
     const coldestStation = validStations.reduce((previous, current) => (current.TEMP < previous.TEMP ? current : previous));
 
+    const t = interaction.i18n;
+    const na = t('command.hangang.notMeasurable');
+
     const container = new ContainerBuilder();
     container.addTextDisplayComponents(
-      (text) => text.setContent('## 🌊 한강 수온'),
-      (text) => text.setContent(`마지막 업데이트: ${time(data.DATAs.CACHE_META.UPDATED_AT, TimestampStyles.LongDateShortTime)}`)
+      (text) => text.setContent(`## ${t('command.hangang.title')}`),
+      (text) => text.setContent(`${t('command.hangang.lastUpdate')}: ${time(data.DATAs.CACHE_META.UPDATED_AT, TimestampStyles.LongDateShortTime)}`)
     );
     container.addSeparatorComponents((separator) => separator.setSpacing(SeparatorSpacingSize.Small).setDivider(true));
     if (validStations.length > 0) {
       container.addTextDisplayComponents(
-        (text) => text.setContent('### 📊 한눈에 보기'),
+        (text) => text.setContent(`### ${t('command.hangang.overview')}`),
         (text) =>
           text.setContent(
-            `- **평균 수온:** ${averageTemperature.toFixed(1)}°C\n` +
-              `- **가장 따뜻한 곳:** ${hottestStation.location} (${hottestStation.TEMP.toFixed(1)}°C)\n` +
-              `- **가장 차가운 곳:** ${coldestStation.location} (${coldestStation.TEMP.toFixed(1)}°C)\n` +
-              `- **측정 지점:** ${stations.length}곳`
+            `- **${t('command.hangang.avgTemp')}:** ${averageTemperature.toFixed(1)}°C\n` +
+              `- **${t('command.hangang.hottest')}:** ${hottestStation.location} (${hottestStation.TEMP.toFixed(1)}°C)\n` +
+              `- **${t('command.hangang.coldest')}:** ${coldestStation.location} (${coldestStation.TEMP.toFixed(1)}°C)\n` +
+              `- **${t('command.hangang.stations')}:** ${t('command.hangang.stationsCount', { count: stations.length })}`
           )
       );
     }
@@ -79,9 +82,9 @@ export default {
       container.addTextDisplayComponents((text) =>
         text.setContent(
           `### ${station.location}\n` +
-            `🌡️ **수온:** ${station.TEMP != null ? `${station.TEMP.toFixed(1)}°C` : '측정 불가'}\n` +
-            `🧪 **PH:** ${station.PH != null ? station.PH.toFixed(1) : '측정 불가'}\n` +
-            `🕒 **기준 시각:** ${time(dayjs(station.LAST_UPDATE).unix(), TimestampStyles.LongDateShortTime)}`
+            `🌡️ **${t('command.hangang.temperature')}:** ${station.TEMP != null ? `${station.TEMP.toFixed(1)}°C` : na}\n` +
+            `🧪 **${t('command.hangang.ph')}:** ${station.PH != null ? station.PH.toFixed(1) : na}\n` +
+            `🕒 **${t('command.hangang.timestamp')}:** ${time(dayjs(station.LAST_UPDATE).unix(), TimestampStyles.LongDateShortTime)}`
         )
       );
       if (index < stations.length - 1) {

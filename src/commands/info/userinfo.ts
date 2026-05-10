@@ -15,20 +15,20 @@ import {
   version
 } from 'discord.js';
 
-const badgeEmojis: Record<string, string> = {
-  Staff: '👨‍💼 Discord 직원',
-  Partner: '🤝 파트너',
-  Hypesquad: '🏠 HypeSquad 이벤트',
-  HypeSquadOnlineHouse1: '🟣 HypeSquad Bravery',
-  HypeSquadOnlineHouse2: '🟠 HypeSquad Brilliance',
-  HypeSquadOnlineHouse3: '🟢 HypeSquad Balance',
-  BugHunterLevel1: '🐛 버그 헌터 Lv.1',
-  BugHunterLevel2: '🐛 버그 헌터 Lv.2',
-  PremiumEarlySupporter: '💎 초기 Nitro 서포터',
-  VerifiedDeveloper: '✅ 초기 인증된 봇 개발자',
-  CertifiedModerator: '🛡️ 모더레이터 프로그램 동문',
-  ActiveDeveloper: '🔨 활동 중인 개발자'
-};
+const knownFlags = new Set([
+  'Staff',
+  'Partner',
+  'Hypesquad',
+  'HypeSquadOnlineHouse1',
+  'HypeSquadOnlineHouse2',
+  'HypeSquadOnlineHouse3',
+  'BugHunterLevel1',
+  'BugHunterLevel2',
+  'PremiumEarlySupporter',
+  'VerifiedDeveloper',
+  'CertifiedModerator',
+  'ActiveDeveloper'
+]);
 
 export default {
   data: new SlashCommandBuilder()
@@ -58,6 +58,7 @@ export default {
     const member = interaction.options.getMember('user');
     if (member == null) return;
 
+    const t = interaction.i18n;
     const user = await member.user.fetch();
     const avatarURL = user.displayAvatarURL({ extension: 'png', size: 4096 });
     const roles = member.roles.cache.filter((role) => role.id !== interaction.guildId).sort((a, b) => b.position - a.position);
@@ -69,16 +70,18 @@ export default {
     const joinedAt =
       member.joinedTimestamp != null
         ? `${time(new Date(member.joinedTimestamp), TimestampStyles.LongDate)} (${time(new Date(member.joinedTimestamp), TimestampStyles.RelativeTime)})`
-        : '알 수 없음';
+        : t('command.userinfo.unknown');
 
     const lines = [
-      `📛 **이름:** ${user.username}${nickname}${user.bot ? ' 🤖' : ''}`,
-      `🆔 **ID:** ${user.id}`,
-      `🎂 **계정 생성일:** ${time(user.createdAt, TimestampStyles.LongDate)} (${time(user.createdAt, TimestampStyles.RelativeTime)})`,
-      `📅 **서버 가입일:** ${joinedAt}`
-    ];
+      `${t('command.userinfo.name')}:** ${user.username}${nickname}${user.bot ? ' 🤖' : ''}`,
+      `${t('command.userinfo.id')}:** ${user.id}`,
+      `${t('command.userinfo.createdAt')}:** ${time(user.createdAt, TimestampStyles.LongDate)} (${time(user.createdAt, TimestampStyles.RelativeTime)})`,
+      `${t('command.userinfo.joinedAt')}:** ${joinedAt}`
+    ].map((s) => `**${s}`);
     if (member.premiumSince) {
-      lines.push(`🚀 **부스트 시작일:** ${time(member.premiumSince, TimestampStyles.LongDate)} (${time(member.premiumSince, TimestampStyles.RelativeTime)})`);
+      lines.push(
+        `**${t('command.userinfo.premiumSince')}:** ${time(member.premiumSince, TimestampStyles.LongDate)} (${time(member.premiumSince, TimestampStyles.RelativeTime)})`
+      );
     }
     const info = lines.join('\n');
 
@@ -90,16 +93,18 @@ export default {
 
     // 배지
     const flags = user.flags?.toArray() ?? [];
-    const badges = flags.map((flag) => badgeEmojis[flag]).filter(Boolean);
+    const badges = flags.filter((f) => knownFlags.has(f)).map((f) => t(`command.userinfo.flags.${f}`));
     if (badges.length > 0) {
       container.addSeparatorComponents((separator) => separator.setSpacing(SeparatorSpacingSize.Small).setDivider(true));
-      container.addTextDisplayComponents((text) => text.setContent(`🏅 **배지:** ${badges.join(', ')}`));
+      container.addTextDisplayComponents((text) => text.setContent(`**${t('command.userinfo.badges')}:** ${badges.join(', ')}`));
     }
 
     // 역할
     if (roles.size > 0) {
       container.addSeparatorComponents((separator) => separator.setSpacing(SeparatorSpacingSize.Small).setDivider(true));
-      container.addTextDisplayComponents((text) => text.setContent(`🏷️ **역할 (${roles.size}):** ${roles.map((role) => role.toString()).join(' ')}`));
+      container.addTextDisplayComponents((text) =>
+        text.setContent(`**${t('command.userinfo.roles', { count: roles.size })}:** ${roles.map((role) => role.toString()).join(' ')}`)
+      );
     }
 
     // 배너
@@ -114,9 +119,9 @@ export default {
       container.addSeparatorComponents((separator) => separator.setSpacing(SeparatorSpacingSize.Small).setDivider(true));
       container.addTextDisplayComponents((text) =>
         text.setContent(
-          `### 🤖 봇 정보\n` +
-            `🖥️ **OS:** ${os.platform()} ${os.arch()} ${os.release()}\n` +
-            `💾 **메모리:** ${(os.freemem() / 1024 ** 3).toFixed(2)}GB / ${(os.totalmem() / 1024 ** 3).toFixed(2)}GB\n` +
+          `### ${t('command.userinfo.botInfo')}\n` +
+            `**${t('command.userinfo.botOs')}:** ${os.platform()} ${os.arch()} ${os.release()}\n` +
+            `**${t('command.userinfo.botMemory')}:** ${(os.freemem() / 1024 ** 3).toFixed(2)}GB / ${(os.totalmem() / 1024 ** 3).toFixed(2)}GB\n` +
             `💻 **CPU:** ${os.cpus()[0].model}\n` +
             `📂 **Node.js:** ${process.version}\n` +
             `📦 **discord.js:** ${version}`

@@ -1,8 +1,8 @@
 import { type ChatInputCommandInteraction, Colors, EmbedBuilder, type SlashCommandSubcommandBuilder, TimestampStyles, time } from 'discord.js';
 import type { QuaverQPVMUser, QuaverUser } from '@/types/quaver';
 
-function getCountryName(code: string, locale: string): string {
-  if (!code) return '알 수 없음';
+function getCountryName(code: string, locale: string, fallback: string): string {
+  if (!code) return fallback;
   return new Intl.DisplayNames([locale], { type: 'region' }).of(code.toUpperCase()) || code;
 }
 
@@ -27,6 +27,7 @@ export const data = (subcommand: SlashCommandSubcommandBuilder) =>
     );
 
 export async function execute(interaction: ChatInputCommandInteraction<'cached'>) {
+  const t = interaction.i18n;
   const nickname = interaction.options.getString('nickname', true);
 
   const response = await fetch(`https://api.quavergame.com/v2/user/search/${encodeURIComponent(nickname)}`);
@@ -63,49 +64,51 @@ export async function execute(interaction: ChatInputCommandInteraction<'cached'>
     const qpvmText = await qpvmRes.text();
 
     if (!qpvmRes.ok) {
-      qpvmUnavailableMessage = 'QuaverPvM 랭크를 불러오지 못했습니다.';
+      qpvmUnavailableMessage = t('command.quaver.user.qpvmUnavailable');
     } else if (qpvmText.trim() !== 'null') {
       const rankData = JSON.parse(qpvmText) as QuaverQPVMUser;
       const winRate = rankData.matchesPlayed > 0 ? ((rankData.wins / rankData.matchesPlayed) * 100).toFixed(1) : '0.0';
-      winRateDisplay = `${winRate}% (${rankData.matchesPlayed}전 ${rankData.wins}승)`;
+      winRateDisplay = t('command.quaver.user.winRateValue', { rate: winRate, played: rankData.matchesPlayed, wins: rankData.wins });
       tierDisplay = `**${rankData.letterRank.toUpperCase()}** (#${rankData.rank})`;
       ratingDisplay = `**${rankData.rating.toFixed(2)}** ± ${rankData.sigma.toFixed(2)}`;
     }
   } catch {
-    qpvmUnavailableMessage = 'QuaverPvM 랭크를 불러오지 못했습니다.';
+    qpvmUnavailableMessage = t('command.quaver.user.qpvmUnavailable');
   }
 
   const qpvmFields = qpvmUnavailableMessage
     ? [
-        { name: '\u200B', value: '**[QuaverPvM (비공식 랭크)](https://qpvm.icedynamix.moe/)**', inline: false },
-        { name: '⚠️ 오류', value: qpvmUnavailableMessage, inline: false }
+        { name: '​', value: t('command.quaver.user.qpvmHeader'), inline: false },
+        { name: t('command.quaver.user.errorTitle'), value: qpvmUnavailableMessage, inline: false }
       ]
     : [
-        { name: '\u200B', value: '**[QuaverPvM (비공식 랭크)](https://qpvm.icedynamix.moe/)**', inline: false },
-        { name: '🏅 티어 (Tier)', value: tierDisplay, inline: true },
-        { name: '⭐ 레이팅', value: ratingDisplay, inline: true },
-        { name: '📈 승률', value: winRateDisplay, inline: true }
+        { name: '​', value: t('command.quaver.user.qpvmHeader'), inline: false },
+        { name: t('command.quaver.user.tier'), value: tierDisplay, inline: true },
+        { name: t('command.quaver.user.tierRating'), value: ratingDisplay, inline: true },
+        { name: t('command.quaver.user.winRate'), value: winRateDisplay, inline: true }
       ];
+
+  const country = getCountryName(user.country, interaction.locale, t('command.quaver.user.unknown'));
 
   const embed = new EmbedBuilder()
     .setColor(Colors.Blue)
-    .setTitle(`${user.username} 님의 정보 (4K)`)
+    .setTitle(t('command.quaver.user.title', { username: user.username }))
     .setURL(`https://quavergame.com/user/${user.id}`)
     .setThumbnail(user.avatar_url)
     .addFields(
-      { name: '🆔 유저 ID', value: user.id.toString(), inline: true },
-      { name: '🌍 글로벌 랭킹', value: `#${s4.ranks.global.toLocaleString()}`, inline: true },
-      { name: `🏁 국가 랭킹 (${getCountryName(user.country, interaction.locale)})`, value: `#${s4.ranks.country.toLocaleString()}`, inline: true },
-      { name: '📊 레이팅', value: `${s4.overall_performance_rating.toFixed(2)}`, inline: true },
-      { name: '🎯 정확도', value: `${s4.overall_accuracy.toFixed(2)}%`, inline: true },
-      { name: '🏆 랭크 점수', value: s4.ranked_score.toLocaleString(), inline: true },
-      { name: '💯 총 점수', value: s4.total_score.toLocaleString(), inline: true },
-      { name: '🕹️ 플레이 횟수', value: `${s4.play_count.toLocaleString()}회`, inline: true },
-      { name: '🔥 최대 콤보', value: `${s4.max_combo.toLocaleString()}x`, inline: true },
-      { name: '☠️ 실패 횟수', value: `${s4.fail_count.toLocaleString()}회`, inline: true },
-      { name: '📅 가입일', value: time(new Date(user.time_registered), TimestampStyles.RelativeTime), inline: true },
-      { name: '🕒 최근 활동', value: time(new Date(user.latest_activity), TimestampStyles.RelativeTime), inline: true },
-      { name: '📈 등급 분포', value: grades, inline: false },
+      { name: t('command.quaver.user.userId'), value: user.id.toString(), inline: true },
+      { name: t('command.quaver.user.globalRanking'), value: `#${s4.ranks.global.toLocaleString()}`, inline: true },
+      { name: t('command.quaver.user.countryRanking', { country }), value: `#${s4.ranks.country.toLocaleString()}`, inline: true },
+      { name: t('command.quaver.user.rating'), value: `${s4.overall_performance_rating.toFixed(2)}`, inline: true },
+      { name: t('command.quaver.user.accuracy'), value: `${s4.overall_accuracy.toFixed(2)}%`, inline: true },
+      { name: t('command.quaver.user.rankedScore'), value: s4.ranked_score.toLocaleString(), inline: true },
+      { name: t('command.quaver.user.totalScore'), value: s4.total_score.toLocaleString(), inline: true },
+      { name: t('command.quaver.user.playCount'), value: t('command.quaver.user.playCountValue', { count: s4.play_count.toLocaleString() }), inline: true },
+      { name: t('command.quaver.user.maxCombo'), value: `${s4.max_combo.toLocaleString()}x`, inline: true },
+      { name: t('command.quaver.user.failCount'), value: t('command.quaver.user.playCountValue', { count: s4.fail_count.toLocaleString() }), inline: true },
+      { name: t('command.quaver.user.registeredAt'), value: time(new Date(user.time_registered), TimestampStyles.RelativeTime), inline: true },
+      { name: t('command.quaver.user.latestActivity'), value: time(new Date(user.latest_activity), TimestampStyles.RelativeTime), inline: true },
+      { name: t('command.quaver.user.grades'), value: grades, inline: false },
       ...qpvmFields
     );
   await interaction.editReply({ embeds: [embed] });

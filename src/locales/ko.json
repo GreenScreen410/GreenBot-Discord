@@ -26,6 +26,20 @@
 			"title": "아래 국기는 어디 국기일까요?",
 			"wrong": "{{user}} 오답!"
 		},
+		"hangang": {
+			"avgTemp": "평균 수온",
+			"coldest": "가장 차가운 곳",
+			"hottest": "가장 따뜻한 곳",
+			"lastUpdate": "마지막 업데이트",
+			"notMeasurable": "측정 불가",
+			"overview": "📊 한눈에 보기",
+			"ph": "PH",
+			"stations": "측정 지점",
+			"stationsCount": "{{count}}곳",
+			"temperature": "수온",
+			"timestamp": "기준 시각",
+			"title": "🌊 한강 수온"
+		},
 		"language": {
 			"description": "기존 언어: {{oldLanguage}}\n변경된 언어: {{newLanguage}}",
 			"title": "🌐 언어가 변경되었습니다."
@@ -68,11 +82,74 @@
 			"title": "🎵 재생목록에 추가되었습니다.",
 			"track_count": "개수"
 		},
+		"quaver": {
+			"user": {
+				"accuracy": "🎯 정확도",
+				"countryRanking": "🏁 국가 랭킹 ({{country}})",
+				"errorTitle": "⚠️ 오류",
+				"failCount": "☠️ 실패 횟수",
+				"globalRanking": "🌍 글로벌 랭킹",
+				"grades": "📈 등급 분포",
+				"latestActivity": "🕒 최근 활동",
+				"maxCombo": "🔥 최대 콤보",
+				"playCount": "🕹️ 플레이 횟수",
+				"playCountValue": "{{count}}회",
+				"qpvmHeader": "**[QuaverPvM (비공식 랭크)](https://qpvm.icedynamix.moe/)**",
+				"qpvmUnavailable": "QuaverPvM 랭크를 불러오지 못했습니다.",
+				"rankedScore": "🏆 랭크 점수",
+				"rating": "📊 레이팅",
+				"registeredAt": "📅 가입일",
+				"tier": "🏅 티어",
+				"tierRating": "⭐ 레이팅",
+				"title": "{{username}} 님의 정보 (4K)",
+				"totalScore": "💯 총 점수",
+				"unknown": "알 수 없음",
+				"userId": "🆔 유저 ID",
+				"winRate": "📈 승률",
+				"winRateValue": "{{rate}}% ({{played}}전 {{wins}}승)"
+			}
+		},
 		"queue": {
+			"author": "🎤 아티스트",
+			"empty": "대기열이 비어있습니다",
+			"footer": "{{shown}}곡 표시 중 • 총 {{total}}곡",
+			"queueTitle": "📋 대기열 ({{count}}곡)",
+			"source": "📀 소스",
 			"title": "🎵 재생목록 - {{size}}개"
 		},
 		"remove": {
 			"title": "🗑️ 재생목록에서 제거되었습니다."
+		},
+		"serverinfo": {
+			"afkChannel": "💤 AFK 채널",
+			"afkTimeout": "⏰ AFK 시간",
+			"boostCount": "🌟 부스트 수",
+			"boostLevel": "✨ 부스트 레벨",
+			"channelCount": "📺 채널 수",
+			"countSuffix": "{{count}}개",
+			"createdAt": "🎂 서버 생성일",
+			"description": "📝 서버 설명",
+			"id": "🆔 서버 ID",
+			"locale": "🌐 서버 지역",
+			"memberCount": "👤 유저 수",
+			"memberCountValue": "{{count}}명",
+			"minutes": "{{count}}분",
+			"name": "📛 이름",
+			"none": "없음",
+			"owner": "👑 서버 소유자",
+			"roleCount": "🎭 역할 수",
+			"rulesChannel": "🕮 규칙 채널",
+			"systemChannel": "⚙️ 시스템 채널",
+			"title": "'{{name}}' 정보",
+			"updatesChannel": "📢 업데이트 채널",
+			"verification": {
+				"high": "🔴 높음 (가입 10분 대기)",
+				"label": "🔒 보안 수준",
+				"low": "🟡 낮음 (이메일 인증)",
+				"medium": "🟠 중간 (가입 5분 대기)",
+				"none": "🟢 없음",
+				"veryHigh": "🟣 매우 높음 (핸드폰 인증)"
+			}
 		},
 		"skip": {
 			"title": "⏩ 재생중인 음악을 넘겼습니다!"
@@ -90,11 +167,6 @@
 			"uptime": "🕒 가동 시간",
 			"user": "👥 전체 유저 수"
 		},
-		"uptime": {
-			"startedAt": "실행 시작",
-			"title": "봇 업타임",
-			"uptime": "가동 시간"
-		},
 		"stealemoji": {
 			"description": "이모지를 성공적으로 훔쳐왔습니다!",
 			"title": "🥷🏻 이모지 훔치기"
@@ -109,6 +181,45 @@
 			"receive_description": "답장은 DM으로 전송될 예정입니다. 빠른 시일 내에 답변드리겠습니다.",
 			"receive_title": "✉️ 성공적으로 문의가 접수되었습니다.",
 			"title": "어떤 도움이 필요하신가요?"
+		},
+		"uptime": {
+			"startedAt": "실행 시작",
+			"title": "봇 업타임",
+			"uptime": "가동 시간"
+		},
+		"urban": {
+			"author": "작성자",
+			"example": "## 예문",
+			"noDefinition": "정의 없음",
+			"noExample": "예문 없음",
+			"writtenOn": "작성일"
+		},
+		"userinfo": {
+			"badges": "🏅 배지",
+			"botInfo": "🤖 봇 정보",
+			"botMemory": "💾 메모리",
+			"botOs": "🖥️ OS",
+			"createdAt": "🎂 계정 생성일",
+			"flags": {
+				"ActiveDeveloper": "🔨 활동 중인 개발자",
+				"BugHunterLevel1": "🐛 버그 헌터 Lv.1",
+				"BugHunterLevel2": "🐛 버그 헌터 Lv.2",
+				"CertifiedModerator": "🛡️ 모더레이터 프로그램 동문",
+				"HypeSquadOnlineHouse1": "🟣 HypeSquad Bravery",
+				"HypeSquadOnlineHouse2": "🟠 HypeSquad Brilliance",
+				"HypeSquadOnlineHouse3": "🟢 HypeSquad Balance",
+				"Hypesquad": "🏠 HypeSquad 이벤트",
+				"Partner": "🤝 파트너",
+				"PremiumEarlySupporter": "💎 초기 Nitro 서포터",
+				"Staff": "👨‍💼 Discord 직원",
+				"VerifiedDeveloper": "✅ 초기 인증된 봇 개발자"
+			},
+			"id": "🆔 ID",
+			"joinedAt": "📅 서버 가입일",
+			"name": "📛 이름",
+			"premiumSince": "🚀 부스트 시작일",
+			"roles": "🏷️ 역할 ({{count}})",
+			"unknown": "알 수 없음"
 		}
 	},
 	"error": {

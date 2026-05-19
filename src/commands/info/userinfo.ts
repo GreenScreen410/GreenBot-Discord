@@ -121,7 +121,7 @@ export default {
         text.setContent(
           `### ${t('command.userinfo.botInfo')}\n` +
             `**${t('command.userinfo.botOs')}:** ${os.platform()} ${os.arch()} ${os.release()}\n` +
-            `**${t('command.userinfo.botMemory')}:** ${(os.freemem() / 1024 ** 3).toFixed(2)}GB / ${(os.totalmem() / 1024 ** 3).toFixed(2)}GB\n` +
+            `**${t('command.userinfo.botMemory')}:** ${(process.memoryUsage().rss / 1024 ** 3).toFixed(2)}GB / ${(os.totalmem() / 1024 ** 3).toFixed(2)}GB\n` +
             `💻 **CPU:** ${os.cpus()[0].model}\n` +
             `📂 **Node.js:** ${process.version}\n` +
             `📦 **discord.js:** ${version}`

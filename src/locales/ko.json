@@ -154,18 +154,19 @@
 		"skip": {
 			"title": "⏩ 재생중인 음악을 넘겼습니다!"
 		},
-		"statistics": {
-			"banned": "🚫 차단된 유저 수",
-			"channel": "📜 전체 채널 수",
-			"command": "🔧 명령어 개수",
-			"execute": "🔧 총 명령어 실행 횟수",
-			"most_command_user": "🏆 가장 많이 명령어를 사용한 사용자",
-			"music": "🎵 현재 재생중인 음악 서버 수",
-			"server": "📊 전체 서버 수",
-			"title": "📊 통계",
-			"unique_user": "👥 고유 유저 수",
-			"uptime": "🕒 가동 시간",
-			"user": "👥 전체 유저 수"
+		"status": {
+			"banned": "차단된 유저 수",
+			"channel": "전체 채널 수",
+			"command": "등록된 명령어 수",
+			"execute": "총 명령어 실행 횟수",
+			"most_command_user": "가장 많이 명령어를 사용한 사용자",
+			"music": "현재 재생중인 음악 서버 수",
+			"server": "전체 서버 수",
+			"startedAt": "실행 시작",
+			"title": "봇 상태",
+			"unique_user": "고유 유저 수",
+			"uptime": "가동 시간",
+			"user": "전체 유저 수"
 		},
 		"stealemoji": {
 			"description": "이모지를 성공적으로 훔쳐왔습니다!",

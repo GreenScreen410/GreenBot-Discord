@@ -154,18 +154,19 @@
 		"skip": {
 			"title": "⏩ Skipped the currently playing music!"
 		},
-		"statistics": {
-			"banned": "🚫 Banned user count",
-			"channel": "📜 Total channel count",
-			"command": "🔧 Command count",
-			"execute": "🔧 Total command execution count",
-			"most_command_user": "🏆 Most command executed user",
-			"music": "🎵 Number of music servers currently playing",
-			"server": "📊 Total server count",
-			"title": "📊 Statistics",
-			"unique_user": "👥 Unique user count",
-			"uptime": "🕒 Uptime",
-			"user": "👥 Total user count"
+		"status": {
+			"banned": "Banned users",
+			"channel": "Total channels",
+			"command": "Registered commands",
+			"execute": "Total commands executed",
+			"most_command_user": "Top command user",
+			"music": "Active music players",
+			"server": "Total servers",
+			"startedAt": "Started at",
+			"title": "Bot Status",
+			"unique_user": "Unique users",
+			"uptime": "Uptime",
+			"user": "Total users"
 		},
 		"stealemoji": {
 			"description": "Successfully stole the emoji!",

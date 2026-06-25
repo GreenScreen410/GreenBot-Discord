@@ -1,4 +1,4 @@
-FROM oven-sh/bun:1-slim AS builder
+FROM oven/bun:1-slim AS builder
 
 # Install build dependencies for native modules (like @discordjs/opus)
 RUN apt-get update && apt-get install -y \
@@ -21,7 +21,7 @@ COPY . .
 RUN bunx tsc --noEmit
 
 # Run stage (keep image lightweight)
-FROM oven-sh/bun:1-slim AS runner
+FROM oven/bun:1-slim AS runner
 
 WORKDIR /app
 

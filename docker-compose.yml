@@ -23,6 +23,7 @@ services:
 
   greenbot:
     build: .
+    image: greenbot:latest
     container_name: greenbot-discord
     restart: always
     depends_on:

@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: greenbot-postgres
+    environment:
+      - POSTGRES_DB=greenbot_database
+      - POSTGRES_USER=greenbot
+      - POSTGRES_PASSWORD=m6lClJ2RNHf7FC01
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: always
+
+  lavalink:
+    image: fredboat/lavalink:4
+    container_name: greenbot-lavalink
+    ports:
+      - "2333:2333"
+    volumes:
+      - ./lavalink/application.yml:/opt/Lavalink/application.yml
+    restart: always
+
+  greenbot:
+    build: .
+    container_name: greenbot-discord
+    restart: always
+    depends_on:
+      - postgres
+      - lavalink
+    volumes:
+      - ./.env:/app/.env
+      - ./logs:/app/logs
+    environment:
+      - NODE_ENV=production
+      # Connect to the local postgres container using the service name
+      - DATABASE_URL=postgres://greenbot:m6lClJ2RNHf7FC01@postgres:5432/greenbot_database
+      # Connect to the local lavalink container
+      - LAVALINK_HOST=lavalink
+      - LAVALINK_PORT=2333
+
+volumes:
+  postgres-data:

@@ -4,7 +4,7 @@ import { logger } from './logger.js';
 
 export default function (client: Client): LavalinkManager {
   logger.info('Initializing Lavalink manager');
-  return new LavalinkManager({
+  const lavalink = new LavalinkManager({
     nodes: [
       {
         id: 'Local Node',
@@ -37,4 +37,20 @@ export default function (client: Client): LavalinkManager {
       maxPreviousTracks: 25
     }
   });
+
+  // Prevent process crash from nodeManager error events and add useful logging
+  lavalink.nodeManager.on('error', (node, error) => {
+    logger.error(`Lavalink node "${node.id}" error: ${error.message}`, error);
+  });
+  lavalink.nodeManager.on('connect', (node) => {
+    logger.info(`Lavalink node "${node.id}" connected`);
+  });
+  lavalink.nodeManager.on('disconnect', (node, reason) => {
+    logger.warn(`Lavalink node "${node.id}" disconnected: ${JSON.stringify(reason)}`);
+  });
+  lavalink.nodeManager.on('reconnecting', (node) => {
+    logger.info(`Lavalink node "${node.id}" reconnecting...`);
+  });
+
+  return lavalink;
 }

@@ -40,7 +40,7 @@ export default function (client: Client): LavalinkManager {
 
   // Prevent process crash from nodeManager error events and add useful logging
   lavalink.nodeManager.on('error', (node, error) => {
-    logger.error(`Lavalink node "${node.id}" error: ${error.message}`, error);
+    logger.error(error, `Lavalink node "${node.id}" error: ${error.message}`);
   });
   lavalink.nodeManager.on('connect', (node) => {
     logger.info(`Lavalink node "${node.id}" connected`);

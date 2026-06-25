@@ -36,6 +36,7 @@ services:
       # Connect to the local postgres container using the service name
       - DATABASE_URL=postgres://greenbot:m6lClJ2RNHf7FC01@postgres:5432/greenbot_database
       # Connect to the local lavalink container
+      - SERVER_IP=lavalink
       - LAVALINK_HOST=lavalink
       - LAVALINK_PORT=2333
 

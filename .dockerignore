@@ -1,0 +1,31 @@
+# Secrets. docker-compose mounts .env at runtime; baking it into a layer would ship the bot
+# token with the image.
+.env
+.env.*
+
+# Installed inside the image. Copying the host's tree would overwrite the install and ship
+# binaries built for the developer's platform.
+node_modules
+web/node_modules
+
+# Separate frontend, not part of the bot image (~840MB).
+web
+
+# Mounted from the host by docker-compose.
+logs
+lavalink
+
+# Not needed to run the bot.
+.git
+.github
+.vscode
+.claude
+dist
+drizzle
+drizzle.config.ts
+biome.json
+display-components.mdx
+README.md
+LICENSE
+Dockerfile
+docker-compose.yml

@@ -1,6 +1,6 @@
 {
 	"name": "greenbot-discord",
-	"version": "1.22.2",
+	"version": "1.22.3",
 	"description": "A Discord bot with music, games, and utilities",
 	"exports": "./src/index.ts",
 	"type": "module",

@@ -19,6 +19,7 @@
 	"license": "MIT",
 	"dependencies": {
 		"@discordjs/opus": "^0.10.0",
+		"@napi-rs/canvas": "^1.0.2",
 		"axios": "^1.18.1",
 		"colorette": "^2.0.20",
 		"dayjs": "^1.11.21",

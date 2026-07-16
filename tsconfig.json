@@ -27,12 +27,10 @@
 		/* Modules */
 		"module": "esnext" /* Specify what module code is generated. */,
 		"rootDir": "./src" /* Specify the root folder within your source files. */,
-		"moduleResolution": "node" /* Specify how TypeScript looks up a file from a given module specifier. */,
-		"ignoreDeprecations": "6.0" /* Silence TS 6.0 deprecation errors for moduleResolution=node10 and baseUrl. TODO: migrate to bundler/nodenext. */,
-		"baseUrl": "./",                                  /* Specify the base directory to resolve non-relative module names. */
+		"moduleResolution": "bundler" /* Specify how TypeScript looks up a file from a given module specifier. Matches how Bun resolves at runtime. */,
 		"paths": {
-			"@/*": ["src/*"]
-		},                                      /* Specify a set of entries that re-map imports to additional lookup locations. */
+			"@/*": ["./src/*"]
+		},                                      /* Specify a set of entries that re-map imports to additional lookup locations. Resolved relative to this file, as baseUrl was removed in TypeScript 7. */
 		// "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
 		// "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */
 		// "types": [],                                      /* Specify type package names to be included without being referenced in a source file. */
